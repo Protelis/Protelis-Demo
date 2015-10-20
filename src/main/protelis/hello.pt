@@ -5,6 +5,13 @@ module hello
 // Get a variable from the environment
 let leader = self.hasEnvironmentVariable("leader");
 
+if(leader) {
+	self.announce("The leader is at "+self.getDeviceUID().getUID());
+} else {
+	// Otherwise, stay silent
+	false;
+};
+
 // Check if any neighbor is the leader
 if (anyHood(nbr(leader))) {
 	// if so, speak!
@@ -12,5 +19,5 @@ if (anyHood(nbr(leader))) {
 } else {
 	// Otherwise, stay silent
 	false;
-}
+};
 
