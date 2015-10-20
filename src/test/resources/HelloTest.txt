@@ -1,0 +1,13 @@
+Creating grid network
+Executing round 0
+Executing round 1
+Hello from the leader to its neighbor at 1
+Hello from the leader to its neighbor at 4
+Hello from the leader to its neighbor at 6
+Hello from the leader to its neighbor at 9
+Executing round 2
+Hello from the leader to its neighbor at 1
+Hello from the leader to its neighbor at 4
+Hello from the leader to its neighbor at 6
+Hello from the leader to its neighbor at 9
+Finished executing
