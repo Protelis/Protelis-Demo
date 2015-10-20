@@ -1,6 +1,6 @@
 # Protelis demo application
 
-This application demonstrates a minimal application making use of Protelis.
+This project demonstrates a minimal application making use of Protelis.
 
 Protelis requires Java 8+.  This project has been set up to run in Eclipse with Maven, and should be able to be 
 directly imported and executed if you have these set up.
