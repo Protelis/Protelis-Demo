@@ -31,3 +31,9 @@ In response, you should see text output matching:
 	
 There is also a JUnit test "HelloTest"
 that runs "HelloMain" and performs this comparison automatically.
+
+## To run against local Protelis:
+
+To run against a local (e.g., development or pre-release) version of Protelis,
+delete the Protelis dependency from pom.xml, then use Eclipse project properties
+to change the Build Path to point to your local copy or Protelis.
