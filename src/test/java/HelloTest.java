@@ -20,14 +20,16 @@ public class HelloTest {
 		checkResults("HelloTest.txt",HelloMain.outBuffer.toString());
 	}
 	
-	private static void checkResults(final String file, final String result) {
+	private static void checkResults(final String file, String result) {
 		try {
 			// Stream in the file to compare against
 			final InputStream is = HelloTest.class.getResourceAsStream(file);
-			final String expected = IOUtils.toString(is, Charsets.UTF_8);
-			// Compare expected and observed results
+			String expected = IOUtils.toString(is, Charsets.UTF_8);
+			// Compare expected and observed results, after stripping whitespace
+			result = result.replaceAll("\\r\\n|\\r|\\n", " ");
+			expected = expected.replaceAll("\\r\\n|\\r|\\n", " ");
 			if(!result.equals(expected)) {
-				fail("Expected to get:\n"+expected+"\n but instead got "+result);
+				fail("Expected to get: '"+expected+"' but instead got '"+result+"'");
 			}
         } catch (IOException e) {
             fail(LangUtils.stackTraceToString(e));
