@@ -26,7 +26,9 @@ public class HelloTest {
 			final InputStream is = HelloTest.class.getResourceAsStream(file);
 			final String expected = IOUtils.toString(is, Charsets.UTF_8);
 			// Compare expected and observed results
-	        assertEquals(expected,result);
+			if(!result.equals(expected)) {
+				fail("Expected to get:\n"+expected+"\n but instead got "+result);
+			}
         } catch (IOException e) {
             fail(LangUtils.stackTraceToString(e));
         }
