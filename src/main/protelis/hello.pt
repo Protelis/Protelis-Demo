@@ -2,6 +2,8 @@
 // Just like declaring a Java package, except it ends with this file's name (sans extension)
 module hello
 
+self.announce("Round started at "+self.getDeviceUID().getUID());
+	
 // Get a variable from the environment
 let leader = self.hasEnvironmentVariable("leader");
 
