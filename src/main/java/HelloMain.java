@@ -34,7 +34,7 @@ public class HelloMain {
 	 * Entry point for executing this demonstration
 	 */
 	public static void main(String[] args) {
-		// if the first argument is "string", then log to a string; otherwise, lot to standard out
+		// if the first argument is "string", then log to a string; otherwise, log to standard out
 		if(args.length>0 && args[0].equals("string")) {
 			outBuffer = new ByteArrayOutputStream();
 			out = new PrintStream(outBuffer);
