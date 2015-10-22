@@ -55,7 +55,7 @@ public class HelloMain {
 	}
 	
 	/**
-	 * Create an N x N grid of devices, each running the inducated program.
+	 * Create an N x N grid of devices, each running the indicated program.
 	 * @param program
 	 */
 	private static void createNetwork(String protelisModuleName) {
