@@ -3,7 +3,7 @@
 module hello
 
 // Get a variable from the environment
-let leader = self.hasEnvironmentVariable("leader");
+let leader = env.has("leader");
 
 if(leader) {
 	self.announce("The leader is at "+self.getDeviceUID().getUID());

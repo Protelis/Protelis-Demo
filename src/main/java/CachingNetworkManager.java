@@ -44,7 +44,7 @@ public class CachingNetworkManager implements NetworkManager {
 	 * 		The object returned should not be modified, and {@link ProtelisVM} will not change it either.
 	 */
 	@Override
-	public Map<DeviceUID, Map<CodePath, Object>> takeMessages() {
+	public Map<DeviceUID, Map<CodePath, Object>> getNeighborState() {
 		return receiveCache;
 	}
 
@@ -56,7 +56,7 @@ public class CachingNetworkManager implements NetworkManager {
 	 * 		Shared state to be transmitted to neighbors.
 	 */
 	@Override
-	public void sendMessage(Map<CodePath, Object> toSend) {
+	public void shareState(Map<CodePath, Object> toSend) {
 		sendCache = toSend;
 	}
 

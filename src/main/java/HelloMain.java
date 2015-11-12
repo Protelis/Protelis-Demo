@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.danilopianini.lang.util.FasterString;
 import org.protelis.lang.ProtelisLoader;
-import org.protelis.vm.IProgram;
+import org.protelis.vm.ProtelisProgram;
 import org.protelis.vm.util.CodePath;
 
 /**
@@ -71,13 +70,13 @@ public class HelloMain {
 				int id = i*4+j;
 				// Parse a new copy of the program for each device:
 				// it will be marked up with values as the interpreter runs
-				IProgram program = ProtelisLoader.parse(protelisModuleName);
+				ProtelisProgram program = ProtelisLoader.parse(protelisModuleName);
 				// Create the device
 				SimpleDevice executionContext = new SimpleDevice(program,id);
 				devices.add(executionContext);
 				// Mark the leader
 				if(id==LEADER_ID) { 
-					executionContext.currentEnvironment().put(new FasterString("leader"), true); 
+					executionContext.getExecutionEnvironment().put("leader", true);
 				}
 				// Remember the devices in a grid, for later setting up the network
 				cache[i][j] = executionContext;
