@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.protelis</groupId>
   <artifactId>protelis-demo</artifactId>
-  <version>4.0.1</version>
+  <version>5.0.0</version>
   <name>Protelis Demo</name>
   <description>Example of a minimal project based on Protelis</description>
   <dependencies>
