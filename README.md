@@ -1,39 +1,20 @@
 # Protelis demo application
 
-This project demonstrates a minimal application making use of Protelis.
+The goal of this project is project is to show some basic implementations of [Protelis](https://github.com/Protelis/Protelis) using both Java and Kotlin.
 
-Protelis requires Java 8+.  This project has been set up to run in Eclipse with Maven, and should be able to be 
-directly imported and executed if you have these set up.
+Protelis requires Java 8+.
 
 ## Contents:
 
-* src/main/java:
- * HelloMain.java: entry point to run the demo on a simple simulated network
- * SimpleDevice.java: devices hosting a ProtelisVM and network interface
- * CachingNetworkManager.java: network interface for simulation, which simply records the 
- 	most recent values sent to neighbors and received from neighbors.
- * IntegerUID.java: utility class for numerical device identifiers
-* src/main/protelis:
- * hello.pt: Protelis program to be executed
-* src/test/java:
- * HelloTest.java: runs HelloMain.java and compares output to HelloTest.txt
-* src/test/resources:
- * HelloTest.txt: expected output from running HelloMain.java
-* pom.xml: Maven configuration of the project
-* README.md: this file
+- `01-java-helloworld`: Java implementation using an emulated network;
+- `02-kotlin-helloworld`: Same as above but in Kotlin;
+- `03-java-socket`: Java implementation using sockets to make nodes communicate.
+- `04-kotlin-socket`: Same as above but in Kotlin.
 
-## To run:
+## Usage
 
-To run normally, execute "HelloMain"
+To execute a demo run:
 
-In response, you should see text output matching:
-	src/test/resources/HelloTest.txt
-	
-There is also a JUnit test "HelloTest"
-that runs "HelloMain" and performs this comparison automatically.
-
-## To run against local Protelis:
-
-To run against a local (e.g., development or pre-release) version of Protelis,
-delete the Protelis dependency from pom.xml, then use Eclipse project properties
-to change the Build Path to point to your local copy or Protelis.
+```bash
+gradle <subproject>:run
+```
