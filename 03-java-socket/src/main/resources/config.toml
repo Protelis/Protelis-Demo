@@ -1,0 +1,25 @@
+[protelis]
+iterations = 3
+protelisModuleName = "hello"
+numbers = [1,2,3]
+
+[[protelis.nodes]]
+    hostandport = { host = "localhost", port = 10000 }
+    id = 0
+    neighbors = [{ host = "localhost", port = 10001 }]
+
+[[protelis.nodes]]
+    hostandport = { host = "localhost", port = 10001 }
+    id = 1
+    neighbors = [{ host = "localhost", port = 10000 }, { host = "localhost", port = 10002 }]
+    leader = true
+
+
+[[protelis.nodes]]
+    hostandport = { host = "localhost", port = 10002 }
+    id = 2
+    neighbors = [{ host = "localhost", port = 10001 }]
+
+[[protelis.hosto]]
+    host = "localhost"
+    port = 80

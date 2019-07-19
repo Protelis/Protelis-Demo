@@ -1,0 +1,25 @@
+// Declare the name of this Protelis module
+// Just like declaring a Java package, except it ends with this file's name (sans extension)
+module hello
+
+import protelis:state:time
+
+// Get a variable from the environment
+let leader = env.has("leader");
+
+if(leader) {
+	self.announce("The leader is at "+self.getDeviceUID().getUID());
+	self.announce("The leader's count is: "+countDownWithDecay(4,1));
+} else {
+	// Otherwise, stay silent
+	false;
+};
+
+// Check if any neighbor is the leader
+if (anyHood(nbr(leader))) {
+	// if so, speak!
+	self.announce("Hello from the leader to its neighbor at "+self.getDeviceUID().getUID());
+} else {
+	// Otherwise, stay silent
+	false;
+};
