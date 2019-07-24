@@ -20,9 +20,8 @@ public class HelloProtelis {
         config = config.from().toml.resource("config.toml");
         String protelisModuleName = config.get(ProtelisConfigSpec.protelisModuleName);
         int iterations = config.get(ProtelisConfigSpec.iterations);
-        Set<ProtelisNode> nodes = config.get(ProtelisConfigSpec.nodes);
+        List<ProtelisNode> nodes = config.get(ProtelisConfigSpec.nodes);
         nodes.forEach(n -> {
-
             SocketNetworkManager netmgr = new SocketNetworkManager(new IntDeviceUID(n.getId()), n.getHostandport().getPort(), n.getNeighbors());
             try {
                 netmgr.listen();
@@ -30,7 +29,7 @@ public class HelloProtelis {
                 e.printStackTrace();
             }
             ProtelisProgram program = ProtelisLoader.parse(protelisModuleName);
-            Device node = new Device(program, n.getId(), netmgr);
+            Device node = new Device(program, n.getId(), netmgr, new ConsoleSpeaker());
             if (n.isLeader()) {
                 node.getDeviceCapabilities().getExecutionEnvironment().put("leader", true);
             }
@@ -39,7 +38,6 @@ public class HelloProtelis {
 
         for (int i = 0; i < iterations; i++) {
             devices.forEach(Device::runCycle);
-            devices.forEach(Device::sendMessages);
         }
 
         devices.forEach(d -> ((SocketNetworkManager)d.getNetworkManager()).stop());
