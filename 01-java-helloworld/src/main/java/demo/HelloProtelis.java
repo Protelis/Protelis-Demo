@@ -23,7 +23,7 @@ public class HelloProtelis {
         // Initialize some devices
         for (int i = 0; i < N; i++) {
             ProtelisProgram program = ProtelisLoader.parse(protelisModuleName);
-            Device d = new Device(program, i, new EmulatedNetworkManager(new IntDeviceUID(i)));
+            Device d = new Device(program, i, new EmulatedNetworkManager(new IntDeviceUID(i)), new ConsoleSpeaker());
             devices.add(d);
             g.addVertex(d);
         }
@@ -38,7 +38,6 @@ public class HelloProtelis {
         // Let the devices execute 3 times
         for (int i = 0; i < iterations; i++) {
             devices.forEach(Device::runCycle);
-            devices.forEach(Device::sendMessages);
         }
     }
 }

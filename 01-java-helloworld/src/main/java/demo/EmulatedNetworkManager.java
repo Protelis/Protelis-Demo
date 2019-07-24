@@ -4,12 +4,12 @@ import com.google.common.collect.ImmutableSet;
 import java8.util.Sets;
 import org.protelis.lang.datatype.DeviceUID;
 import org.protelis.vm.CodePath;
+import org.protelis.vm.NetworkManager;
 
 import java.util.*;
 
-public class EmulatedNetworkManager implements MyNetworkManager {
+public class EmulatedNetworkManager implements NetworkManager {
 
-    private Map<CodePath, Object> toBeSent;
     private Map<DeviceUID, Map<CodePath, Object>> messages;
     private final DeviceUID uid;
     private ImmutableSet<Device> neighbors;
@@ -21,15 +21,11 @@ public class EmulatedNetworkManager implements MyNetworkManager {
     }
 
     public EmulatedNetworkManager(final DeviceUID uid) {
-        this(uid, Sets.of());
+        this(uid, Collections.emptySet());
     }
 
     public void setNeighbors(final Set<Device> neighbors) {
         this.neighbors = ImmutableSet.copyOf(neighbors);
-    }
-
-    public void sendMessages() {
-        neighbors.forEach(d -> ((EmulatedNetworkManager)d.getNetworkManager()).receiveMessage(uid, toBeSent));
     }
 
     private void receiveMessage(DeviceUID src, Map<CodePath, Object> msg) {
@@ -45,6 +41,6 @@ public class EmulatedNetworkManager implements MyNetworkManager {
 
     @Override
     public void shareState(Map<CodePath, Object> toSend) {
-        toBeSent = toSend;
+        neighbors.forEach(d -> ((EmulatedNetworkManager)d.getNetworkManager()).receiveMessage(uid, toSend));
     }
 }
