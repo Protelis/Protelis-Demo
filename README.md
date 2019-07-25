@@ -4,6 +4,9 @@ The goal of this project is project is to show some basic implementations of [Pr
 
 Protelis requires Java 8+.
 
+## Build status
+[![Build Status](https://travis-ci.org/lippo97/Protelis-Demo.svg?branch=master)](https://travis-ci.org/lippo97/Protelis-Demo)
+
 ## Contents:
 
 - `01-java-helloworld`: Java implementation using an emulated network;
