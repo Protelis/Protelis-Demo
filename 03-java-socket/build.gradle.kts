@@ -15,6 +15,9 @@ dependencies {
     testCompile("org.mockito:mockito-junit-jupiter:2.23.0")
 }
 
+tasks.test {
+    useJUnitPlatform()
+}
 
 application {
     mainClassName = "demo.HelloProtelis"

@@ -6,7 +6,7 @@ import io.mockk.spyk
 import io.mockk.verify
 import org.protelis.lang.ProtelisLoader
 
-class HelloProtelisTests : StringSpec() {
+class KotlinSocketTest : StringSpec() {
 
     private var devices: List<Device> = emptyList()
     private var speakers: List<Speaker> = emptyList()

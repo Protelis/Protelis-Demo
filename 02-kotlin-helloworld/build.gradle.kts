@@ -13,8 +13,8 @@ dependencies {
     testImplementation("io.mockk:mockk:1.9.1")
 }
 
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions.jvmTarget = "1.8"
+tasks.test {
+    useJUnitPlatform()
 }
 
 application {
