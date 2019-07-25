@@ -17,7 +17,7 @@ class Main {
         nodes.forEach {
             val socketNetworkManager = SocketNetworkManager(IntDeviceUID(it.id), it.hostandport.port, it.neighbors).apply { listen() }
             val program = ProtelisLoader.parse(protelisModuleName)
-            val node = Device(program, it.id, socketNetworkManager)
+            val node = Device(program, it.id, socketNetworkManager, ConsoleSpeaker())
             if (it.leader) {
                 node.deviceCapabilities.executionEnvironment.put("leader", true)
             }
@@ -26,7 +26,6 @@ class Main {
         // Let the nodes make some iterations.
         repeat(iterations) {
             devices.forEach { it.runCycle() }
-            devices.forEach { it.sendMessages() }
         }
         // Close the thread listening.
         devices.forEach { (it.netmgr as SocketNetworkManager).stop() }

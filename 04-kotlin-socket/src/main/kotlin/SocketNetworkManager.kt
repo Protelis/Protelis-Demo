@@ -2,6 +2,7 @@ package demo
 
 import org.protelis.lang.datatype.DeviceUID
 import org.protelis.vm.CodePath
+import org.protelis.vm.NetworkManager
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.net.ServerSocket
@@ -9,9 +10,8 @@ import java.net.Socket
 import java.net.SocketTimeoutException
 import kotlin.concurrent.thread
 
-class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, private val neighbors: Set<IPv4Host>) : MyNetworkManager {
+class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, private val neighbors: Set<IPv4Host>) : NetworkManager {
     private val timeout = 1000
-    private var toBeSent: Map<CodePath, Any> = emptyMap()
     private var messages: Map<DeviceUID, Map<CodePath, Any>> = emptyMap()
     private var running = false
 
@@ -45,17 +45,15 @@ class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, pr
         messages += Pair(src, msg)
     }
 
-    override fun sendMessages() {
+    override fun shareState(toSend: Map<CodePath, Any>) {
         neighbors.forEach {
             val socket = Socket(it.host, it.port)
             val stream = ObjectOutputStream(socket.getOutputStream())
-            val message = mapOf(Pair(uid, toBeSent))
+            val message = mapOf(Pair(uid, toSend))
             stream.writeObject(message)
             socket.close()
         }
     }
-
-    override fun shareState(toSend: Map<CodePath, Any>) { toBeSent = toSend }
 
     override fun getNeighborState() : Map<DeviceUID, Map<CodePath, Any>> =
             messages.apply { messages = emptyMap() }
