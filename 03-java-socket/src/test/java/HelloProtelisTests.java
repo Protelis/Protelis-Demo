@@ -4,6 +4,7 @@ import demo.*;
 import demo.data.ProtelisNode;
 import org.apache.commons.math3.util.Pair;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -16,7 +17,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,6 +27,7 @@ class HelloProtelisTests {
     private static final List<Speaker> speakers = new ArrayList<>();
     private static Config config = new BaseConfig();
     private static List<ProtelisNode> nodes;
+    private static List<Integer> leaders;
 
 
     @BeforeAll
@@ -36,6 +37,10 @@ class HelloProtelisTests {
         String protelisModuleName = config.get(ProtelisConfigSpec.protelisModuleName);
         iterations = config.get(ProtelisConfigSpec.iterations);
         nodes = config.get(ProtelisConfigSpec.nodes);
+        leaders = config.get(ProtelisConfigSpec.nodes).stream()
+                .filter(ProtelisNode::isLeader)
+                .map(ProtelisNode::getId)
+                .collect(Collectors.toList());
         nodes.forEach(n -> {
             SocketNetworkManager netmgr = new SocketNetworkManager(new IntDeviceUID(n.getId()), n.getHostandport().getPort(), n.getNeighbors());
             try {
@@ -52,38 +57,38 @@ class HelloProtelisTests {
             }
             devices.add(node);
         });
-    }
 
-    @Test
-    void testExecution() {
-        List<Integer> leaders = config.get(ProtelisConfigSpec.nodes).stream()
-                .filter(ProtelisNode::isLeader)
-                .map(ProtelisNode::getId)
-                .collect(Collectors.toList());
         for (int i = 0; i < iterations; i++) {
             devices.forEach(Device::runCycle);
         }
+    }
 
+    @Test
+    @DisplayName("The leader count should be correct")
+    void testLeaderCount() {
         List<String> messages = DoubleStream.iterate(3f, i -> i - 1)
                 .limit(iterations)
                 .mapToObj(x -> "The leader's count is: " + x)
                 .collect(Collectors.toList());
-
         leaders.stream()
                 .map(x -> Mockito.verify(speakers.get(x)))
                 .flatMap(mock -> messages.stream().map(msg -> new Pair<>(mock, msg)))
                 .forEach(x -> x.getFirst().announce(x.getSecond()));
+    }
 
+    @Test
+    @DisplayName("The leaders should print their id")
+    void testLeaderMessage() {
         leaders.stream()
-                .map(x -> new Pair<>(Mockito.verify(speakers.get(x), times(iterations)),
-                        "The leader is at " + x))
-                .forEach(x -> (x.getFirst()).announce(x.getSecond()));
+                .forEach(x -> Mockito.verify(speakers.get(x), times(iterations)).announce("The leader is at " + x));
+    }
 
+    @Test
+    @DisplayName("The leader neighbors should say something")
+    void testNeighborsMessage() {
         leaders.stream()
                 .map(x -> Arrays.asList((x + nodes.size() - 1) % nodes.size(), (x + 1) % nodes.size()))
                 .flatMap(Collection::stream)
-                .map(x -> new Pair<>(Mockito.verify(speakers.get(x), atLeastOnce()),
-                        "Hello from the leader to its neighbor at " + x))
-                .forEach(x -> x.getFirst().announce(x.getSecond()));
+                .forEach(x -> Mockito.verify(speakers.get(x), times(iterations)).announce("The leader is at " + x));
     }
 }

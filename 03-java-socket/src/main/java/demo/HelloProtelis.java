@@ -9,7 +9,6 @@ import org.protelis.vm.ProtelisProgram;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class HelloProtelis {
     private static final List<Device> devices = new ArrayList<>();
