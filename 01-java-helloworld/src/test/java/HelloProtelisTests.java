@@ -6,7 +6,6 @@ import org.jgrapht.graph.DefaultUndirectedGraph;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.protelis.lang.ProtelisLoader;
@@ -15,11 +14,10 @@ import org.protelis.vm.ProtelisProgram;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
-public class HelloProtelisTest {
+class HelloProtelisTests {
 
     private final static String protelisModuleName = "hello";
     private final static int N = 5;

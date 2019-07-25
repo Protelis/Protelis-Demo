@@ -3,14 +3,9 @@ import com.uchuhimo.konf.Config;
 import demo.*;
 import demo.data.ProtelisNode;
 import org.apache.commons.math3.util.Pair;
-import org.jgrapht.Graph;
-import org.jgrapht.Graphs;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.DefaultUndirectedGraph;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.protelis.lang.ProtelisLoader;
@@ -18,19 +13,14 @@ import org.protelis.vm.ProtelisProgram;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
-import static java8.util.stream.DoubleStreams.iterate;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
-public class HelloProtelisTest {
+class HelloProtelisTests {
 
     private static int iterations;
     private static final List<Device> devices = new ArrayList<>();
@@ -67,8 +57,8 @@ public class HelloProtelisTest {
     @Test
     void testExecution() {
         List<Integer> leaders = config.get(ProtelisConfigSpec.nodes).stream()
-                .filter(x -> x.isLeader())
-                .map(x -> x.getId())
+                .filter(ProtelisNode::isLeader)
+                .map(ProtelisNode::getId)
                 .collect(Collectors.toList());
         for (int i = 0; i < iterations; i++) {
             devices.forEach(Device::runCycle);
