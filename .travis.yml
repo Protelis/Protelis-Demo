@@ -38,7 +38,6 @@ jobs:
       env:
         - *reference_jdk
       script:
-        - cd "$TRAVIS_BUILD_DIR"
         - ./gradlew clean check --parallel
 before_install:
   - curl "${GRAVIS}.disable-windows-defender.sh" --output .disable-windows-defender.sh
@@ -46,7 +45,6 @@ before_install:
   - curl "${GRAVIS}.install-jdk-travis.sh" --output .install-jdk-travis.sh
   - source .install-jdk-travis.sh
 script:
-  - cd "$TRAVIS_BUILD_DIR"/alchemist
   - ./gradlew clean test --parallel
 before_cache:
   - curl "${GRAVIS}.clean_gradle_cache.sh" --output .clean_gradle_cache.sh
