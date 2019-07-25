@@ -23,7 +23,7 @@ class HelloProtelis {
         // Initialize n nodes
         repeat(n) {
             val program = ProtelisLoader.parse(protelisModuleName)
-            val d = Device(program, it, EmulatedNetworkManager(IntDeviceUID(it)))
+            val d = Device(program, it, EmulatedNetworkManager(IntDeviceUID(it)), ConsoleSpeaker())
             devices.add(d)
             g.addVertex(d)
         }
@@ -42,7 +42,6 @@ class HelloProtelis {
 
     private fun syncRunNTimes(n: Int) = repeat(n) {
         devices.forEach { it.runCycle() }
-        devices.forEach { it.sendMessages() }
     }
 }
 
