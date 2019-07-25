@@ -11,6 +11,8 @@ dependencies {
     compile("org.protelis:protelis:12.1.0")
     compile("com.uchuhimo:konf:0.13.3")
     testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
+    testImplementation("io.mockk:mockk:1.9.1")
+
 }
 
 tasks.withType<KotlinCompile>().configureEach {
