@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream
 import java.net.ServerSocket
 import java.net.Socket
 import java.net.SocketTimeoutException
+import java.util.Collections.copy
 import kotlin.concurrent.thread
 
 class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, private val neighbors: Set<IPv4Host>) : NetworkManager {
@@ -22,7 +23,8 @@ class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, pr
             while (running) {
                 try {
                     handleConnection(server.accept())
-                } catch (e: SocketTimeoutException) { }
+                } catch (e: SocketTimeoutException) {
+                }
             }
         }
     }
@@ -34,7 +36,7 @@ class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, pr
     private fun handleConnection(client: Socket) {
         val received = ObjectInputStream(client.getInputStream()).readObject()
         if (received is Map<*, *>) {
-             received.forEach { (src, msg) ->
+            received.forEach { (src, msg) ->
                 receiveMessage(src as DeviceUID, msg as Map<CodePath, Any>)
             }
         }
@@ -55,6 +57,7 @@ class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, pr
         }
     }
 
-    override fun getNeighborState() : Map<DeviceUID, Map<CodePath, Any>> =
-            messages.apply { messages = emptyMap() }
+    override fun getNeighborState(): Map<DeviceUID, Map<CodePath, Any>> =
+        messages.apply { messages = emptyMap() }
+
 }

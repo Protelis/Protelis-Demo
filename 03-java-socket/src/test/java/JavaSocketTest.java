@@ -20,7 +20,7 @@ import java.util.stream.DoubleStream;
 import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
-class HelloProtelisTests {
+class JavaSocketTest {
 
     private static int iterations;
     private static final List<Device> devices = new ArrayList<>();
@@ -64,9 +64,15 @@ class HelloProtelisTests {
     }
 
     @Test
+    @DisplayName("This should be false")
+    void testFalse() {
+        assert(false);
+    }
+
+    @Test
     @DisplayName("The leader count should be correct")
-    void testLeaderCount() {
-        List<String> messages = DoubleStream.iterate(3f, i -> i - 1)
+    void testSocketLeaderCount() {
+        List<String> messages = DoubleStream.iterate(5f, i -> i - 1)
                 .limit(iterations)
                 .mapToObj(x -> "The leader's count is: " + x)
                 .collect(Collectors.toList());
@@ -78,14 +84,14 @@ class HelloProtelisTests {
 
     @Test
     @DisplayName("The leaders should print their id")
-    void testLeaderMessage() {
+    void testSocketLeaderMessage() {
         leaders.stream()
                 .forEach(x -> Mockito.verify(speakers.get(x), times(iterations)).announce("The leader is at " + x));
     }
 
     @Test
     @DisplayName("The leader neighbors should say something")
-    void testNeighborsMessage() {
+    void testSocketNeighborsMessage() {
         leaders.stream()
                 .map(x -> Arrays.asList((x + nodes.size() - 1) % nodes.size(), (x + 1) % nodes.size()))
                 .flatMap(Collection::stream)

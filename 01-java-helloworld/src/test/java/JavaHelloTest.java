@@ -18,7 +18,7 @@ import java.util.List;
 import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
-class HelloProtelisTests {
+class JavaHelloTest {
 
     private final static String protelisModuleName = "hello";
     private final static int N = 5;
