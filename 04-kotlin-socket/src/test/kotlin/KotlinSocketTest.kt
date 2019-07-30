@@ -1,6 +1,8 @@
 import com.uchuhimo.konf.Config
 import demo.*
 import io.kotlintest.Spec
+import io.kotlintest.matchers.numerics.shouldBeGreaterThan
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 import io.mockk.spyk
 import io.mockk.verify
@@ -37,6 +39,11 @@ class KotlinSocketTest : StringSpec() {
     }
 
     init {
+
+        "There should be at least 1 leader" {
+            leaders.size shouldBeGreaterThan 0;
+        }
+
         "The leader count should be correct" {
             val messages = generateSequence(3f) { it - 1 }
                     .take(iterations)
@@ -48,7 +55,11 @@ class KotlinSocketTest : StringSpec() {
         }
 
         "The leaders should announce their id" {
-            leaders.forEach { id -> verify(exactly = iterations) { speakers[id].announce("The leader is at ${id}") } }
+            leaders.forEach {
+                id -> verify(exactly = iterations) {
+                    speakers[id].announce("The leader is at ${id}")
+                }
+            }
         }
 
         "The leader neighbors should say something" {

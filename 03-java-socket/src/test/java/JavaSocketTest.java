@@ -17,6 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
@@ -64,15 +65,15 @@ class JavaSocketTest {
     }
 
     @Test
-    @DisplayName("This should be false")
-    void testFalse() {
-        assert(false);
+    @DisplayName("There should be at least 1 leader")
+    void testAreThereLeaders() {
+        assert(leaders.size() > 0);
     }
 
     @Test
     @DisplayName("The leader count should be correct")
     void testSocketLeaderCount() {
-        List<String> messages = DoubleStream.iterate(5f, i -> i - 1)
+        List<String> messages = DoubleStream.iterate(3f, i -> i - 1)
                 .limit(iterations)
                 .mapToObj(x -> "The leader's count is: " + x)
                 .collect(Collectors.toList());
@@ -93,8 +94,7 @@ class JavaSocketTest {
     @DisplayName("The leader neighbors should say something")
     void testSocketNeighborsMessage() {
         leaders.stream()
-                .map(x -> Arrays.asList((x + nodes.size() - 1) % nodes.size(), (x + 1) % nodes.size()))
-                .flatMap(Collection::stream)
-                .forEach(x -> Mockito.verify(speakers.get(x), times(iterations)).announce("The leader is at " + x));
+                .flatMap(x -> Arrays.asList((x + nodes.size() - 1) % nodes.size(), (x + 1) % nodes.size()).stream())
+                .forEach(x -> Mockito.verify(speakers.get(x), atLeastOnce()).announce("Hello from the leader to its neighbor at " + x));
     }
 }
