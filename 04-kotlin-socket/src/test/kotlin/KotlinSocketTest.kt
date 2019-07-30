@@ -45,13 +45,22 @@ class KotlinSocketTest : StringSpec() {
         }
 
         "The leader count should be correct" {
-            val messages = generateSequence(3f) { it - 1 }
-                    .take(iterations)
+            val messages = generateSequence(3f) { it - 1  }
+                    .take(3)
                     .map { "The leader's count is: ${it}"}
                     .toList()
             leaders.stream()
                     .flatMap({ x -> messages.stream().map({ msg -> Pair<Int, String>(x, msg) }) })
-                    .forEach { id -> verify(exactly = 1) { speakers[id.first].announce((id.second)) } }
+                    .forEach { id ->
+                        verify(exactly = 1) { speakers[id.first].announce((id.second)) }
+                    }
+            val leftovers = config[ProtelisConfigSpec.iterations] - 3
+            if (leftovers > 0) {
+                leaders.forEach { id ->
+                    verify(exactly = leftovers) { speakers[id].announce("The leader's count is: 0.0") }
+                }
+            }
+
         }
 
         "The leaders should announce their id" {

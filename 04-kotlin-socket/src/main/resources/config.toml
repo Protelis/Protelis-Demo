@@ -1,5 +1,5 @@
 [protelis]
-iterations = 4
+iterations = 10
 protelisModuleName = "hello"
 
 [[protelis.nodes]]

@@ -73,13 +73,17 @@ class JavaSocketTest {
     @DisplayName("The leader count should be correct")
     void testSocketLeaderCount() {
         List<String> messages = DoubleStream.iterate(3f, i -> i - 1)
-                .limit(iterations)
+                .limit(3)
                 .mapToObj(x -> "The leader's count is: " + x)
                 .collect(Collectors.toList());
         leaders.stream()
                 .map(x -> Mockito.verify(speakers.get(x)))
                 .flatMap(mock -> messages.stream().map(msg -> new Pair<>(mock, msg)))
                 .forEach(x -> x.getFirst().announce(x.getSecond()));
+        int leftovers = config.get(ProtelisConfigSpec.iterations) - 3;
+        if (leftovers > 0) {
+            leaders.forEach(x -> Mockito.verify(speakers.get(x), times(leftovers)).announce("The leader's count is: 0.0"));
+        }
     }
 
     @Test
