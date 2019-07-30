@@ -6,6 +6,7 @@ protelisModuleName = "hello"
     hostandport = { host = "localhost", port = 10000 }
     id = 0
     neighbors = [{ host = "localhost", port = 10004 }, { host = "localhost", port = 10001 }]
+    leader = true
 [[protelis.nodes]]
     hostandport = { host = "localhost", port = 10001 }
     id = 1
