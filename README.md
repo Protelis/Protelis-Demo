@@ -50,7 +50,7 @@ An example is provided in the following snippet:
 public class MyExecutionContext extends AbstractExecutionContext { ... }
 public class MyNetworkManager implements NetworkManager { ... }
 // Load from a file the protelis program.
-ProtelisProgram program = ProtelisLoader.parse("hello.pt");
+ProtelisProgram program = ProtelisLoader.parse("factorial.pt");
 // Create a new execution context
 MyExecutionContext myExecutionContext = new MyExecutionContext(new MyNetworkManager());
 // Create a new virtual machine
