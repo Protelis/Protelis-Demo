@@ -1,9 +1,7 @@
 dependencies {
-    compile("org.jgrapht:jgrapht-core:1.3.1")
+    compile(Libs.jgrapht_core)
 }
 
 application {
     mainClassName = "demo.HelloProtelis"
 }
-
-defaultTasks("run")

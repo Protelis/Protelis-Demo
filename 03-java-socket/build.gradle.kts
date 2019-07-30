@@ -3,9 +3,9 @@ plugins {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation(Libs.kotlin_stdlib)
     compile(project(":01-java-helloworld"))
-    compile("com.uchuhimo:konf:0.13.3")
+    compile(Libs.konf)
 }
 
 application {
