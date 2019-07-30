@@ -15,7 +15,7 @@ It allows to execute a [ProtelisProgram](https://static.javadoc.io/org.protelis/
 on a particular device.
 
 A device is represented by an [ExecutionContext](https://static.javadoc.io/org.protelis/protelis/12.0.0/org/protelis/vm/ExecutionContext.html).
-It tracks the current state of a device and many properties as its UID, current time and space. In order to make this demo I extended the existing
+It tracks the current state of a device and many properties such as its UID, current time and position in the space. In order to make this demo I extended the existing
 [AbstractExecutionContext](https://static.javadoc.io/org.protelis/protelis/12.0.0/org/protelis/vm/impl/AbstractExecutionContext.html)
 class, since it already contains some basic functionalities, such as using a
 [NetworkManager](https://static.javadoc.io/org.protelis/protelis/12.0.0/org/protelis/vm/NetworkManager.html) to share messages between nodes.
