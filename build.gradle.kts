@@ -12,6 +12,10 @@ allprojects {
     dependencies {
         compile(Libs.protelis)
     }
+
+    tasks.test {
+        useJUnitPlatform()
+    }
 }
 
 plugins {
@@ -79,8 +83,4 @@ tasks.withType<KotlinCompile> {
     kotlinOptions {
         allWarningsAsErrors = true
     }
-}
-
-tasks.test {
-    useJUnitPlatform()
 }
