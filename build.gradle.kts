@@ -12,9 +12,6 @@ allprojects {
     dependencies {
         compile("org.protelis:protelis:12.1.0")
     }
-
-//    tasks.test {
-//    }
 }
 
 plugins {
@@ -26,6 +23,7 @@ plugins {
     checkstyle
     pmd
     id("org.jlleitschuh.gradle.ktlint") version "8.2.0"
+    id("de.fayard.buildSrcVersions") version "0.3.2"
 }
 
 gitSemVer {
