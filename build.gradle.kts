@@ -17,13 +17,13 @@ allprojects {
 plugins {
     java
     application
-    kotlin("jvm") version "1.3.40"
-    id("org.danilopianini.git-sensitive-semantic-versioning") version "0.2.2"
-    id("com.github.spotbugs") version "2.0.0"
+    kotlin("jvm") version Versions.org_jetbrains_kotlin_jvm_gradle_plugin
+    id("org.danilopianini.git-sensitive-semantic-versioning") version Versions.org_danilopianini_git_sensitive_semantic_versioning_gradle_plugin
+    id("com.github.spotbugs") version Versions.com_github_spotbugs_gradle_plugin
     checkstyle
     pmd
-    id("org.jlleitschuh.gradle.ktlint") version "8.2.0"
-    id("de.fayard.buildSrcVersions") version "0.3.2"
+    id("org.jlleitschuh.gradle.ktlint") version Versions.org_jlleitschuh_gradle_ktlint_gradle_plugin
+    id("de.fayard.buildSrcVersions") version Versions.de_fayard_buildsrcversions_gradle_plugin
 }
 
 gitSemVer {
