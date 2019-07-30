@@ -3,4 +3,3 @@ allprojects {
         mavenCentral()
     }
 }
-

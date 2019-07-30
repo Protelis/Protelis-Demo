@@ -2,11 +2,7 @@
 package demo
 
 import io.kotlintest.Spec
-import io.kotlintest.TestCase
-import io.kotlintest.matchers.exactly
-import io.kotlintest.specs.FunSpec
 import io.kotlintest.specs.StringSpec
-import io.mockk.confirmVerified
 import io.mockk.spyk
 import io.mockk.verify
 import org.jgrapht.Graphs
@@ -38,10 +34,10 @@ class KotlinHelloTest : StringSpec() {
                     devices[it],
                     devices[(it + 1) % n])
         }
-
+        // Let every device know its neighbors and set the leader
         devices.forEach { (it.netmgr as EmulatedNetworkManager).neighbors = Graphs.neighborSetOf(g, it) }
         devices[leader].deviceCapabilities.executionEnvironment.put("leader", true)
-
+        // Run some cycles
         repeat(iterations) {
             devices.forEach { it.runCycle() }
         }
@@ -56,11 +52,9 @@ class KotlinHelloTest : StringSpec() {
                         verify(exactly = 1) { speakers[leader].announce(it) }
                     }
         }
-
         "The leader should be at ${leader}" {
             verify(exactly = iterations) { speakers[leader].announce("The leader is at ${leader}") }
         }
-
         "The leader neighbors should say something" {
             sequenceOf(leader)
                     .flatMap { sequenceOf((leader + n -1) % n, (leader + 1) % n) }

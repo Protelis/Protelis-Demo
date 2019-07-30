@@ -58,7 +58,6 @@ class JavaSocketTest {
             }
             devices.add(node);
         });
-
         for (int i = 0; i < iterations; i++) {
             devices.forEach(Device::runCycle);
         }

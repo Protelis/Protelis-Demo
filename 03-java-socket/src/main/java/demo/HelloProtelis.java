@@ -34,11 +34,11 @@ public class HelloProtelis {
             }
             devices.add(node);
         });
-
+        // Run some cycles
         for (int i = 0; i < iterations; i++) {
             devices.forEach(Device::runCycle);
         }
-
+        // Stop the server socket
         devices.forEach(d -> ((SocketNetworkManager)d.getNetworkManager()).stop());
     }
 }
