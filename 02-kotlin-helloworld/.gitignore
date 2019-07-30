@@ -2,6 +2,8 @@
 /build/
 /out
 
+.kotlintest
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
