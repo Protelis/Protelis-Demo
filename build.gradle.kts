@@ -36,9 +36,9 @@ gitSemVer {
 
 configure(subprojects.filter { it.name.contains("java") }) {
     apply(plugin = "java")
-    //apply(plugin = "com.github.spotbugs")
-    //apply(plugin = "checkstyle")
-    //apply(plugin = "pmd")
+    // apply(plugin = "com.github.spotbugs")
+    // apply(plugin = "checkstyle")
+    // apply(plugin = "pmd")
     dependencies {
         testImplementation(Libs.junit_jupiter_api)
         testRuntime(Libs.junit_jupiter_engine)
@@ -49,7 +49,7 @@ configure(subprojects.filter { it.name.contains("java") }) {
 
 configure(subprojects.filter { it.name.contains("kotlin") }) {
     apply(plugin = "kotlin")
-    //apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    // apply(plugin = "org.jlleitschuh.gradle.ktlint")
     dependencies {
         implementation(Libs.kotlin_stdlib)
         testImplementation(Libs.kotlintest_runner_junit5)
