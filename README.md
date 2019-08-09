@@ -81,10 +81,12 @@ gradle <subproject>:run
 
 ## How to import
 
-### IntelliJ IDEA
+### IntelliJ IDEA (recommended option)
 
-As this project was entirely developed in IntelliJ IDEA there should not be any problem.
+It is enough to open the project and double click on the main `build.gradle.kts`, everything should load up correctly.
 
 ### Eclipse
 
-[TODO]: IDK 
+It is recommended to install the Protelis plugin from the marketplace, then restart Eclipse.
+
+[TODO]: # (Import the project, I didn't manage to do it yet.)
