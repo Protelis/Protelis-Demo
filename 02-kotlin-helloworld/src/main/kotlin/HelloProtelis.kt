@@ -39,7 +39,6 @@ class HelloProtelis {
     private fun setLeader(id: Int) =
         devices[id].deviceCapabilities.executionEnvironment.put("leader", true)
 
-
     private fun syncRunNTimes(n: Int) = repeat(n) {
         devices.forEach { it.runCycle() }
     }
@@ -48,4 +47,3 @@ class HelloProtelis {
 fun main() {
     HelloProtelis().hello()
 }
-

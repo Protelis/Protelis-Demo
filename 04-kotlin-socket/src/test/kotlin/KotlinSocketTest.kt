@@ -2,7 +2,6 @@ import com.uchuhimo.konf.Config
 import demo.*
 import io.kotlintest.Spec
 import io.kotlintest.matchers.numerics.shouldBeGreaterThan
-import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 import io.mockk.spyk
 import io.mockk.verify
@@ -18,7 +17,7 @@ class KotlinSocketTest : StringSpec() {
     private val iterations = config[ProtelisConfigSpec.iterations]
     private val nodes = config[ProtelisConfigSpec.nodes]
     private val leaders = config[ProtelisConfigSpec.nodes]
-            .filter{ it.leader }
+            .filter { it.leader }
             .map { it.id }
 
     override fun beforeSpec(spec: Spec) {
@@ -42,13 +41,13 @@ class KotlinSocketTest : StringSpec() {
     init {
 
         "There should be at least 1 leader" {
-            leaders.size shouldBeGreaterThan 0;
+            leaders.size shouldBeGreaterThan 0
         }
 
         "The leader count should be correct" {
-            val messages = generateSequence(3f) { it - 1  }
+            val messages = generateSequence(3f) { it - 1 }
                     .take(3)
-                    .map { "The leader's count is: ${it}"}
+                    .map { "The leader's count is: $it" }
                     .toList()
             leaders.stream()
                     .flatMap({ x -> messages.stream().map({ msg -> Pair<Int, String>(x, msg) }) })
@@ -61,13 +60,12 @@ class KotlinSocketTest : StringSpec() {
                     verify(exactly = leftovers) { speakers[id].announce("The leader's count is: 0.0") }
                 }
             }
-
         }
 
         "The leaders should announce their id" {
             leaders.forEach {
                 id -> verify(exactly = iterations) {
-                    speakers[id].announce("The leader is at ${id}")
+                    speakers[id].announce("The leader is at $id")
                 }
             }
         }
@@ -75,10 +73,10 @@ class KotlinSocketTest : StringSpec() {
         "The leader neighbors should say something" {
             leaders
                     .flatMap { listOf(
-                            (it + nodes.size -1) % nodes.size,
+                            (it + nodes.size - 1) % nodes.size,
                             (it + 1) % nodes.size) }
                     .distinct()
-                    .forEach { id -> verify(atLeast = 1) { speakers[id].announce("Hello from the leader to its neighbor at ${id}") } }
+                    .forEach { id -> verify(atLeast = 1) { speakers[id].announce("Hello from the leader to its neighbor at $id") } }
         }
     }
 }

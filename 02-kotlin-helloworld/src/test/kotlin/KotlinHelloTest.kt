@@ -47,18 +47,18 @@ class KotlinHelloTest : StringSpec() {
         "The leader count should be correct" {
             generateSequence(3f) { it - 1 }
                     .take(iterations)
-                    .map { "The leader's count is: ${it}" }
+                    .map { "The leader's count is: $it" }
                     .forEach {
                         verify(exactly = 1) { speakers[leader].announce(it) }
                     }
         }
-        "The leader should be at ${leader}" {
-            verify(exactly = iterations) { speakers[leader].announce("The leader is at ${leader}") }
+        "The leader should be at $leader" {
+            verify(exactly = iterations) { speakers[leader].announce("The leader is at $leader") }
         }
         "The leader neighbors should say something" {
             sequenceOf(leader)
-                    .flatMap { sequenceOf((leader + n -1) % n, (leader + 1) % n) }
-                    .forEach { verify(exactly = iterations) { speakers[it].announce("Hello from the leader to its neighbor at ${it}") } }
+                    .flatMap { sequenceOf((leader + n - 1) % n, (leader + 1) % n) }
+                    .forEach { verify(exactly = iterations) { speakers[it].announce("Hello from the leader to its neighbor at $it") } }
         }
     }
 }

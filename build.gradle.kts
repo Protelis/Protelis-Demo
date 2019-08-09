@@ -49,7 +49,7 @@ configure(subprojects.filter { it.name.contains("java") }) {
 
 configure(subprojects.filter { it.name.contains("kotlin") }) {
     apply(plugin = "kotlin")
-    // apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
     dependencies {
         implementation(Libs.kotlin_stdlib)
         testImplementation(Libs.kotlintest_runner_junit5)

@@ -35,4 +35,3 @@ class Main {
 fun main() {
     Main().hello()
 }
-

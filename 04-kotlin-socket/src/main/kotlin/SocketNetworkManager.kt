@@ -8,7 +8,6 @@ import java.io.ObjectOutputStream
 import java.net.ServerSocket
 import java.net.Socket
 import java.net.SocketTimeoutException
-import java.util.Collections.copy
 import kotlin.concurrent.thread
 
 class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, private val neighbors: Set<IPv4Host>) : NetworkManager {
@@ -59,5 +58,4 @@ class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, pr
 
     override fun getNeighborState(): Map<DeviceUID, Map<CodePath, Any>> =
         messages.apply { messages = emptyMap() }
-
 }

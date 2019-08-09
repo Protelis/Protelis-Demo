@@ -16,8 +16,7 @@ class DeviceCapabilities(private val uid: Int, private val netmgr: NetworkManage
 
     override fun getDeviceUID() = myUID
 
-    override fun getCurrentTime() =  System.currentTimeMillis()
+    override fun getCurrentTime() = System.currentTimeMillis()
 
     override fun instance() = DeviceCapabilities(uid, netmgr, codePathFactory, speaker)
-
 }
