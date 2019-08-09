@@ -4,6 +4,10 @@
 
 .idea/
 
+# Ignore Eclipse project and settings
+.project
+.settings
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
