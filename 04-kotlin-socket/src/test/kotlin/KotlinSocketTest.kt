@@ -20,6 +20,7 @@ class KotlinSocketTest : StringSpec() {
     private val leaders = config[ProtelisConfigSpec.nodes]
             .filter{ it.leader }
             .map { it.id }
+
     override fun beforeSpec(spec: Spec) {
         nodes.forEach {
             val socketNetworkManager = SocketNetworkManager(IntDeviceUID(it.id), it.hostandport.port, it.neighbors).apply { listen() }
