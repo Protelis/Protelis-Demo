@@ -3,24 +3,24 @@ iterations = 10
 protelisModuleName = "hello"
 
 [[protelis.nodes]]
-    hostandport = { host = "localhost", port = 10000 }
+    hostandport = { host = "localhost", port = 20000 }
     id = 0
-    neighbors = [{ host = "localhost", port = 10004 }, { host = "localhost", port = 10001 }]
+    neighbors = [{ host = "localhost", port = 20004 }, { host = "localhost", port = 20001 }]
     leader = true
 [[protelis.nodes]]
-    hostandport = { host = "localhost", port = 10001 }
+    hostandport = { host = "localhost", port = 20001 }
     id = 1
-    neighbors = [{ host = "localhost", port = 10000 }, { host = "localhost", port = 10002 }]
+    neighbors = [{ host = "localhost", port = 20000 }, { host = "localhost", port = 20002 }]
 [[protelis.nodes]]
-    hostandport = { host = "localhost", port = 10002 }
+    hostandport = { host = "localhost", port = 20002 }
     id = 2
-    neighbors = [{ host = "localhost", port = 10001 }, { host = "localhost", port = 10003 }]
+    neighbors = [{ host = "localhost", port = 20001 }, { host = "localhost", port = 20003 }]
 [[protelis.nodes]]
-    hostandport = { host = "localhost", port = 10003 }
+    hostandport = { host = "localhost", port = 20003 }
     id = 3
-    neighbors = [{ host = "localhost", port = 10002 }, { host = "localhost", port = 10004 }]
+    neighbors = [{ host = "localhost", port = 20002 }, { host = "localhost", port = 20004 }]
 [[protelis.nodes]]
-    hostandport = { host = "localhost", port = 10004 }
+    hostandport = { host = "localhost", port = 20004 }
     id = 4
-    neighbors = [{ host = "localhost", port = 10003 }, { host = "localhost", port = 10000 }]
+    neighbors = [{ host = "localhost", port = 20003 }, { host = "localhost", port = 20000 }]
 
