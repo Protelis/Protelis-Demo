@@ -37,7 +37,7 @@ gitSemVer {
 configure(subprojects.filter { it.name.contains("java") }) {
     apply(plugin = "java")
 //    apply(plugin = "com.github.spotbugs")
-     apply(plugin = "checkstyle")
+    apply(plugin = "checkstyle")
     // apply(plugin = "pmd")
     dependencies {
         testImplementation(Libs.junit_jupiter_api)
