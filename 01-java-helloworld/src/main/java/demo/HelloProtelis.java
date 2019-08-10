@@ -19,7 +19,7 @@ public final class HelloProtelis {
 
     /**
      * Main method.
-     * @param args unused
+     * @param args unutilized
      */
     public static void main(final String[] args) {
         final String protelisModuleName = "hello";
