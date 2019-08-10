@@ -36,8 +36,8 @@ gitSemVer {
 
 configure(subprojects.filter { it.name.contains("java") }) {
     apply(plugin = "java")
-    // apply(plugin = "com.github.spotbugs")
-    // apply(plugin = "checkstyle")
+//    apply(plugin = "com.github.spotbugs")
+     apply(plugin = "checkstyle")
     // apply(plugin = "pmd")
     dependencies {
         testImplementation(Libs.junit_jupiter_api)
@@ -55,6 +55,10 @@ configure(subprojects.filter { it.name.contains("kotlin") }) {
         testImplementation(Libs.kotlintest_runner_junit5)
         testImplementation(Libs.mockk)
     }
+}
+
+checkstyle {
+    toolVersion = "8.20"
 }
 
 spotbugs {

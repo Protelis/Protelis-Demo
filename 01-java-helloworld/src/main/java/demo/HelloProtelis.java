@@ -10,18 +10,26 @@ import org.protelis.vm.ProtelisProgram;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HelloProtelis {
+/**
+ * Example usage of the implemented classes.
+ */
+public final class HelloProtelis {
 
-    private final static String protelisModuleName = "hello";
-    private final static int N = 5;
-    private final static int iterations = 3;
-    private final static List<Device> devices = new ArrayList<>();
+    private HelloProtelis() { }
 
-    public static void main(String[] args) {
+    /**
+     * Main method.
+     * @param args unused
+     */
+    public static void main(final String[] args) {
+        final String protelisModuleName = "hello";
+        final int n = 5;
+        final int iterations = 3;
+        final List<Device> devices = new ArrayList<>();
         // Initialize a graph
         Graph<Device, DefaultEdge> g = new DefaultUndirectedGraph<>(DefaultEdge.class);
         // Initialize some devices
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             ProtelisProgram program = ProtelisLoader.parse(protelisModuleName);
             Device d = new Device(program, i, new EmulatedNetworkManager(new IntDeviceUID(i)), new ConsoleSpeaker());
             devices.add(d);
@@ -34,7 +42,7 @@ public class HelloProtelis {
             g.addEdge(devices.get(i), devices.get((i + 1) % devices.size()));
         }
         // Let the devices know the network topology
-        devices.forEach(d -> ((EmulatedNetworkManager)d.getNetworkManager()).setNeighbors(Graphs.neighborSetOf(g, d)));
+        devices.forEach(d -> ((EmulatedNetworkManager) d.getNetworkManager()).setNeighbors(Graphs.neighborSetOf(g, d)));
         // Let the devices execute 3 times
         for (int i = 0; i < iterations; i++) {
             devices.forEach(Device::runCycle);
