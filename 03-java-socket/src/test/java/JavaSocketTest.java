@@ -1,6 +1,11 @@
 import com.uchuhimo.konf.BaseConfig;
 import com.uchuhimo.konf.Config;
-import demo.*;
+import demo.ConsoleSpeaker;
+import demo.Device;
+import demo.IntDeviceUID;
+import demo.ProtelisConfigSpec;
+import demo.SocketNetworkManager;
+import demo.Speaker;
 import demo.data.ProtelisNode;
 import org.apache.commons.math3.util.Pair;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,7 +18,9 @@ import org.protelis.lang.ProtelisLoader;
 import org.protelis.vm.ProtelisProgram;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
@@ -24,7 +31,9 @@ import static org.mockito.Mockito.times;
 class JavaSocketTest {
 
     private static int iterations;
+    @SuppressWarnings("checkstyle:constantname")
     private static final List<Device> devices = new ArrayList<>();
+    @SuppressWarnings("checkstyle:constantname")
     private static final List<Speaker> speakers = new ArrayList<>();
     private static Config config = new BaseConfig();
     private static List<ProtelisNode> nodes;
@@ -33,7 +42,7 @@ class JavaSocketTest {
 
     @BeforeAll
     static void init() {
-        config.addSpec(ProtelisConfigSpec.spec);
+        config.addSpec(ProtelisConfigSpec.SPEC);
         config = config.from().toml.resource("config.toml");
         String protelisModuleName = config.get(ProtelisConfigSpec.protelisModuleName);
         iterations = config.get(ProtelisConfigSpec.iterations);
@@ -66,7 +75,7 @@ class JavaSocketTest {
     @Test
     @DisplayName("There should be at least 1 leader")
     void testAreThereLeaders() {
-        assert(leaders.size() > 0);
+        assert (leaders.size() > 0);
     }
 
     @Test

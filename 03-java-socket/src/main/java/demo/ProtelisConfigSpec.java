@@ -5,17 +5,34 @@ import com.uchuhimo.konf.RequiredItem;
 import demo.data.ProtelisNode;
 
 import java.util.List;
-import java.util.Set;
 
-public class ProtelisConfigSpec {
-    public static final ConfigSpec spec = new ConfigSpec("protelis");
+/**
+ * Konf specification for the TOML configuration file.
+ */
+public final class ProtelisConfigSpec {
 
+    private ProtelisConfigSpec() { }
+
+    /**
+     * Create a new config specification named protelis.
+     */
+    public static final ConfigSpec SPEC = new ConfigSpec("protelis");
+    /**
+     * Required field iterations. It represents the number of cycles the simulation will perform.
+     */
+    @SuppressWarnings("checkstyle:constantname")
     public static final RequiredItem<Integer> iterations =
-            new RequiredItem<Integer>(spec, "iterations") {};
-
+            new RequiredItem<Integer>(SPEC, "iterations") { };
+    /**
+     * Required field protelisModuleName. It is the name of the .pt source file.
+     */
+    @SuppressWarnings("checkstyle:constantname")
     public static final RequiredItem<String> protelisModuleName =
-            new RequiredItem<String>(spec, "protelisModuleName") {};
-
+            new RequiredItem<String>(SPEC, "protelisModuleName") { };
+    /**
+     * Required field nodes. It contains a list of protelis nodes.
+     */
+    @SuppressWarnings("checkstyle:constantname")
     public static final RequiredItem<List<ProtelisNode>> nodes =
-            new RequiredItem<List<ProtelisNode>>(spec, "nodes") {};
+            new RequiredItem<List<ProtelisNode>>(SPEC, "nodes") { };
 }

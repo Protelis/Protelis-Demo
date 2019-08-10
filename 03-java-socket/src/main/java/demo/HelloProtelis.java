@@ -10,12 +10,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HelloProtelis {
+/**
+ * Example usage of the implemented classes.
+ */
+public final  class HelloProtelis {
+
+    private HelloProtelis() { }
+
+    @SuppressWarnings("checkstyle:constantname")
     private static final List<Device> devices = new ArrayList<>();
     private static Config config = new BaseConfig();
 
-    public static void main(String[] args) {
-        config.addSpec(ProtelisConfigSpec.spec);
+    /**
+     * Main method.
+     * @param args unutilized
+     */
+    public static void main(final String[] args) {
+        config.addSpec(ProtelisConfigSpec.SPEC);
         config = config.from().toml.resource("config.toml");
         String protelisModuleName = config.get(ProtelisConfigSpec.protelisModuleName);
         int iterations = config.get(ProtelisConfigSpec.iterations);
@@ -39,6 +50,6 @@ public class HelloProtelis {
             devices.forEach(Device::runCycle);
         }
         // Stop the server socket
-        devices.forEach(d -> ((SocketNetworkManager)d.getNetworkManager()).stop());
+        devices.forEach(d -> ((SocketNetworkManager) d.getNetworkManager()).stop());
     }
 }
