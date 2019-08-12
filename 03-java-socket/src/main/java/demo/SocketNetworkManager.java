@@ -22,6 +22,9 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Implementation of a network manager which uses the socket TCP.
+ */
 public class SocketNetworkManager implements NetworkManager {
 
     private static final String DEFAULT_ADDRESS = "127.0.0.1";
@@ -32,28 +35,44 @@ public class SocketNetworkManager implements NetworkManager {
     private final Set<IPv4Host> neighbors;
     private Thread t = null;
 
+    /**
+     * constructor method for device with default address.
+     * @param uid the device id
+     * @param port port of the server for incoming message
+     * @param neighbors the neighbors the device has to send his messages to
+     */
     public SocketNetworkManager(final DeviceUID uid, final int port, final Set<IPv4Host> neighbors) {
         this(uid, DEFAULT_ADDRESS, port, neighbors);
     }
 
-    public SocketNetworkManager(DeviceUID uid, String address, int port, Set<IPv4Host> neighbors) {
+    /**
+     * constructor method for device with default address.
+     * @param uid the device id
+     * @param address address of the server for incoming message
+     * @param port port of the server for incoming message
+     * @param neighbors the neighbors the device has to send his messages to
+     */
+    public SocketNetworkManager(final DeviceUID uid, final String address, final int port, final Set<IPv4Host> neighbors) {
         this.uid = uid;
         this.address = address;
         this.port = port;
         this.neighbors = neighbors;
     }
 
+    /**
+     * start the server TCP to listen for incoming messages from neighbors.
+     * @throws IOException If some I/O error occurs
+     */
     public void listen() throws IOException {
         AsynchronousServerSocketChannel server = AsynchronousServerSocketChannel.open();
         server.bind(new InetSocketAddress(address, port));
-
-        if (t == null || t.isInterrupted()) {
+        if (t == null) {
             t = new Thread(() -> {
-                while(!Thread.currentThread().isInterrupted()) {
+                while (!Thread.currentThread().isInterrupted()) {
                     server.accept(null, new CompletionHandler<AsynchronousSocketChannel, Object>() {
                         @Override
-                        public void completed(AsynchronousSocketChannel clientChannel, Object attachment) {
-                            if (server.isOpen()){
+                        public void completed(final AsynchronousSocketChannel clientChannel, final Object attachment) {
+                            if (server.isOpen()) {
                                 server.accept(null, this);
                             }
                             if (clientChannel != null && clientChannel.isOpen()) {
@@ -65,7 +84,7 @@ public class SocketNetworkManager implements NetworkManager {
                             }
                         }
                         @Override
-                        public void failed(Throwable exc, Object attachment) {
+                        public void failed(final Throwable exc, final Object attachment) {
                             exc.printStackTrace();
                         }
                     });
@@ -80,13 +99,16 @@ public class SocketNetworkManager implements NetworkManager {
         }
     }
 
+    /**
+     * close the server.
+     */
     public void stop() {
         if (t != null) {
             t.interrupt();
         }
     }
 
-    private void handleConnection(AsynchronousSocketChannel client) throws IOException, ClassNotFoundException {
+    private void handleConnection(final AsynchronousSocketChannel client) throws IOException, ClassNotFoundException {
         ObjectInputStream ois = new ObjectInputStream(Channels.newInputStream(client));
         Object received = ois.readObject();
         ois.close();
@@ -95,10 +117,14 @@ public class SocketNetworkManager implements NetworkManager {
         }
     }
 
-    private void receiveMessage(DeviceUID src, Map<CodePath, Object> msg) {
+    private void receiveMessage(final DeviceUID src, final Map<CodePath, Object> msg) {
         messages.put(src, msg);
     }
 
+    /**
+     * Called by ProtelisVM read the stored messages.
+     * @return the currently stored messages
+     */
     @Override
     public Map<DeviceUID, Map<CodePath, Object>> getNeighborState() {
         Map<DeviceUID, Map<CodePath, Object>> t = messages;
@@ -106,8 +132,12 @@ public class SocketNetworkManager implements NetworkManager {
         return t;
     }
 
+    /**
+     * Called by ProtelisVM to send a message to the neighbors.
+     * @param toSend the message to be sent.
+     */
     @Override
-    public void shareState(Map<CodePath, Object> toSend) {
+    public void shareState(final Map<CodePath, Object> toSend) {
         Map<DeviceUID, Map<CodePath, Object>> msg = Stream.of(
                 new AbstractMap.SimpleImmutableEntry<>(uid, toSend)
         ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
