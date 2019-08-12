@@ -8,88 +8,97 @@ import org.protelis.vm.NetworkManager;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
+import java.net.InetSocketAddress;
+import java.nio.channels.AsynchronousServerSocketChannel;
+import java.nio.channels.AsynchronousSocketChannel;
+import java.nio.channels.Channels;
+import java.nio.channels.CompletionHandler;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * Network manager which uses sockets to send and receive messages.
- */
 public class SocketNetworkManager implements NetworkManager {
+
+    private static final String DEFAULT_ADDRESS = "127.0.0.1";
     private Map<DeviceUID, Map<CodePath, Object>> messages = new HashMap<>();
-    private int timeout = 1000;
     private final DeviceUID uid;
+    private final String address;
     private final int port;
     private final Set<IPv4Host> neighbors;
     private Thread t = null;
 
-    /**
-     * Constructor method.
-     * @param uid the id of the device
-     * @param port the port the device exposes
-     * @param neighbors the host and port of the neighbors
-     */
     public SocketNetworkManager(final DeviceUID uid, final int port, final Set<IPv4Host> neighbors) {
+        this(uid, DEFAULT_ADDRESS, port, neighbors);
+    }
+
+    public SocketNetworkManager(DeviceUID uid, String address, int port, Set<IPv4Host> neighbors) {
         this.uid = uid;
+        this.address = address;
         this.port = port;
         this.neighbors = neighbors;
     }
 
-    /**
-     * Makes the network manager able to receive messages.
-     * @throws IOException if the port is already in use
-     */
     public void listen() throws IOException {
+        AsynchronousServerSocketChannel server = AsynchronousServerSocketChannel.open();
+        server.bind(new InetSocketAddress(address, port));
+
         if (t == null || t.isInterrupted()) {
-            ServerSocket server = new ServerSocket(port);
-            server.setSoTimeout(timeout);
             t = new Thread(() -> {
-                while (!Thread.currentThread().isInterrupted()) {
-                    try {
-                        handleConnection(server.accept());
-                    } catch (SocketTimeoutException e) {
-                        //TODO: find a way to do this better
-                    } catch (ClassNotFoundException | IOException e) {
-                        e.printStackTrace();
-                    }
+                while(!Thread.currentThread().isInterrupted()) {
+                    server.accept(null, new CompletionHandler<AsynchronousSocketChannel, Object>() {
+                        @Override
+                        public void completed(AsynchronousSocketChannel clientChannel, Object attachment) {
+                            if (server.isOpen()){
+                                server.accept(null, this);
+                            }
+                            if (clientChannel != null && clientChannel.isOpen()) {
+                                try {
+                                    handleConnection(clientChannel);
+                                } catch (IOException | ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        @Override
+                        public void failed(Throwable exc, Object attachment) {
+                            exc.printStackTrace();
+                        }
+                    });
+                }
+                try {
+                    server.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             });
             t.start();
         }
     }
 
-    /**
-     * Stops the network manager from receiving messages.
-     */
     public void stop() {
         if (t != null) {
             t.interrupt();
         }
     }
 
-    private void handleConnection(final Socket client) throws IOException, ClassNotFoundException {
-        Object received = new ObjectInputStream(client.getInputStream()).readObject();
+    private void handleConnection(AsynchronousSocketChannel client) throws IOException, ClassNotFoundException {
+        ObjectInputStream ois = new ObjectInputStream(Channels.newInputStream(client));
+        Object received = ois.readObject();
+        ois.close();
         if (received instanceof Map) {
-            ((Map) received).forEach((src, msg) -> {
-                receiveMessage((DeviceUID) src, (Map<CodePath, Object>) msg);
-            });
+            ((Map) received).forEach((src, msg) -> receiveMessage((DeviceUID) src, (Map<CodePath, Object>) msg));
         }
     }
 
-    private void receiveMessage(final DeviceUID src, final Map<CodePath, Object> msg) {
+    private void receiveMessage(DeviceUID src, Map<CodePath, Object> msg) {
         messages.put(src, msg);
     }
 
-    /**
-     * Called by ProtelisVM.
-     * @return the currently stored messages.
-     */
     @Override
     public Map<DeviceUID, Map<CodePath, Object>> getNeighborState() {
         Map<DeviceUID, Map<CodePath, Object>> t = messages;
@@ -97,24 +106,38 @@ public class SocketNetworkManager implements NetworkManager {
         return t;
     }
 
-    /**
-     * Called by ProtelisVM.
-     * Creates a new socket and sends a message to every neighbor.
-     * @param toSend the message to be sent.
-     */
     @Override
-    public void shareState(final Map<CodePath, Object> toSend) {
+    public void shareState(Map<CodePath, Object> toSend) {
+        Map<DeviceUID, Map<CodePath, Object>> msg = Stream.of(
+                new AbstractMap.SimpleImmutableEntry<>(uid, toSend)
+        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         neighbors.forEach(n -> {
+            AsynchronousSocketChannel client = null;
+            ObjectOutputStream oos = null;
             try {
-                Socket socket = new Socket(n.getHost(), n.getPort());
-                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-                Map<DeviceUID, Map<CodePath, Object>> msg = Stream.of(
-                        new AbstractMap.SimpleImmutableEntry<>(uid, toSend)
-                ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-                outputStream.writeObject(msg);
-                socket.close();
-            } catch (IOException e) {
+                client = AsynchronousSocketChannel.open();
+                InetSocketAddress hostAddress = new InetSocketAddress(n.getHost(), n.getPort());
+                Future<Void> future = client.connect(hostAddress);
+                future.get();
+                oos = new ObjectOutputStream(Channels.newOutputStream(client));
+                oos.writeObject(msg);
+            } catch (IOException | InterruptedException | ExecutionException e) {
                 e.printStackTrace();
+            } finally {
+                if (oos != null) {
+                    try {
+                        oos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (client != null) {
+                    try {
+                        client.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }
