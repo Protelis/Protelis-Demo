@@ -7,9 +7,6 @@ import java.io.IOException
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.net.InetSocketAddress
-import java.net.ServerSocket
-import java.net.Socket
-import java.net.SocketTimeoutException
 import java.nio.channels.AsynchronousServerSocketChannel
 import java.nio.channels.AsynchronousSocketChannel
 import java.nio.channels.Channels
@@ -18,22 +15,8 @@ import java.util.concurrent.ExecutionException
 import kotlin.concurrent.thread
 
 class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, private val neighbors: Set<IPv4Host>, private val address: String = "127.0.0.1") : NetworkManager {
-    private val timeout = 1000
     private var messages: Map<DeviceUID, Map<CodePath, Any>> = emptyMap()
     private var running = false
-
-    fun listenP() {
-        running = true
-        val server = ServerSocket(port).also { it.soTimeout = timeout }
-        thread {
-            while (running) {
-                try {
-                    handleConnection(server.accept())
-                } catch (e: SocketTimeoutException) {
-                }
-            }
-        }
-    }
 
     fun listen() {
         if (!running) {
@@ -83,16 +66,6 @@ class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, pr
 
     fun stop() {
         running = false
-    }
-
-    private fun handleConnection(client: Socket) {
-        val received = ObjectInputStream(client.getInputStream()).readObject()
-        if (received is Map<*, *>) {
-            received.forEach { (src, msg) ->
-                receiveMessage(src as DeviceUID, msg as Map<CodePath, Any>)
-            }
-        }
-        client.close()
     }
 
     private fun receiveMessage(src: DeviceUID, msg: Map<CodePath, Any>) {
