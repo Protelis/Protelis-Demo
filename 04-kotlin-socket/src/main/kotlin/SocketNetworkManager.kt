@@ -106,14 +106,6 @@ class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, pr
                 }
             }
         }
-        /*
-        neighbors.forEach {
-            val socket = Socket(it.host, it.port)
-            val stream = ObjectOutputStream(socket.getOutputStream())
-            val message = mapOf(Pair(uid, toSend))
-            stream.writeObject(message)
-            socket.close()
-        }*/
     }
 
     override fun getNeighborState(): Map<DeviceUID, Map<CodePath, Any>> =
