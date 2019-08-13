@@ -12,32 +12,32 @@ import org.protelis.vm.impl.SimpleExecutionEnvironment;
  */
 public class DeviceCapabilities extends AbstractExecutionContext implements Speaker {
 
-    private final IntDeviceUID uid;
+    private final IntDeviceUID deviceUID;
     private final Speaker speaker;
 
     /**
      * Constructor method.
-     * @param uid the device id
+     * @param deviceUID the device id
      * @param netmgr the device network manager
      * @param speaker the speaker strategy
      */
-    public DeviceCapabilities(final int uid, final NetworkManager netmgr, final Speaker speaker) {
+    public DeviceCapabilities(final int deviceUID, final NetworkManager netmgr, final Speaker speaker) {
         super(new SimpleExecutionEnvironment(), netmgr);
-        this.uid = new IntDeviceUID(uid);
+        this.deviceUID = new IntDeviceUID(deviceUID);
         this.speaker = speaker;
     }
 
     /**
      * Constructor method with CodePathFactory.
-     * @param uid the device id
+     * @param deviceUID the device id
      * @param netmgr the device network manager
      * @param codePathFactory the code path factory
      * @param speaker the speaker strategy
      */
-    public DeviceCapabilities(final int uid, final NetworkManager netmgr, final CodePathFactory codePathFactory,
+    public DeviceCapabilities(final int deviceUID, final NetworkManager netmgr, final CodePathFactory codePathFactory,
                               final Speaker speaker) {
         super(new SimpleExecutionEnvironment(), netmgr, codePathFactory);
-        this.uid = new IntDeviceUID(uid);
+        this.deviceUID = new IntDeviceUID(deviceUID);
         this.speaker = speaker;
     }
 
@@ -55,7 +55,7 @@ public class DeviceCapabilities extends AbstractExecutionContext implements Spea
      */
     @Override
     protected AbstractExecutionContext instance() {
-        return new DeviceCapabilities(this.uid.getUID(), getNetworkManager(), speaker);
+        return new DeviceCapabilities(this.deviceUID.getUid(), getNetworkManager(), speaker);
     }
 
     /**
@@ -64,7 +64,15 @@ public class DeviceCapabilities extends AbstractExecutionContext implements Spea
      */
     @Override
     public DeviceUID getDeviceUID() {
-        return uid;
+        return deviceUID;
+    }
+
+    /**
+     * Getter for the speaker.
+     * @return the speaker
+     */
+    public Speaker getSpeaker() {
+        return speaker;
     }
 
     /**

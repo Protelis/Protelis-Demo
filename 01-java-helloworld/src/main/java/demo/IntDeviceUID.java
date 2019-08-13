@@ -9,6 +9,7 @@ import java.util.Objects;
  */
 public class IntDeviceUID implements DeviceUID, Comparable<IntDeviceUID> {
 
+    private static final long serialVersionUID = 1L;
     private final int uid;
 
     /**
@@ -23,7 +24,7 @@ public class IntDeviceUID implements DeviceUID, Comparable<IntDeviceUID> {
      * Getter for the id.
      * @return an integer which represents the unique id.
      */
-    public int getUID() {
+    public int getUid() {
         return uid;
     }
 
@@ -35,7 +36,7 @@ public class IntDeviceUID implements DeviceUID, Comparable<IntDeviceUID> {
      */
     @Override
     public int compareTo(final IntDeviceUID o) {
-        return equals(o) ? 0 : ((uid < o.getUID()) ? -1 : 1);
+        return equals(o) ? 0 : ((uid < o.getUid()) ? -1 : 1);
     }
 
     /**

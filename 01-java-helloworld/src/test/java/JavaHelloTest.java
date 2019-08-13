@@ -33,23 +33,24 @@ class JavaHelloTest {
     private static final List<Device> devices = new ArrayList<>();
     @SuppressWarnings("checkstyle:constantname")
     private static final List<Speaker> speakers = new ArrayList<>();
+    private static Graph<Device, DefaultEdge> graph;
 
     @BeforeAll
     static void init() {
-        Graph<Device, DefaultEdge> g = new DefaultUndirectedGraph<>(DefaultEdge.class);
+        graph = new DefaultUndirectedGraph<>(DefaultEdge.class);
         for (int i = 0; i < N; i++) {
             ProtelisProgram program = ProtelisLoader.parse(PROTELIS_MODULE_NAME);
             ConsoleSpeaker speaker = Mockito.spy(new ConsoleSpeaker());
             speakers.add(speaker);
             Device device = new Device(program, i, new EmulatedNetworkManager(new IntDeviceUID(i)), speaker);
             devices.add(device);
-            g.addVertex(device);
+            graph.addVertex(device);
         }
         devices.get(LEADER).getDeviceCapabilities().getExecutionEnvironment().put("leader", true);
         for (int i = 0; i < devices.size(); i++) {
-            g.addEdge(devices.get(i), devices.get((i + 1) % devices.size()));
+            graph.addEdge(devices.get(i), devices.get((i + 1) % devices.size()));
         }
-        devices.forEach(d -> ((EmulatedNetworkManager) d.getNetworkManager()).setNeighbors(Graphs.neighborSetOf(g, d)));
+        devices.forEach(d -> ((EmulatedNetworkManager) d.getNetworkManager()).setNeighbors(Graphs.neighborSetOf(graph, d)));
         for (int i = 0; i < ITERATIONS; i++) {
             devices.forEach(Device::runCycle);
         }
