@@ -17,6 +17,7 @@ import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.Collections;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
@@ -28,32 +29,32 @@ import java.util.stream.Stream;
 public class SocketNetworkManager implements NetworkManager {
 
     private static final String DEFAULT_ADDRESS = "127.0.0.1";
-    private Map<DeviceUID, Map<CodePath, Object>> messages = new HashMap<>();
-    private final DeviceUID uid;
+    private transient Map<DeviceUID, Map<CodePath, Object>> messages = new HashMap<>();
+    private final DeviceUID deviceUID;
     private final String address;
     private final int port;
     private final Set<IPv4Host> neighbors;
-    private Thread t = null;
+    private transient Thread t = null;
 
     /**
      * constructor method for device with default address.
-     * @param uid the device id
+     * @param deviceUID the device id
      * @param port port of the server for incoming message
      * @param neighbors the neighbors the device has to send his messages to
      */
-    public SocketNetworkManager(final DeviceUID uid, final int port, final Set<IPv4Host> neighbors) {
-        this(uid, DEFAULT_ADDRESS, port, neighbors);
+    public SocketNetworkManager(final DeviceUID deviceUID, final int port, final Set<IPv4Host> neighbors) {
+        this(deviceUID, DEFAULT_ADDRESS, port, neighbors);
     }
 
     /**
      * constructor method for device with default address.
-     * @param uid the device id
+     * @param deviceUID the device id
      * @param address address of the server for incoming message
      * @param port port of the server for incoming message
      * @param neighbors the neighbors the device has to send his messages to
      */
-    public SocketNetworkManager(final DeviceUID uid, final String address, final int port, final Set<IPv4Host> neighbors) {
-        this.uid = uid;
+    public SocketNetworkManager(final DeviceUID deviceUID, final String address, final int port, final Set<IPv4Host> neighbors) {
+        this.deviceUID = deviceUID;
         this.address = address;
         this.port = port;
         this.neighbors = neighbors;
@@ -139,7 +140,7 @@ public class SocketNetworkManager implements NetworkManager {
     @Override
     public void shareState(final Map<CodePath, Object> toSend) {
         Map<DeviceUID, Map<CodePath, Object>> msg = Stream.of(
-                new AbstractMap.SimpleImmutableEntry<>(uid, toSend)
+                new AbstractMap.SimpleImmutableEntry<>(deviceUID, toSend)
         ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         neighbors.forEach(n -> {
             AsynchronousSocketChannel client = null;
@@ -170,5 +171,37 @@ public class SocketNetworkManager implements NetworkManager {
                 }
             }
         });
+    }
+
+    /**
+     * Getter for the device id.
+     * @return the device id
+     */
+    public DeviceUID getDeviceUID() {
+        return deviceUID;
+    }
+
+    /**
+     * Getter for the server address.
+     * @return the server address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * Getter for the server port.
+     * @return the server port
+     */
+    public int getPort() {
+        return port;
+    }
+
+    /**
+     * Getter for the neighbors.
+     * @return the neighbors
+     */
+    public Set<IPv4Host> getNeighbors() {
+        return Collections.unmodifiableSet(neighbors);
     }
 }
