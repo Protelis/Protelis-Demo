@@ -1,3 +1,6 @@
+package demo;
+
+import com.google.common.annotations.VisibleForTesting;
 import demo.ConsoleSpeaker;
 import demo.Device;
 import demo.EmulatedNetworkManager;
@@ -18,6 +21,7 @@ import org.protelis.vm.ProtelisProgram;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.mockito.Mockito.times;
 
@@ -30,53 +34,55 @@ class JavaHelloTest {
     private static final int ITERATIONS = 3;
     private static final int LEADER = 0;
     @SuppressWarnings("checkstyle:constantname")
-    private static final List<Device> devices = new ArrayList<>();
+    private static final List<Device> DEVICES = new ArrayList<>();
     @SuppressWarnings("checkstyle:constantname")
-    private static final List<Speaker> speakers = new ArrayList<>();
+    private static final List<Speaker> SPEAKERS = new ArrayList<>();
     private static Graph<Device, DefaultEdge> graph;
 
     @BeforeAll
+    @VisibleForTesting
     static void init() {
         graph = new DefaultUndirectedGraph<>(DefaultEdge.class);
         for (int i = 0; i < N; i++) {
-            ProtelisProgram program = ProtelisLoader.parse(PROTELIS_MODULE_NAME);
-            ConsoleSpeaker speaker = Mockito.spy(new ConsoleSpeaker());
-            speakers.add(speaker);
-            Device device = new Device(program, i, new EmulatedNetworkManager(new IntDeviceUID(i)), speaker);
-            devices.add(device);
+            final ProtelisProgram program = ProtelisLoader.parse(PROTELIS_MODULE_NAME);
+            final ConsoleSpeaker speaker = Mockito.spy(new ConsoleSpeaker());
+            SPEAKERS.add(speaker);
+            final Device device = new Device(program, i, new EmulatedNetworkManager(new IntDeviceUID(i)), speaker);
+            DEVICES.add(device);
             graph.addVertex(device);
         }
-        devices.get(LEADER).getDeviceCapabilities().getExecutionEnvironment().put("leader", true);
-        for (int i = 0; i < devices.size(); i++) {
-            graph.addEdge(devices.get(i), devices.get((i + 1) % devices.size()));
-        }
-        devices.forEach(d -> ((EmulatedNetworkManager) d.getNetworkManager()).setNeighbors(Graphs.neighborSetOf(graph, d)));
+        DEVICES.get(LEADER).getDeviceCapabilities().getExecutionEnvironment().put("leader", true);
+        IntStream.range(0, DEVICES.size()).forEach(i -> graph.addEdge(DEVICES.get(i), DEVICES.get((i + 1) % DEVICES.size())));
+        DEVICES.forEach(d -> ((EmulatedNetworkManager) d.getNetworkManager()).setNeighbors(Graphs.neighborSetOf(graph, d)));
         for (int i = 0; i < ITERATIONS; i++) {
-            devices.forEach(Device::runCycle);
+            DEVICES.forEach(Device::runCycle);
         }
     }
 
     @Test
+    @VisibleForTesting
     @DisplayName("The leader count should be correct")
     void testLeaderCount() {
         float c = 3f;
         for (int i = 0; i < ITERATIONS; i++) {
-            Mockito.verify(speakers.get(LEADER)).announce("The leader's count is: " + c--);
+            Mockito.verify(SPEAKERS.get(LEADER)).announce("The leader's count is: " + c--);
         }
     }
 
     @Test
+    @VisibleForTesting
     @DisplayName("The leader should be at " + LEADER)
     void testLeaderMessage() {
-        Mockito.verify(speakers.get(LEADER), times(ITERATIONS)).announce("The leader is at 0");
+        Mockito.verify(SPEAKERS.get(LEADER), times(ITERATIONS)).announce("The leader is at 0");
     }
 
     @Test
+    @VisibleForTesting
     @DisplayName("The leader neighbors should say something")
     void testNeighborsMessage() {
-        int prev = (LEADER + N - 1) % N;
-        int next = (LEADER + 1) % N;
-        Mockito.verify(speakers.get(prev), times(ITERATIONS)).announce("Hello from the leader to its neighbor at " + prev);
-        Mockito.verify(speakers.get(next), times(ITERATIONS)).announce("Hello from the leader to its neighbor at " + next);
+        final int prev = (LEADER + N - 1) % N;
+        final int next = (LEADER + 1) % N;
+        Mockito.verify(SPEAKERS.get(prev), times(ITERATIONS)).announce("Hello from the leader to its neighbor at " + prev);
+        Mockito.verify(SPEAKERS.get(next), times(ITERATIONS)).announce("Hello from the leader to its neighbor at " + next);
     }
 }

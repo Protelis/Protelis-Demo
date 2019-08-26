@@ -36,7 +36,7 @@ public class IntDeviceUID implements DeviceUID, Comparable<IntDeviceUID> {
      */
     @Override
     public int compareTo(final IntDeviceUID o) {
-        return equals(o) ? 0 : ((uid < o.getUid()) ? -1 : 1);
+        return equals(o) ? 0 : uid < o.getUid() ? -1 : 1;
     }
 
     /**
@@ -52,7 +52,7 @@ public class IntDeviceUID implements DeviceUID, Comparable<IntDeviceUID> {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        IntDeviceUID that = (IntDeviceUID) o;
+        final IntDeviceUID that = (IntDeviceUID) o;
         return uid == that.uid;
     }
 

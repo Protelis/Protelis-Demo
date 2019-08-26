@@ -77,7 +77,7 @@ public class EmulatedNetworkManager implements NetworkManager {
      */
     @Override
     public Map<DeviceUID, Map<CodePath, Object>> getNeighborState() {
-        Map<DeviceUID, Map<CodePath, Object>> t = messages;
+        final Map<DeviceUID, Map<CodePath, Object>> t = messages;
         messages = new HashMap<>();
         return t;
     }

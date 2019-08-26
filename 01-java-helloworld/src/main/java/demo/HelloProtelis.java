@@ -9,6 +9,7 @@ import org.protelis.vm.ProtelisProgram;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * Example usage of the implemented classes.
@@ -32,17 +33,15 @@ public final class HelloProtelis {
         graph = new DefaultUndirectedGraph<>(DefaultEdge.class);
         // Initialize some devices
         for (int i = 0; i < n; i++) {
-            ProtelisProgram program = ProtelisLoader.parse(PROTELIS_MODULE_NAME);
-            Device d = new Device(program, i, new EmulatedNetworkManager(new IntDeviceUID(i)), new ConsoleSpeaker());
+            final ProtelisProgram program = ProtelisLoader.parse(PROTELIS_MODULE_NAME);
+            final Device d = new Device(program, i, new EmulatedNetworkManager(new IntDeviceUID(i)), new ConsoleSpeaker());
             devices.add(d);
             graph.addVertex(d);
         }
         // Make the first one leader
         devices.get(0).getDeviceCapabilities().getExecutionEnvironment().put("leader", true);
         // Add the devices into the graph and link them as a ring network
-        for (int i = 0; i < devices.size(); i++) {
-            graph.addEdge(devices.get(i), devices.get((i + 1) % devices.size()));
-        }
+        IntStream.range(0, devices.size()).forEach(i -> graph.addEdge(devices.get(i), devices.get((i + 1) % devices.size())));
         // Let the devices know the network topology
         devices.forEach(d -> ((EmulatedNetworkManager) d.getNetworkManager()).setNeighbors(Graphs.neighborSetOf(graph, d)));
         // Let the devices execute 3 times
