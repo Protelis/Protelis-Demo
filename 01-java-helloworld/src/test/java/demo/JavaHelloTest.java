@@ -1,11 +1,6 @@
 package demo;
 
 import com.google.common.annotations.VisibleForTesting;
-import demo.ConsoleSpeaker;
-import demo.Device;
-import demo.EmulatedNetworkManager;
-import demo.IntDeviceUID;
-import demo.Speaker;
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.DefaultEdge;
