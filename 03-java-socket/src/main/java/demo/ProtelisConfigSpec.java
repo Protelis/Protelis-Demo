@@ -18,19 +18,22 @@ public final class ProtelisConfigSpec {
     /**
      * Required field iterations. It represents the number of cycles the simulation will perform.
      */
-    @SuppressWarnings({"checkstyle:constantname", "PMD.FieldNamingConventions"})
+    @SuppressWarnings("PMD.FieldNamingConventions")
+    // CHECKSTYLE: ConstantName OFF
     public static final RequiredItem<Integer> iterations =
             new RequiredItem<Integer>(SPEC, "iterations") { };
     /**
      * Required field protelisModuleName. It is the name of the .pt source file.
      */
-    @SuppressWarnings({"checkstyle:constantname", "PMD.FieldNamingConventions"})
+    @SuppressWarnings("PMD.FieldNamingConventions")
+    // CHECKSTYLE: ConstantName OFF
     public static final RequiredItem<String> protelisModuleName =
             new RequiredItem<String>(SPEC, "protelisModuleName") { };
     /**
      * Required field nodes. It contains a list of protelis nodes.
      */
-    @SuppressWarnings({"checkstyle:constantname", "PMD.FieldNamingConventions"})
+    @SuppressWarnings("PMD.FieldNamingConventions")
+    // CHECKSTYLE: ConstantName OFF
     public static final RequiredItem<List<ProtelisNode>> nodes =
             new RequiredItem<List<ProtelisNode>>(SPEC, "nodes") { };
 

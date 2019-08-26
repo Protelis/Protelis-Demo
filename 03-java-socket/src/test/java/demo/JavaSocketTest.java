@@ -28,9 +28,7 @@ import static org.mockito.Mockito.times;
 class JavaSocketTest {
 
     private static int iterations;
-    @SuppressWarnings("checkstyle:constantname")
     private static final List<Device> DEVICES = new ArrayList<>();
-    @SuppressWarnings("checkstyle:constantname")
     private static final List<Speaker> SPEAKERS = new ArrayList<>();
     private static Config config = new BaseConfig();
     private static List<ProtelisNode> nodes;

@@ -28,9 +28,7 @@ class JavaHelloTest {
     private static final int N = 5;
     private static final int ITERATIONS = 3;
     private static final int LEADER = 0;
-    @SuppressWarnings("checkstyle:constantname")
     private static final List<Device> DEVICES = new ArrayList<>();
-    @SuppressWarnings("checkstyle:constantname")
     private static final List<Speaker> SPEAKERS = new ArrayList<>();
     private static Graph<Device, DefaultEdge> graph;
 
