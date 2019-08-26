@@ -25,6 +25,8 @@
         <exclude name="PositionLiteralsFirstInComparisons" />
         <exclude name="UseVarargs" />
         <exclude name="SystemPrintln" />
+        <exclude name="AvoidUsingHardCodedIP" />
+        <exclude name="AvoidPrintStackTrace" />
     </rule>
     <rule ref="category/java/codestyle.xml">
         <exclude name="AbstractNaming" />
