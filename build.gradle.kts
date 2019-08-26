@@ -49,6 +49,7 @@ configure(subprojects.filter { it.name.contains("java") }) {
 
 configure(subprojects.filter { it.name.contains("kotlin") }) {
     apply(plugin = "kotlin")
+    apply(plugin = "com.github.spotbugs")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
     dependencies {
         implementation(Libs.kotlin_stdlib)

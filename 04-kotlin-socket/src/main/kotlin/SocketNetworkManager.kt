@@ -90,19 +90,15 @@ class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, pr
             } catch (e: ExecutionException) {
                 e.printStackTrace()
             } finally {
-                if (oos != null) {
-                    try {
-                        oos.close()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
+                try {
+                    oos?.close()
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
-                if (client != null) {
-                    try {
-                        client.close()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
+                try {
+                    client?.close()
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
             }
         }
