@@ -24,6 +24,7 @@
         <exclude name="PositionLiteralsFirstInCaseInsensitiveComparisons" />
         <exclude name="PositionLiteralsFirstInComparisons" />
         <exclude name="UseVarargs" />
+        <exclude name="SystemPrintln" />
     </rule>
     <rule ref="category/java/codestyle.xml">
         <exclude name="AbstractNaming" />
