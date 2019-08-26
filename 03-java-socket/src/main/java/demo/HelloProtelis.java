@@ -17,29 +17,27 @@ public final  class HelloProtelis {
 
     private HelloProtelis() { }
 
-    @SuppressWarnings("checkstyle:constantname")
-    private static final List<Device> devices = new ArrayList<>();
-    private static Config config = new BaseConfig();
-
     /**
      * Main method.
      * @param args unutilized
      */
     public static void main(final String[] args) {
+        Config config = new BaseConfig();
         config.addSpec(ProtelisConfigSpec.SPEC);
         config = config.from().toml.resource("config.toml");
-        String protelisModuleName = config.get(ProtelisConfigSpec.protelisModuleName);
-        int iterations = config.get(ProtelisConfigSpec.iterations);
-        List<ProtelisNode> nodes = config.get(ProtelisConfigSpec.nodes);
+        final String protelisModuleName = config.get(ProtelisConfigSpec.protelisModuleName);
+        final int iterations = config.get(ProtelisConfigSpec.iterations);
+        final List<ProtelisNode> nodes = config.get(ProtelisConfigSpec.nodes);
+        final List<Device> devices = new ArrayList<>();
         nodes.forEach(n -> {
-            SocketNetworkManager netmgr = new SocketNetworkManager(new IntDeviceUID(n.getId()), n.getHostandport().getPort(), n.getNeighbors());
+            final SocketNetworkManager netmgr = new SocketNetworkManager(new IntDeviceUID(n.getId()), n.getHostandport().getPort(), n.getNeighbors());
             try {
                 netmgr.listen();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ProtelisProgram program = ProtelisLoader.parse(protelisModuleName);
-            Device node = new Device(program, n.getId(), netmgr, new ConsoleSpeaker());
+            final ProtelisProgram program = ProtelisLoader.parse(protelisModuleName);
+            final Device node = new Device(program, n.getId(), netmgr, new ConsoleSpeaker());
             if (n.isLeader()) {
                 node.getDeviceCapabilities().getExecutionEnvironment().put("leader", true);
             }

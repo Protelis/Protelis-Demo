@@ -34,7 +34,7 @@ public class SocketNetworkManager implements NetworkManager {
     private final String address;
     private final int port;
     private final Set<IPv4Host> neighbors;
-    private transient Thread t = null;
+    private transient Thread t;
 
     /**
      * constructor method for device with default address.
@@ -65,7 +65,7 @@ public class SocketNetworkManager implements NetworkManager {
      * @throws IOException If some I/O error occurs
      */
     public void listen() throws IOException {
-        AsynchronousServerSocketChannel server = AsynchronousServerSocketChannel.open();
+        final AsynchronousServerSocketChannel server = AsynchronousServerSocketChannel.open();
         server.bind(new InetSocketAddress(address, port));
         if (t == null) {
             t = new Thread(() -> {
@@ -110,8 +110,8 @@ public class SocketNetworkManager implements NetworkManager {
     }
 
     private void handleConnection(final AsynchronousSocketChannel client) throws IOException, ClassNotFoundException {
-        ObjectInputStream ois = new ObjectInputStream(Channels.newInputStream(client));
-        Object received = ois.readObject();
+        final ObjectInputStream ois = new ObjectInputStream(Channels.newInputStream(client));
+        final Object received = ois.readObject();
         ois.close();
         if (received instanceof Map) {
             ((Map) received).forEach((src, msg) -> receiveMessage((DeviceUID) src, (Map<CodePath, Object>) msg));
@@ -128,7 +128,7 @@ public class SocketNetworkManager implements NetworkManager {
      */
     @Override
     public Map<DeviceUID, Map<CodePath, Object>> getNeighborState() {
-        Map<DeviceUID, Map<CodePath, Object>> t = messages;
+        final Map<DeviceUID, Map<CodePath, Object>> t = messages;
         messages = new HashMap<>();
         return t;
     }
@@ -139,7 +139,7 @@ public class SocketNetworkManager implements NetworkManager {
      */
     @Override
     public void shareState(final Map<CodePath, Object> toSend) {
-        Map<DeviceUID, Map<CodePath, Object>> msg = Stream.of(
+        final Map<DeviceUID, Map<CodePath, Object>> msg = Stream.of(
                 new AbstractMap.SimpleImmutableEntry<>(deviceUID, toSend)
         ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         neighbors.forEach(n -> {
@@ -147,8 +147,8 @@ public class SocketNetworkManager implements NetworkManager {
             ObjectOutputStream oos = null;
             try {
                 client = AsynchronousSocketChannel.open();
-                InetSocketAddress hostAddress = new InetSocketAddress(n.getHost(), n.getPort());
-                Future<Void> future = client.connect(hostAddress);
+                final InetSocketAddress hostAddress = new InetSocketAddress(n.getHost(), n.getPort());
+                final Future<Void> future = client.connect(hostAddress);
                 future.get();
                 oos = new ObjectOutputStream(Channels.newOutputStream(client));
                 oos.writeObject(msg);
