@@ -54,13 +54,14 @@ class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, pr
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     @Throws(IOException::class, ClassNotFoundException::class)
     private fun handleConnection(client: AsynchronousSocketChannel) {
-        val ois = ObjectInputStream(Channels.newInputStream(client))
-        val received = ois.readObject()
-        ois.close()
-        when (received) {
-            is Map<*, *> -> received.forEach { src, msg -> receiveMessage(src as DeviceUID, msg as Map<CodePath, Any>) }
+        ObjectInputStream(Channels.newInputStream(client)).use {
+            val received = it.readObject()
+            when (received) {
+                is Map<*, *> -> received.forEach { src, msg -> receiveMessage(src as DeviceUID, msg as Map<CodePath, Any>) }
+            }
         }
     }
 
