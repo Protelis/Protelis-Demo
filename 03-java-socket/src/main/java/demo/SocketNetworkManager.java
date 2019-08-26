@@ -110,11 +110,12 @@ public class SocketNetworkManager implements NetworkManager {
     }
 
     private void handleConnection(final AsynchronousSocketChannel client) throws IOException, ClassNotFoundException {
-        final ObjectInputStream ois = new ObjectInputStream(Channels.newInputStream(client));
-        final Object received = ois.readObject();
-        ois.close();
-        if (received instanceof Map) {
-            ((Map) received).forEach((src, msg) -> receiveMessage((DeviceUID) src, (Map<CodePath, Object>) msg));
+        try (final ObjectInputStream ois = new ObjectInputStream(Channels.newInputStream(client))) {
+            final Object received = ois.readObject();
+            ois.close();
+            if (received instanceof Map) {
+                ((Map) received).forEach((src, msg) -> receiveMessage((DeviceUID) src, (Map<CodePath, Object>) msg));
+            }
         }
     }
 
