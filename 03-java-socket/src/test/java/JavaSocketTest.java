@@ -31,10 +31,10 @@ import static org.mockito.Mockito.times;
 class JavaSocketTest {
 
     private static int iterations;
-    @SuppressWarnings("checkstyle:constantname")
+    // CHECKSTYLE: ConstantName OFF
     private static final List<Device> devices = new ArrayList<>();
-    @SuppressWarnings("checkstyle:constantname")
     private static final List<Speaker> speakers = new ArrayList<>();
+    // CHECKSTYLE: ConstantName ON
     private static Config config = new BaseConfig();
     private static List<ProtelisNode> nodes;
     private static List<Integer> leaders;

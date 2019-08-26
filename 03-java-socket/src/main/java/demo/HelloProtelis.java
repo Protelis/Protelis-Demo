@@ -17,8 +17,9 @@ public final  class HelloProtelis {
 
     private HelloProtelis() { }
 
-    @SuppressWarnings("checkstyle:constantname")
+    // CHECKSTYLE: ConstantName OFF
     private static final List<Device> devices = new ArrayList<>();
+    // CHECKSTYLE: ConstantName ON
     private static Config config = new BaseConfig();
 
     /**

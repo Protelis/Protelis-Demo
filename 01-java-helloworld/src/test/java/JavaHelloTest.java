@@ -29,10 +29,10 @@ class JavaHelloTest {
     private static final int N = 5;
     private static final int ITERATIONS = 3;
     private static final int LEADER = 0;
-    @SuppressWarnings("checkstyle:constantname")
+    // CHECKSTYLE: ConstantName OFF
     private static final List<Device> devices = new ArrayList<>();
-    @SuppressWarnings("checkstyle:constantname")
     private static final List<Speaker> speakers = new ArrayList<>();
+    // CHECKSTYLE: ConstantName ON
 
     @BeforeAll
     static void init() {
