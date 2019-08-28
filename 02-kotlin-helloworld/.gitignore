@@ -2,11 +2,7 @@
 /build/
 /out
 
-.idea/
-
-# Ignore Eclipse project and settings
-.project
-.settings
+.kotlintest
 
 # Ignore Gradle GUI config
 gradle-app.setting
