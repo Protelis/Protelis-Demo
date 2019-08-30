@@ -15,27 +15,43 @@ import java.util.Set;
  */
 public class EmulatedNetworkManager implements NetworkManager {
 
-    private Map<DeviceUID, Map<CodePath, Object>> messages;
-    private final DeviceUID uid;
+    private transient Map<DeviceUID, Map<CodePath, Object>> messages;
+    private final DeviceUID deviceUID;
     private ImmutableSet<Device> neighbors;
 
     /**
      * Constructor method.
-     * @param uid the device id
+     * @param deviceUID the device id
      * @param neighbors the neighbors the device has to send his messages to
      */
-    public EmulatedNetworkManager(final DeviceUID uid, final Set<Device> neighbors) {
-        this.uid = uid;
-        this.setNeighbors(neighbors);
+    public EmulatedNetworkManager(final DeviceUID deviceUID, final Set<Device> neighbors) {
+        this.deviceUID = deviceUID;
+        this.neighbors = ImmutableSet.copyOf(neighbors);
         this.messages = new HashMap<>();
     }
 
     /**
      * Constructor method for devices with no neighbors.
-     * @param uid the device id
+     * @param deviceUID the device id
      */
-    public EmulatedNetworkManager(final DeviceUID uid) {
-        this(uid, Collections.emptySet());
+    public EmulatedNetworkManager(final DeviceUID deviceUID) {
+        this(deviceUID, Collections.emptySet());
+    }
+
+    /**
+     * Getter for the device id.
+     * @return the device id
+     */
+    public DeviceUID getDeviceUID() {
+        return deviceUID;
+    }
+
+    /**
+     * Getter for the neighbors.
+     * @return the neighbors
+     */
+    public ImmutableSet<Device> getNeighbors() {
+        return neighbors;
     }
 
     /**
@@ -61,7 +77,7 @@ public class EmulatedNetworkManager implements NetworkManager {
      */
     @Override
     public Map<DeviceUID, Map<CodePath, Object>> getNeighborState() {
-        Map<DeviceUID, Map<CodePath, Object>> t = messages;
+        final Map<DeviceUID, Map<CodePath, Object>> t = messages;
         messages = new HashMap<>();
         return t;
     }
@@ -72,6 +88,6 @@ public class EmulatedNetworkManager implements NetworkManager {
      */
     @Override
     public void shareState(final Map<CodePath, Object> toSend) {
-        neighbors.forEach(d -> ((EmulatedNetworkManager) d.getNetworkManager()).receiveMessage(uid, toSend));
+        neighbors.forEach(d -> ((EmulatedNetworkManager) d.getNetworkManager()).receiveMessage(deviceUID, toSend));
     }
 }

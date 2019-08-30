@@ -11,8 +11,6 @@ import java.util.List;
  */
 public final class ProtelisConfigSpec {
 
-    private ProtelisConfigSpec() { }
-
     /**
      * Create a new config specification named protelis.
      */
@@ -20,18 +18,24 @@ public final class ProtelisConfigSpec {
     /**
      * Required field iterations. It represents the number of cycles the simulation will perform.
      */
+    @SuppressWarnings("PMD.FieldNamingConventions")
     // CHECKSTYLE: ConstantName OFF
     public static final RequiredItem<Integer> iterations =
             new RequiredItem<Integer>(SPEC, "iterations") { };
     /**
      * Required field protelisModuleName. It is the name of the .pt source file.
      */
+    @SuppressWarnings("PMD.FieldNamingConventions")
+    // CHECKSTYLE: ConstantName OFF
     public static final RequiredItem<String> protelisModuleName =
             new RequiredItem<String>(SPEC, "protelisModuleName") { };
     /**
      * Required field nodes. It contains a list of protelis nodes.
      */
+    @SuppressWarnings("PMD.FieldNamingConventions")
+    // CHECKSTYLE: ConstantName OFF
     public static final RequiredItem<List<ProtelisNode>> nodes =
             new RequiredItem<List<ProtelisNode>>(SPEC, "nodes") { };
-    // CHECKSTYLE: ConstantName ON
+
+    private ProtelisConfigSpec() { }
 }
