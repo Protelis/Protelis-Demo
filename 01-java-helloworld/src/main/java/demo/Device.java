@@ -11,20 +11,20 @@ import org.protelis.vm.impl.HashingCodePathFactory;
  */
 public class Device {
 
-    private final ProtelisVM vm;
+    private final transient ProtelisVM vm;
     private final DeviceCapabilities deviceCapabilities;
-    private final NetworkManager netmgr;
+    private final NetworkManager networkManager;
 
     /**
      * Constructor method.
      * @param program the Program to be loaded
      * @param uid the unique identifier of this node
-     * @param netmgr the network manager to use
+     * @param networkManager the network manager to use
      * @param speaker the speaker strategy
      */
-    public Device(final ProtelisProgram program, final int uid, final NetworkManager netmgr, final Speaker speaker) {
-        this.netmgr = netmgr;
-        this.deviceCapabilities = new DeviceCapabilities(uid, netmgr, new HashingCodePathFactory(Hashing.sha256()), speaker);
+    public Device(final ProtelisProgram program, final int uid, final NetworkManager networkManager, final Speaker speaker) {
+        this.networkManager = networkManager;
+        this.deviceCapabilities = new DeviceCapabilities(uid, networkManager, new HashingCodePathFactory(Hashing.sha256()), speaker);
         this.vm = new ProtelisVM(program, deviceCapabilities);
     }
 
@@ -33,7 +33,7 @@ public class Device {
      * @return the network manager
      */
     public NetworkManager getNetworkManager() {
-        return netmgr;
+        return networkManager;
     }
 
     /**
