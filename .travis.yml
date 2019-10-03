@@ -23,7 +23,9 @@ env:
     - *reference_jdk
     - JDK="adopt@1.8"
     - JDK="adopt@1.12"
+    # OpenJ9 will be enabled once mockk/mockk#337 is fixed
     - JDK="adopt-openj9@1.8"
+    - JDK="adopt-openj9@1.11"
     - JDK="adopt-openj9@1.12"
 matrix:
   exclude:
