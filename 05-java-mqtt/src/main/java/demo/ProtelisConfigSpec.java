@@ -38,7 +38,7 @@ public final class ProtelisConfigSpec {
     @SuppressWarnings("PMD.FieldNamingConventions")
     // CHECKSTYLE: ConstantName OFF
     public static final RequiredItem<String> brokerHost =
-            new RequiredItem<>(SPEC, "brokerHost") { };
+            new RequiredItem<String>(SPEC, "brokerHost") { };
 
     /**
      * Required field brokerPort. It is the port of the MQTT broker.
@@ -46,7 +46,7 @@ public final class ProtelisConfigSpec {
     @SuppressWarnings("PMD.FieldNamingConventions")
     // CHECKSTYLE: ConstantName OFF
     public static final RequiredItem<Integer> brokerPort =
-            new RequiredItem<>(SPEC, "brokerPort") { };
+            new RequiredItem<Integer>(SPEC, "brokerPort") { };
 
     /**
      * Required field nodes. It contains a list of protelis nodes.
