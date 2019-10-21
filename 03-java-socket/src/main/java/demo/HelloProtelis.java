@@ -13,13 +13,13 @@ import java.util.List;
 /**
  * Example usage of the implemented classes.
  */
-public final  class HelloProtelis {
+public final class HelloProtelis {
 
     private HelloProtelis() { }
 
     /**
      * Main method.
-     * @param args unutilized
+     * @param args unused 
      */
     public static void main(final String[] args) {
         Config config = new BaseConfig();
