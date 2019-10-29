@@ -1,0 +1,27 @@
+[protelis]
+iterations = 20
+protelisModuleName = "hello"
+brokerHost = "localhost"
+brokerPort = 1883
+
+[[protelis.nodes]]
+    id = 0
+    listen = "host/0"
+    neighbors = [ "host/1", "host/4" ]
+    leader = true
+[[protelis.nodes]]
+    id = 1
+    listen = "host/1"
+    neighbors = [ "host/0", "host/2" ]
+[[protelis.nodes]]
+    id = 2
+    listen = "host/2"
+    neighbors = [ "host/1", "host/3" ]
+[[protelis.nodes]]
+    id = 3
+    listen = "host/3"
+    neighbors = [ "host/2", "host/4" ]
+[[protelis.nodes]]
+    id = 4
+    listen = "host/4"
+    neighbors = [ "host/3", "host/0" ]
