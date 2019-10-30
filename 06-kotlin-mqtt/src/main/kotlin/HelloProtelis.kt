@@ -2,7 +2,6 @@ package demo
 
 import com.uchuhimo.konf.Config
 import org.protelis.lang.ProtelisLoader
-import org.protelis.vm.NetworkManager
 
 class Main {
 

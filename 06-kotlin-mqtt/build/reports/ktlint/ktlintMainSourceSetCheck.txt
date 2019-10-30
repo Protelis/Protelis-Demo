@@ -1,2 +1,0 @@
-[90m/home/filo/universita/3/tirocinio/Protelis-Demo/06-kotlin-mqtt/src/main/kotlin/[0mMqttNetworkManager.kt[90m:[0m17[90m:54:[0m Unnecessary space(s)
-[90m/home/filo/universita/3/tirocinio/Protelis-Demo/06-kotlin-mqtt/src/main/kotlin/[0mMqttNetworkManager.kt[90m:[0m19[90m:31:[0m Unexpected spacing before ":"
