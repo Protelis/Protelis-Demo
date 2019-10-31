@@ -51,7 +51,7 @@ class JavaMqttTest {
                 .map(MqttProtelisNode::getId)
                 .collect(Collectors.toList());
         nodes.forEach(n -> {
-            final MqttNetworkManager netmgr = new MqttNetworkManager(new IntDeviceUID(n.getId()), n.getNeighbors());
+            final MqttNetworkManager netmgr = new MqttNetworkManager(new IntDeviceUID(n.getId()), "127.0.0.1", 11883, n.getNeighbors());
             try {
                 netmgr.listen(n.getListen());
             } catch (MqttException e) {
