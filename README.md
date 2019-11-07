@@ -70,6 +70,8 @@ This project includes the following implementations of Protelis:
 - `02-kotlin-helloworld`: Same as above but in Kotlin;
 - `03-java-socket`: Java implementation using sockets to make nodes communicate.
 - `04-kotlin-socket`: Same as above but in Kotlin.
+- `05-java-mqtt`: Java implementation using MQTT protocol to make nodes communicate.
+- `06-kotlin-mqtt`: Same as above but in Kotlin.
 
 ## Usage
 
