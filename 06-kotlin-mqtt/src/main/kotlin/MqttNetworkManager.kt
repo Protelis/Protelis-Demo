@@ -12,7 +12,13 @@ import java.io.ByteArrayOutputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 
-class MqttNetworkManager(private val uid: DeviceUID, address: String, port: Int, private val qos: Int, private val neighbors: Set<String>) : NetworkManager {
+class MqttNetworkManager(
+    private val uid: DeviceUID,
+    address: String, port: Int,
+    private val qos: Int,
+    private val neighbors: Set<String>
+) : NetworkManager {
+
     private var messages: Map<DeviceUID, Map<CodePath, Any>> = emptyMap()
     private val broker = "tcp://$address:$port"
     private var mqttClient = MqttAsyncClient(broker, uid.hashCode().toString(), MemoryPersistence())
@@ -73,6 +79,6 @@ class MqttNetworkManager(private val uid: DeviceUID, address: String, port: Int,
      * returned should not be modified, and [ProtelisVM] will not
      * change it either.
      */
-    override fun getNeighborState(): Map<DeviceUID, Map<CodePath, Any>> =
-            messages.apply { messages = emptyMap() }
+    override fun getNeighborState(): Map<DeviceUID, Map<CodePath, Any>> = messages
+        .apply { messages = emptyMap() }
 }
