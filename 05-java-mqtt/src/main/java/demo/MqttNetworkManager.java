@@ -107,10 +107,15 @@ public class MqttNetworkManager implements NetworkManager {
 
     @SuppressWarnings("PMD.UnusedFormalParameter")
     private void handleMessage(final String topic, final MqttMessage message) throws IOException, ClassNotFoundException {
-        final Object received = new ObjectInputStream(new ByteArrayInputStream(message.getPayload()))
-                .readObject();
-        if (received instanceof Map) {
-            ((Map) received).forEach((src, msg) -> receiveMessage((DeviceUID) src, (Map<CodePath, Object>) msg));
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(new ByteArrayInputStream(message.getPayload()))) {
+            final Object received = objectInputStream.readObject();
+            if (received instanceof Map<?, ?>) {
+                ((Map<?, ?>) received).forEach((src, msg) -> {
+                    if (src instanceof DeviceUID && msg instanceof Map<?, ?>) {
+                        receiveMessage((DeviceUID) src, (Map<CodePath, Object>) msg);
+                    }
+                });
+            }
         }
     }
 
@@ -138,16 +143,14 @@ public class MqttNetworkManager implements NetworkManager {
         final Map<DeviceUID, Map<CodePath, Object>> msg = Stream.of(
                 new AbstractMap.SimpleImmutableEntry<>(deviceUID, toSend)
         ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutput out = null;
-        try {
-            out = new ObjectOutputStream(bos);
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+            final ObjectOutput out = new ObjectOutputStream(bos);
             out.writeObject(msg);
             out.flush();
             final MqttMessage message = new MqttMessage(bos.toByteArray());
             neighbors.forEach(publish(message));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalStateException(e);
         }
     }
 
@@ -156,7 +159,7 @@ public class MqttNetworkManager implements NetworkManager {
             try {
                 mqttClient.publish(topic, message).waitForCompletion();
             } catch (MqttException e) {
-                e.printStackTrace();
+                throw new IllegalStateException(e);
             }
         };
     }

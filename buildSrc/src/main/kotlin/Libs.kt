@@ -31,9 +31,17 @@ object Libs {
      * http://mockk.io */
     const val mockk: String = "io.mockk:mockk:" + Versions.mockk
 
+    const val moquette_broker: String = "io.moquette:moquette-broker:" + Versions.moquette_broker
+
     const val org_danilopianini_git_sensitive_semantic_versioning_gradle_plugin: String =
             "org.danilopianini.git-sensitive-semantic-versioning:org.danilopianini.git-sensitive-semantic-versioning.gradle.plugin:" +
             Versions.org_danilopianini_git_sensitive_semantic_versioning_gradle_plugin
+
+    /**
+     * http://www.eclipse.org/paho */
+    const val org_eclipse_paho_client_mqttv3: String =
+            "org.eclipse.paho:org.eclipse.paho.client.mqttv3:" +
+            Versions.org_eclipse_paho_client_mqttv3
 
     const val org_jetbrains_kotlin_jvm_gradle_plugin: String =
             "org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin:" +
@@ -43,6 +51,11 @@ object Libs {
      * https://kotlinlang.org/ */
     const val kotlin_scripting_compiler_embeddable: String =
             "org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:" +
+            Versions.org_jetbrains_kotlin
+
+    /**
+     * https://kotlinlang.org/ */
+    const val kotlin_stdlib_jdk8: String = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:" +
             Versions.org_jetbrains_kotlin
 
     /**

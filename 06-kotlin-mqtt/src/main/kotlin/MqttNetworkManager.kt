@@ -12,13 +12,24 @@ import java.io.ByteArrayOutputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 
+/**
+ * Network Manager implementation which uses a MQTT broker to communicate.
+ */
 class MqttNetworkManager(private val uid: DeviceUID, address: String, port: Int, private val qos: Int, private val neighbors: Set<String>) : NetworkManager {
     private var messages: Map<DeviceUID, Map<CodePath, Any>> = emptyMap()
     private val broker = "tcp://$address:$port"
     private var mqttClient = MqttAsyncClient(broker, uid.hashCode().toString(), MemoryPersistence())
 
+    /**
+     * Constructor which uses some defaults.
+     */
     constructor(uid: DeviceUID, neighbors: Set<String>) : this(uid, "127.0.0.1", 1883, 2, neighbors)
 
+    /**
+     * Starts the MQTT client and subscribes to the target topic.
+     * @param topic the topic the client should listen to.
+     * @return a token to track the asynchronous task.
+     */
     fun listen(topic: String): IMqttToken {
         mqttClient.connect().waitForCompletion()
         return mqttClient.subscribe(topic, qos, null, null, this::handleMessage)
@@ -38,7 +49,12 @@ class MqttNetworkManager(private val uid: DeviceUID, address: String, port: Int,
         messages += Pair(src, msg)
     }
 
+    /**
+     * Shutdowns the MQTT client.
+     * @return the token to track the asynchronous task
+     */
     fun stop() = mqttClient.disconnect()
+
     /**
      * Called by [ProtelisVM] during execution to send its current shared
      * state to neighbors. The call is serial within the execution, so this
@@ -48,7 +64,7 @@ class MqttNetworkManager(private val uid: DeviceUID, address: String, port: Int,
      * @param toSend
      * Shared state to be transmitted to neighbors.
      */
-    override fun shareState(toSend: MutableMap<CodePath, Any>?) {
+    override fun shareState(toSend: MutableMap<CodePath, Any>) {
         val message = mapOf(Pair(uid, toSend))
         val bos = ByteArrayOutputStream()
         ObjectOutputStream(bos).use {

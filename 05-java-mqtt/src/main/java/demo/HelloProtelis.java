@@ -26,7 +26,7 @@ public final class HelloProtelis {
         final int iterations = config.get(ProtelisConfigSpec.iterations);
         final List<MqttProtelisNode> nodes = config.get(ProtelisConfigSpec.nodes);
         final List<Device> devices = new ArrayList<>();
-
+        // Initialize each node
         nodes.forEach(n -> {
             final MqttNetworkManager netmgr = new MqttNetworkManager(new IntDeviceUID(n.getId()), n.getNeighbors());
             try {
