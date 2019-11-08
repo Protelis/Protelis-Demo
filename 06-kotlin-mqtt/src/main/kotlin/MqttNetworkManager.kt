@@ -17,7 +17,8 @@ import java.io.ObjectOutputStream
  */
 class MqttNetworkManager(
     private val uid: DeviceUID,
-    address: String, port: Int,
+    address: String,
+    port: Int,
     private val qos: Int,
     private val neighbors: Set<String>
 ) : NetworkManager {
