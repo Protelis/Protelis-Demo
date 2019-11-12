@@ -6,7 +6,7 @@ using both Java and Kotlin.
 Protelis requires Java 8+.
 
 ## Build status
-[![Build Status](https://travis-ci.org/lippo97/Protelis-Demo.svg?branch=master)](https://travis-ci.org/lippo97/Protelis-Demo)
+[![Build Status](https://travis-ci.org/Protelis/Protelis-Demo.svg?branch=master)](https://travis-ci.org/Protelis/Protelis-Demo)
 
 ## How to implement Protelis
 
