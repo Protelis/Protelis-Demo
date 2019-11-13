@@ -93,7 +93,7 @@ public class MqttNetworkManager implements NetworkManager {
         final MqttClientPersistence persistence = new MemoryPersistence();
         this.mqttClient = new MqttAsyncClient(broker, this.clientId, persistence);
         mqttClient.connect().waitForCompletion();
-        return mqttClient.subscribe(topic, this.qos, null, null, this::handleMessage);
+        return mqttClient.subscribe(topic, this.qos, null, null, (unused, message) -> handleMessage(message));
     }
 
     /**
@@ -105,8 +105,7 @@ public class MqttNetworkManager implements NetworkManager {
         return this.mqttClient.disconnect();
     }
 
-    @SuppressWarnings("PMD.UnusedFormalParameter")
-    private void handleMessage(final String topic, final MqttMessage message) throws IOException, ClassNotFoundException {
+    private void handleMessage(final MqttMessage message) throws IOException, ClassNotFoundException {
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new ByteArrayInputStream(message.getPayload()))) {
             final Object received = objectInputStream.readObject();
             if (received instanceof Map<?, ?>) {

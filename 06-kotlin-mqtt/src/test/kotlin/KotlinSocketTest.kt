@@ -8,6 +8,9 @@ import io.mockk.verify
 import io.moquette.broker.Server
 import org.protelis.lang.ProtelisLoader
 
+/**
+ * Initialize the network as configured in config.toml and run the Protelis program.
+ */
 class KotlinSocketTest : StringSpec() {
 
     private lateinit var server: Server
