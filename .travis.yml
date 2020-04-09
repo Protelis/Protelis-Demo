@@ -11,7 +11,6 @@ os:
   - osx
   - windows
   - *reference_os
-dist: xenial
 stages:
   - check
   - test
@@ -22,16 +21,17 @@ env:
   matrix:
     - *reference_jdk
     - JDK="adopt@1.8"
-    - JDK="adopt@1.12"
+    - JDK="adopt@"
     # OpenJ9 will be enabled once mockk/mockk#337 is fixed
 #    - JDK="adopt-openj9@1.8"
 #    - JDK="adopt-openj9@1.11"
-#    - JDK="adopt-openj9@1.12"
-matrix:
+#    - JDK="adopt-openj9@"
+
+jobs:
   exclude:
     - os: *reference_os
       env: *reference_jdk
-jobs:
+      stage: test
   include:
     - stage: check
       name: "Deep check on reference OS and JDK"
@@ -40,9 +40,8 @@ jobs:
         - *reference_jdk
       script:
         - ./gradlew clean check --parallel
+
 before_install:
-  - curl "${GRAVIS}.disable-windows-defender.sh" --output .disable-windows-defender.sh
-  - source .disable-windows-defender.sh
   - curl "${GRAVIS}.install-jdk-travis.sh" --output .install-jdk-travis.sh
   - source .install-jdk-travis.sh
 script:
