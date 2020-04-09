@@ -39,7 +39,7 @@ object Versions {
 
     const val mockito_junit_jupiter: String = "2.23.0" // available: "3.1.0"
 
-    const val protelis: String = "12.1.0" // available: "13.1.0"
+    const val protelis: String = "13.2.0" // available: "13.1.0"
 
     const val slf4j_simple: String = "1.8.0-beta4" 
 
