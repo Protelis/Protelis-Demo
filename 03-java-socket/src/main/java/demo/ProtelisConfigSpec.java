@@ -21,7 +21,7 @@ public final class ProtelisConfigSpec {
     @SuppressWarnings("PMD.FieldNamingConventions")
     // CHECKSTYLE: ConstantName OFF
     public static final RequiredItem<Integer> iterations =
-            new RequiredItem<>(SPEC, "iterations") { };
+            new RequiredItem<Integer>(SPEC, "iterations") { };
     /**
      * Required field protelisModuleName. It is the name of the .pt source file.
      */
