@@ -10,7 +10,7 @@ import org.protelis.vm.impl.SimpleExecutionEnvironment;
  * Implementation of an Execution Context. It extends the existing AbstractExecutionContext. It is needed to execute
  * a Protelis program. Each device should have its DeviceCapabilities instance.
  */
-public class DeviceCapabilities extends AbstractExecutionContext implements Speaker {
+public class DeviceCapabilities extends AbstractExecutionContext<DeviceCapabilities> implements Speaker {
 
     private final IntDeviceUID deviceUID;
     private final Speaker speaker;
@@ -54,7 +54,7 @@ public class DeviceCapabilities extends AbstractExecutionContext implements Spea
      * @return new instance of device capabilities.
      */
     @Override
-    protected AbstractExecutionContext instance() {
+    protected DeviceCapabilities instance() {
         return new DeviceCapabilities(this.deviceUID.getUid(), getNetworkManager(), speaker);
     }
 

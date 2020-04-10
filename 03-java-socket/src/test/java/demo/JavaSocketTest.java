@@ -37,7 +37,7 @@ class JavaSocketTest {
 
     @BeforeAll
     @VisibleForTesting
-    static void init() {
+    static void init() throws IOException {
         config.addSpec(ProtelisConfigSpec.SPEC);
         config = config.from().toml.resource("config.toml");
         final String protelisModuleName = config.get(ProtelisConfigSpec.protelisModuleName);
@@ -47,13 +47,11 @@ class JavaSocketTest {
                 .filter(ProtelisNode::isLeader)
                 .map(ProtelisNode::getId)
                 .collect(Collectors.toList());
-        nodes.forEach(n -> {
-            final SocketNetworkManager netmgr = new SocketNetworkManager(new IntDeviceUID(n.getId()), n.getHostandport().getPort(), n.getNeighbors());
-            try {
-                netmgr.listen();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        for (final ProtelisNode n: nodes) {
+            final IntDeviceUID id = new IntDeviceUID(n.getId());
+            final int port = n.getHostandport().getPort();
+            final SocketNetworkManager netmgr = new SocketNetworkManager(id, port, n.getNeighbors());
+            netmgr.listen();
             final ProtelisProgram program = ProtelisLoader.parse(protelisModuleName);
             final Speaker speaker = Mockito.spy(new ConsoleSpeaker());
             SPEAKERS.add(speaker);
@@ -62,7 +60,7 @@ class JavaSocketTest {
                 node.getDeviceCapabilities().getExecutionEnvironment().put("leader", true);
             }
             DEVICES.add(node);
-        });
+        }
         for (int i = 0; i < iterations; i++) {
             DEVICES.forEach(Device::runCycle);
         }

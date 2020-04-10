@@ -1,16 +1,15 @@
-import com.github.spotbugs.SpotBugsTask
+import com.github.spotbugs.snom.SpotBugsTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
     application
-    kotlin("jvm") version Versions.org_jetbrains_kotlin_jvm_gradle_plugin
-    id("org.danilopianini.git-sensitive-semantic-versioning") version Versions.org_danilopianini_git_sensitive_semantic_versioning_gradle_plugin
-    id("com.github.spotbugs") version Versions.com_github_spotbugs_gradle_plugin
+    kotlin("jvm")
+    id("org.danilopianini.git-sensitive-semantic-versioning")
+    id("com.github.spotbugs")
     checkstyle
     pmd
-    id("org.jlleitschuh.gradle.ktlint") version Versions.org_jlleitschuh_gradle_ktlint_gradle_plugin
-    id("de.fayard.buildSrcVersions") version Versions.de_fayard_buildsrcversions_gradle_plugin
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 allprojects {
@@ -18,25 +17,29 @@ allprojects {
     apply(plugin = "org.danilopianini.git-sensitive-semantic-versioning")
     apply(plugin = "com.github.spotbugs")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
-    repositories { mavenCentral() }
-    dependencies {
-        compile(Libs.protelis)
+
+    repositories {
+        mavenCentral()
     }
+
+    dependencies {
+        implementation("org.protelis:protelis:_")
+    }
+
     gitSemVer { version = computeGitSemVer() }
     tasks.test { useJUnitPlatform() }
     spotbugs {
-        effort = "max"
-        reportLevel = "low"
-        isShowProgress = true
-        val excludeFile = File("${rootProject.projectDir}/config/spotbugs/excludes.xml")
+        setEffort("max")
+        setReportLevel("low")
+        showProgress.set(true)
+        val excludeFile = File("${project.rootProject.projectDir}/config/spotbugs/excludes.xml")
         if (excludeFile.exists()) {
-            excludeFilter = excludeFile
+            excludeFilter.set(excludeFile)
         }
     }
     tasks.withType<SpotBugsTask> {
         reports {
-            xml.setEnabled(false)
-            html.setEnabled(true)
+            create("html") { enabled = true }
         }
     }
 }
@@ -45,10 +48,10 @@ javaprojects {
     apply(plugin = "checkstyle")
     apply(plugin = "pmd")
     dependencies {
-        testImplementation(Libs.junit_jupiter_api)
-        testRuntime(Libs.junit_jupiter_engine)
-        testCompile(Libs.mockito_core)
-        testCompile(Libs.mockito_junit_jupiter)
+        testImplementation("org.junit.jupiter:junit-jupiter-api:_")
+        testImplementation("org.mockito:mockito-core:_")
+        testImplementation("org.mockito:mockito-junit-jupiter:_")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:_")
     }
 
     checkstyle {
@@ -64,8 +67,8 @@ kotlinprojects {
     apply(plugin = "kotlin")
     dependencies {
         implementation(kotlin("stdlib-jdk8"))
-        testImplementation(Libs.kotlintest_runner_junit5)
-        testImplementation(Libs.mockk)
+        testImplementation("io.kotlintest:kotlintest-runner-junit5:_")
+        testImplementation("io.mockk:mockk:_")
     }
     tasks.withType<KotlinCompile> {
         kotlinOptions {

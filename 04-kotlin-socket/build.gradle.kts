@@ -1,6 +1,6 @@
 dependencies {
-    compile(project(":02-kotlin-helloworld"))
-    compile(Libs.konf)
+    implementation(project(":02-kotlin-helloworld"))
+    implementation(Libs.konf)
 }
 
 application {
