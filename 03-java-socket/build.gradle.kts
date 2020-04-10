@@ -1,11 +1,10 @@
 plugins {
     kotlin("jvm")
 }
-
 dependencies {
-    implementation(Libs.kotlin_stdlib)
-    compile(project(":01-java-helloworld"))
-    compile(Libs.konf)
+    implementation(project(":01-java-helloworld"))
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(Libs.konf)
 }
 
 application {

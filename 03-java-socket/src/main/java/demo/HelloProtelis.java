@@ -19,9 +19,10 @@ public final class HelloProtelis {
 
     /**
      * Main method.
-     * @param args unused 
+     * @param args unused
+     * @throws IOException in case of issues with local networking
      */
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws IOException {
         Config config = new BaseConfig();
         config.addSpec(ProtelisConfigSpec.SPEC);
         config = config.from().toml.resource("config.toml");
@@ -29,20 +30,16 @@ public final class HelloProtelis {
         final int iterations = config.get(ProtelisConfigSpec.iterations);
         final List<ProtelisNode> nodes = config.get(ProtelisConfigSpec.nodes);
         final List<Device> devices = new ArrayList<>();
-        nodes.forEach(n -> {
+        for (final ProtelisNode n: nodes) {
             final SocketNetworkManager netmgr = new SocketNetworkManager(new IntDeviceUID(n.getId()), n.getHostandport().getPort(), n.getNeighbors());
-            try {
-                netmgr.listen();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            netmgr.listen();
             final ProtelisProgram program = ProtelisLoader.parse(protelisModuleName);
             final Device node = new Device(program, n.getId(), netmgr, new ConsoleSpeaker());
             if (n.isLeader()) {
                 node.getDeviceCapabilities().getExecutionEnvironment().put("leader", true);
             }
             devices.add(node);
-        });
+        }
         // Run some cycles
         for (int i = 0; i < iterations; i++) {
             devices.forEach(Device::runCycle);

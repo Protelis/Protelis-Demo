@@ -30,6 +30,7 @@ import static org.mockito.Mockito.times;
 class JavaMqttTest {
 
     private static int iterations;
+    private static final int PORT = 11_883;
     private static final List<Device> DEVICES = new ArrayList<>();
     private static final List<Speaker> SPEAKERS = new ArrayList<>();
     private static Config config = new BaseConfig();
@@ -39,7 +40,7 @@ class JavaMqttTest {
 
     @BeforeAll
     @VisibleForTesting
-    static void init() throws IOException {
+    static void init() throws IOException, MqttException {
         initServer();
         config.addSpec(ProtelisConfigSpec.SPEC);
         config = config.from().toml.resource("config.toml");
@@ -51,7 +52,7 @@ class JavaMqttTest {
                 .map(MqttProtelisNode::getId)
                 .collect(Collectors.toList());
         nodes.forEach(n -> {
-            final MqttNetworkManager netmgr = new MqttNetworkManager(new IntDeviceUID(n.getId()), "127.0.0.1", 11883, n.getNeighbors());
+            final MqttNetworkManager netmgr = new MqttNetworkManager(new IntDeviceUID(n.getId()), "127.0.0.1", PORT, n.getNeighbors());
             try {
                 netmgr.listen(n.getListen());
             } catch (MqttException e) {
@@ -69,13 +70,9 @@ class JavaMqttTest {
         for (int i = 0; i < iterations; i++) {
             DEVICES.forEach(Device::runCycle);
         }
-        DEVICES.forEach(d -> {
-            try {
-                ((MqttNetworkManager) d.getNetworkManager()).stop().waitForCompletion();
-            } catch (MqttException e) {
-                e.printStackTrace();
-            }
-        });
+        for (final Device d: DEVICES) {
+            ((MqttNetworkManager) d.getNetworkManager()).stop().waitForCompletion();
+        }
         closeServer();
     }
 

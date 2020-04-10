@@ -90,7 +90,7 @@ public class MqttNetworkManager implements NetworkManager {
      */
     public IMqttToken listen(final String topic) throws MqttException {
         final String broker = "tcp://" + this.address + ":" + this.port;
-        final MqttClientPersistence persistence = new MemoryPersistence();
+        final MqttClientPersistence persistence = new MemoryPersistence(); // NOPMD
         this.mqttClient = new MqttAsyncClient(broker, this.clientId, persistence);
         mqttClient.connect().waitForCompletion();
         return mqttClient.subscribe(topic, this.qos, null, null, (unused, message) -> handleMessage(message));
@@ -105,6 +105,7 @@ public class MqttNetworkManager implements NetworkManager {
         return this.mqttClient.disconnect();
     }
 
+    @SuppressWarnings("unchecked")
     private void handleMessage(final MqttMessage message) throws IOException, ClassNotFoundException {
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new ByteArrayInputStream(message.getPayload()))) {
             final Object received = objectInputStream.readObject();
@@ -143,11 +144,12 @@ public class MqttNetworkManager implements NetworkManager {
                 new AbstractMap.SimpleImmutableEntry<>(deviceUID, toSend)
         ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-            final ObjectOutput out = new ObjectOutputStream(bos);
-            out.writeObject(msg);
-            out.flush();
-            final MqttMessage message = new MqttMessage(bos.toByteArray());
-            neighbors.forEach(publish(message));
+            try (ObjectOutput out = new ObjectOutputStream(bos)) {
+                out.writeObject(msg);
+                out.flush();
+                final MqttMessage message = new MqttMessage(bos.toByteArray());
+                neighbors.forEach(publish(message));
+            }
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }

@@ -16,7 +16,7 @@ object Libs {
 
     /**
      * https://github.com/uchuhimo/konf */
-    const val konf: String = "com.uchuhimo:konf:" + Versions.konf
+    const val konf: String = "com.uchuhimo:konf:_"
 
     const val de_fayard_buildsrcversions_gradle_plugin: String =
             "de.fayard.buildSrcVersions:de.fayard.buildSrcVersions.gradle.plugin:" +
@@ -31,7 +31,7 @@ object Libs {
      * http://mockk.io */
     const val mockk: String = "io.mockk:mockk:" + Versions.mockk
 
-    const val moquette_broker: String = "io.moquette:moquette-broker:" + Versions.moquette_broker
+    const val moquette_broker: String = "io.moquette:moquette-broker:_"
 
     const val org_danilopianini_git_sensitive_semantic_versioning_gradle_plugin: String =
             "org.danilopianini.git-sensitive-semantic-versioning:org.danilopianini.git-sensitive-semantic-versioning.gradle.plugin:" +
@@ -39,9 +39,7 @@ object Libs {
 
     /**
      * http://www.eclipse.org/paho */
-    const val org_eclipse_paho_client_mqttv3: String =
-            "org.eclipse.paho:org.eclipse.paho.client.mqttv3:" +
-            Versions.org_eclipse_paho_client_mqttv3
+    const val org_eclipse_paho_client_mqttv3: String = "org.eclipse.paho:org.eclipse.paho.client.mqttv3:_"
 
     const val org_jetbrains_kotlin_jvm_gradle_plugin: String =
             "org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin:" +
@@ -65,7 +63,7 @@ object Libs {
 
     /**
      * http://www.jgrapht.org */
-    const val jgrapht_core: String = "org.jgrapht:jgrapht-core:" + Versions.jgrapht_core
+    const val jgrapht_core: String = "org.jgrapht:jgrapht-core:_"
 
     const val org_jlleitschuh_gradle_ktlint_gradle_plugin: String =
             "org.jlleitschuh.gradle.ktlint:org.jlleitschuh.gradle.ktlint.gradle.plugin:" +

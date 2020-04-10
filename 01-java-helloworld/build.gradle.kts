@@ -1,5 +1,5 @@
 dependencies {
-    compile(Libs.jgrapht_core)
+    implementation(Libs.jgrapht_core)
 }
 
 application {

@@ -65,12 +65,12 @@ public class SocketNetworkManager implements NetworkManager {
      * @throws IOException If some I/O error occurs
      */
     public void listen() throws IOException {
-        final AsynchronousServerSocketChannel server = AsynchronousServerSocketChannel.open();
+        final AsynchronousServerSocketChannel server = AsynchronousServerSocketChannel.open(); // NOPMD
         server.bind(new InetSocketAddress(address, port));
         if (t == null) {
             t = new Thread(() -> {
                 while (!Thread.currentThread().isInterrupted()) {
-                    server.accept(null, new CompletionHandler<AsynchronousSocketChannel, Object>() {
+                    server.accept(null, new CompletionHandler<>() {
                         @Override
                         public void completed(final AsynchronousSocketChannel clientChannel, final Object attachment) {
                             if (server.isOpen()) {
@@ -80,13 +80,14 @@ public class SocketNetworkManager implements NetworkManager {
                                 try {
                                     handleConnection(clientChannel);
                                 } catch (IOException | ClassNotFoundException e) {
-                                    e.printStackTrace();
+                                    throw new IllegalStateException(e);
                                 }
                             }
                         }
+
                         @Override
                         public void failed(final Throwable exc, final Object attachment) {
-                            exc.printStackTrace();
+                            throw new IllegalStateException(attachment.toString(), exc);
                         }
                     });
                 }
@@ -109,11 +110,14 @@ public class SocketNetworkManager implements NetworkManager {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void handleConnection(final AsynchronousSocketChannel client) throws IOException, ClassNotFoundException {
         try (ObjectInputStream ois = new ObjectInputStream(Channels.newInputStream(client))) {
             final Object received = ois.readObject();
             if (received instanceof Map) {
-                ((Map) received).forEach((src, msg) -> receiveMessage((DeviceUID) src, (Map<CodePath, Object>) msg));
+                ((Map<?, ?>) received).forEach((src, msg) ->
+                        receiveMessage((DeviceUID) src, (Map<CodePath, Object>) msg)
+                );
             }
         }
     }
