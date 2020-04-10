@@ -1,4 +1,5 @@
 import com.uchuhimo.konf.Config
+import com.uchuhimo.konf.source.toml
 import demo.*
 import io.kotlintest.Spec
 import io.kotlintest.matchers.numerics.shouldBeGreaterThan
