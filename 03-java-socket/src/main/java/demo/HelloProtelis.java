@@ -2,6 +2,9 @@ package demo;
 
 import com.uchuhimo.konf.BaseConfig;
 import com.uchuhimo.konf.Config;
+import com.uchuhimo.konf.source.DefaultLoaders;
+import com.uchuhimo.konf.source.DefaultTomlLoaderKt;
+import com.uchuhimo.konf.source.Loader;
 import demo.data.ProtelisNode;
 import org.protelis.lang.ProtelisLoader;
 import org.protelis.vm.ProtelisProgram;
@@ -25,7 +28,9 @@ public final class HelloProtelis {
     public static void main(final String[] args) throws IOException {
         Config config = new BaseConfig();
         config.addSpec(ProtelisConfigSpec.SPEC);
-        config = config.from().toml.resource("config.toml");
+        final DefaultLoaders defaultLoaders = config.from();
+        final Loader toml = DefaultTomlLoaderKt.getToml(defaultLoaders);
+        config = toml.resource("config.toml", false);
         final String protelisModuleName = config.get(ProtelisConfigSpec.protelisModuleName);
         final int iterations = config.get(ProtelisConfigSpec.iterations);
         final List<ProtelisNode> nodes = config.get(ProtelisConfigSpec.nodes);

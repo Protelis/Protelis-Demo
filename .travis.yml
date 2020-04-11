@@ -51,7 +51,9 @@ before_install:
   - source $GRAVIS/install-jdk
 
 script:
-  - travis_retry ./gradlew check
+  - BUILD_COMMAND='./gradlew check'
+  - DELETE_CACHE='rm -rf $HOME/.gradle/'
+  - $BUILD_COMMAND || ($DELETE_CACHE && travis_retry $BUILD_COMMAND)
 
 before_cache:
   - $GRAVIS/clean-gradle-cache

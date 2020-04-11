@@ -1,6 +1,7 @@
 package demo
 
 import com.uchuhimo.konf.Config
+import com.uchuhimo.konf.source.toml
 import org.protelis.lang.ProtelisLoader
 
 class Main {
