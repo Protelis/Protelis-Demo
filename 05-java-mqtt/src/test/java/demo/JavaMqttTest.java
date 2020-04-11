@@ -3,6 +3,7 @@ package demo;
 import com.google.common.annotations.VisibleForTesting;
 import com.uchuhimo.konf.BaseConfig;
 import com.uchuhimo.konf.Config;
+import com.uchuhimo.konf.source.DefaultTomlLoaderKt;
 import demo.data.MqttProtelisNode;
 import io.moquette.broker.Server;
 import org.apache.commons.math3.util.Pair;
@@ -43,7 +44,7 @@ class JavaMqttTest {
     static void init() throws IOException, MqttException {
         initServer();
         config.addSpec(ProtelisConfigSpec.SPEC);
-        config = config.from().toml.resource("config.toml");
+        config = DefaultTomlLoaderKt.getToml(config.from()).resource("config.toml", false);
         final String protelisModuleName = config.get(ProtelisConfigSpec.protelisModuleName);
         iterations = config.get(ProtelisConfigSpec.iterations);
         nodes = config.get(ProtelisConfigSpec.nodes);

@@ -2,6 +2,7 @@ package demo;
 
 import com.uchuhimo.konf.BaseConfig;
 import com.uchuhimo.konf.Config;
+import com.uchuhimo.konf.source.DefaultTomlLoaderKt;
 import demo.data.MqttProtelisNode;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.protelis.lang.ProtelisLoader;
@@ -21,7 +22,7 @@ public final class HelloProtelis {
     public static void main(final String[] args) {
         Config config = new BaseConfig();
         config.addSpec(ProtelisConfigSpec.SPEC);
-        config = config.from().toml.resource("config.toml");
+        config = DefaultTomlLoaderKt.getToml(config.from()).resource("config.toml", false);
         final String protelisModuleName = config.get(ProtelisConfigSpec.protelisModuleName);
         final int iterations = config.get(ProtelisConfigSpec.iterations);
         final List<MqttProtelisNode> nodes = config.get(ProtelisConfigSpec.nodes);
