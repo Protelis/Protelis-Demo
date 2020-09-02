@@ -1,9 +1,15 @@
-reference_jdk: &reference_jdk
+# Do not double-build branches and PRs from this repo
+if: repo != head_repo
+
+# Reference environment
+_reference_jdk: &reference_jdk
   'JDK="adopt@1.11"'
-reference_os: &reference_os
+_reference_os: &reference_os
   'linux'
-official_repo: &official_repo
+_official_repo: &official_repo
   'Protelis/Protelis-Demo'
+
+# Build
 language: bash
 
 git:
