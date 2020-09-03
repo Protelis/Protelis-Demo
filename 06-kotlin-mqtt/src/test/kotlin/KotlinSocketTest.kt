@@ -1,6 +1,11 @@
 import com.uchuhimo.konf.Config
 import com.uchuhimo.konf.source.toml
-import demo.*
+import demo.ConsoleSpeaker
+import demo.Device
+import demo.IntDeviceUID
+import demo.MqttNetworkManager
+import demo.ProtelisConfigSpec
+import demo.Speaker
 import io.kotlintest.Spec
 import io.kotlintest.matchers.numerics.shouldBeGreaterThan
 import io.kotlintest.specs.StringSpec
@@ -18,13 +23,13 @@ class KotlinSocketTest : StringSpec() {
     private var devices: List<Device> = emptyList()
     private var speakers: List<Speaker> = emptyList()
     private val config = Config { addSpec(ProtelisConfigSpec) }
-            .from.toml.resource("config.toml")
+        .from.toml.resource("config.toml")
     private val protelisModuleName = config[ProtelisConfigSpec.protelisModuleName]
     private val iterations = config[ProtelisConfigSpec.iterations]
     private val nodes = config[ProtelisConfigSpec.nodes]
     private val leaders = config[ProtelisConfigSpec.nodes]
-            .filter { it.leader }
-            .map { it.id }
+        .filter { it.leader }
+        .map { it.id }
 
     override fun beforeSpec(spec: Spec) {
         initServer()
@@ -66,14 +71,14 @@ class KotlinSocketTest : StringSpec() {
 
         "The leader count should be correct" {
             val messages = generateSequence(3f) { it - 1 }
-                    .take(3)
-                    .map { "The leader's count is: $it" }
-                    .toList()
+                .take(3)
+                .map { "The leader's count is: $it" }
+                .toList()
             leaders.stream()
-                    .flatMap({ x -> messages.stream().map({ msg -> Pair<Int, String>(x, msg) }) })
-                    .forEach { id ->
-                        verify(exactly = 1) { speakers[id.first].announce((id.second)) }
-                    }
+                .flatMap { x -> messages.stream().map({ msg -> Pair<Int, String>(x, msg) }) }
+                .forEach { id ->
+                    verify(exactly = 1) { speakers[id.first].announce((id.second)) }
+                }
             val leftovers = config[ProtelisConfigSpec.iterations] - 3
             if (leftovers > 0) {
                 leaders.forEach { id ->
@@ -83,8 +88,8 @@ class KotlinSocketTest : StringSpec() {
         }
 
         "The leaders should announce their id" {
-            leaders.forEach {
-                id -> verify(exactly = iterations) {
+            leaders.forEach { id ->
+                verify(exactly = iterations) {
                     speakers[id].announce("The leader is at $id")
                 }
             }
@@ -92,11 +97,11 @@ class KotlinSocketTest : StringSpec() {
 
         "The leader neighbors should say something" {
             leaders
-                    .flatMap { listOf(
-                            (it + nodes.size - 1) % nodes.size,
-                            (it + 1) % nodes.size) }
-                    .distinct()
-                    .forEach { id -> verify(atLeast = 1) { speakers[id].announce("Hello from the leader to its neighbor at $id") } }
+                .flatMap {
+                    listOf((it + nodes.size - 1) % nodes.size, (it + 1) % nodes.size)
+                }
+                .distinct()
+                .forEach { id -> verify(atLeast = 1) { speakers[id].announce("Hello from the leader to its neighbor at $id") } }
         }
     }
 }

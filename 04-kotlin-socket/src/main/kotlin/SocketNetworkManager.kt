@@ -25,25 +25,28 @@ class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, pr
             running = true
             thread {
                 while (running) {
-                    server.accept<Any>(null, object : CompletionHandler<AsynchronousSocketChannel, Any> {
-                        override fun completed(clientChannel: AsynchronousSocketChannel?, attachment: Any?) {
-                            if (server.isOpen) {
-                                server.accept<Any>(null, this)
-                            }
-                            if (clientChannel != null && clientChannel.isOpen) {
-                                try {
-                                    handleConnection(clientChannel)
-                                } catch (e: IOException) {
-                                    e.printStackTrace()
-                                } catch (e: ClassNotFoundException) {
-                                    e.printStackTrace()
+                    server.accept<Any>(
+                        null,
+                        object : CompletionHandler<AsynchronousSocketChannel, Any> {
+                            override fun completed(clientChannel: AsynchronousSocketChannel?, attachment: Any?) {
+                                if (server.isOpen) {
+                                    server.accept<Any>(null, this)
+                                }
+                                if (clientChannel != null && clientChannel.isOpen) {
+                                    try {
+                                        handleConnection(clientChannel)
+                                    } catch (e: IOException) {
+                                        e.printStackTrace()
+                                    } catch (e: ClassNotFoundException) {
+                                        e.printStackTrace()
+                                    }
                                 }
                             }
+                            override fun failed(exc: Throwable, attachment: Any?) {
+                                exc.printStackTrace()
+                            }
                         }
-                        override fun failed(exc: Throwable, attachment: Any?) {
-                            exc.printStackTrace()
-                        }
-                    })
+                    )
                 }
                 try {
                     server.close()

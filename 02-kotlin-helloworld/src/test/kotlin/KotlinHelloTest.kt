@@ -1,4 +1,3 @@
-
 package demo
 
 import io.kotlintest.Spec
@@ -34,8 +33,9 @@ class KotlinHelloTest : StringSpec() {
         }
         repeat(n) {
             g.addEdge(
-                    devices[it],
-                    devices[(it + 1) % n])
+                devices[it],
+                devices[(it + 1) % n]
+            )
         }
         // Let every device know its neighbors and set the leader
         devices.forEach { (it.netmgr as EmulatedNetworkManager).neighbors = Graphs.neighborSetOf(g, it) }
