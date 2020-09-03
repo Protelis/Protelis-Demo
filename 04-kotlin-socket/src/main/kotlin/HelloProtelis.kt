@@ -8,7 +8,7 @@ class Main {
 
     private var devices: List<Device> = emptyList()
     private val config = Config { addSpec(ProtelisConfigSpec) }
-            .from.toml.resource("config.toml")
+        .from.toml.resource("config.toml")
     private val protelisModuleName = config[ProtelisConfigSpec.protelisModuleName]
     private val iterations = config[ProtelisConfigSpec.iterations]
     private val nodes = config[ProtelisConfigSpec.nodes]

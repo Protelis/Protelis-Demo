@@ -10,7 +10,7 @@ import org.protelis.lang.ProtelisLoader
 fun main() {
     var devices: List<Device> = emptyList()
     val config = Config { addSpec(ProtelisConfigSpec) }
-            .from.toml.resource("config.toml")
+        .from.toml.resource("config.toml")
     val protelisModuleName = config[ProtelisConfigSpec.protelisModuleName]
     val iterations = config[ProtelisConfigSpec.iterations]
     val nodes = config[ProtelisConfigSpec.nodes]

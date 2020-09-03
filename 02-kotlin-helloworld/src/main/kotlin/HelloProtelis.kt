@@ -30,8 +30,9 @@ class HelloProtelis {
         // Link the nodes as a ring network
         repeat(n) {
             g.addEdge(
-                    devices[it],
-                    devices[(it + 1) % n])
+                devices[it],
+                devices[(it + 1) % n]
+            )
         }
         devices.forEach { (it.netmgr as EmulatedNetworkManager).neighbors = Graphs.neighborSetOf(g, it) }
     }
