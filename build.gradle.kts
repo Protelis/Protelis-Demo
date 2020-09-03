@@ -69,6 +69,10 @@ kotlinprojects {
         implementation(kotlin("stdlib-jdk8"))
         testImplementation("io.kotlintest:kotlintest-runner-junit5:_")
         testImplementation("io.mockk:mockk:_")
+        // The following dependency forces mockk to use Kotlin 1.4.0 before official support
+        // and can be removed once https://github.com/mockk/mockk/issues/483 and
+        // https://github.com/mockk/mockk/issues/475 are fixed.
+        testImplementation(kotlin("reflect"))
     }
     tasks.withType<KotlinCompile> {
         kotlinOptions {
