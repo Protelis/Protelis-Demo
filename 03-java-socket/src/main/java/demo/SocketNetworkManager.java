@@ -19,7 +19,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -147,32 +148,16 @@ public class SocketNetworkManager implements NetworkManager {
                 new AbstractMap.SimpleImmutableEntry<>(deviceUID, toSend)
         ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         neighbors.forEach(n -> {
-            AsynchronousSocketChannel client = null;
-            ObjectOutputStream oos = null;
-            try {
-                client = AsynchronousSocketChannel.open();
+            try (AsynchronousSocketChannel client = AsynchronousSocketChannel.open()) {
                 final InetSocketAddress hostAddress = new InetSocketAddress(n.getHost(), n.getPort());
-                final Future<Void> future = client.connect(hostAddress);
-                future.get();
-                oos = new ObjectOutputStream(Channels.newOutputStream(client));
-                oos.writeObject(msg);
-            } catch (IOException | InterruptedException | ExecutionException e) {
+                client.connect(hostAddress).get(10, TimeUnit.SECONDS);
+                try (ObjectOutputStream oos = new ObjectOutputStream(Channels.newOutputStream(client))) {
+                    oos.writeObject(msg);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (IOException | InterruptedException | ExecutionException | TimeoutException e) {
                 e.printStackTrace();
-            } finally {
-                if (oos != null) {
-                    try {
-                        oos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (client != null) {
-                    try {
-                        client.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         });
     }
