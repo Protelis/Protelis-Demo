@@ -11,5 +11,5 @@ dependencies {
 }
 
 application {
-    mainClassName = "demo.HelloProtelis"
+    mainClass.set("demo.HelloProtelis")
 }
