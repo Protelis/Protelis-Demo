@@ -10,7 +10,7 @@ object Libs {
      * https://github.com/uchuhimo/konf */
     const val konf: String = "com.uchuhimo:konf:_"
 
-    const val moquette_broker: String = "io.moquette:moquette-broker:_"
+    const val moquette_broker: String = "de.fraunhofer.iosb.io.moquette:moquette-broker:_"
 
     /**
      * http://www.eclipse.org/paho */

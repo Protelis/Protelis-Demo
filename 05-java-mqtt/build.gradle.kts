@@ -2,11 +2,6 @@ plugins {
     kotlin("jvm")
 }
 
-// moquette needs jcenter
-repositories {
-    jcenter()
-}
-
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(Libs.org_eclipse_paho_client_mqttv3)
