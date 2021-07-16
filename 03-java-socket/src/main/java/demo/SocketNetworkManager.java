@@ -1,6 +1,8 @@
 package demo;
 
+import com.google.common.collect.ImmutableSet;
 import demo.data.IPv4Host;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.protelis.lang.datatype.DeviceUID;
 import org.protelis.vm.CodePath;
 import org.protelis.vm.NetworkManager;
@@ -34,7 +36,7 @@ public class SocketNetworkManager implements NetworkManager {
     private final DeviceUID deviceUID;
     private final String address;
     private final int port;
-    private final Set<IPv4Host> neighbors;
+    private final ImmutableSet<IPv4Host> neighbors;
     private transient Thread t;
 
     /**
@@ -58,7 +60,7 @@ public class SocketNetworkManager implements NetworkManager {
         this.deviceUID = deviceUID;
         this.address = address;
         this.port = port;
-        this.neighbors = neighbors;
+        this.neighbors = ImmutableSet.copyOf(neighbors);
     }
 
     /**
@@ -190,7 +192,8 @@ public class SocketNetworkManager implements NetworkManager {
      * Getter for the neighbors.
      * @return the neighbors
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "The field is immutable")
     public Set<IPv4Host> getNeighbors() {
-        return Collections.unmodifiableSet(neighbors);
+        return neighbors;
     }
 }

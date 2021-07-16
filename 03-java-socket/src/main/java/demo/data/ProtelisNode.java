@@ -1,5 +1,8 @@
 package demo.data;
 
+import com.google.common.collect.ImmutableSet;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.beans.ConstructorProperties;
 import java.util.Set;
 
@@ -9,7 +12,7 @@ import java.util.Set;
 public final class ProtelisNode {
     private final IPv4Host hostandport;
     private final int id;
-    private final Set<IPv4Host> neighbors;
+    private final ImmutableSet<IPv4Host> neighbors;
     private final boolean leader;
 
     /**
@@ -23,7 +26,7 @@ public final class ProtelisNode {
     public ProtelisNode(final IPv4Host hostandport, final int id, final Set<IPv4Host> neighbors, final boolean leader) {
         this.hostandport = hostandport;
         this.id = id;
-        this.neighbors = neighbors;
+        this.neighbors = ImmutableSet.copyOf(neighbors);
         this.leader = leader;
     }
 
@@ -58,6 +61,7 @@ public final class ProtelisNode {
      * Getter for the neighbors of the node.
      * @return the neighbors of the node.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "The field is immutable")
     public Set<IPv4Host> getNeighbors() {
         return neighbors;
     }
