@@ -1,5 +1,6 @@
 import com.github.spotbugs.snom.SpotBugsTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION as KOTLIN_VERSION
 
 plugins {
     java
@@ -48,6 +49,7 @@ javaprojects {
     apply(plugin = "checkstyle")
     apply(plugin = "pmd")
     dependencies {
+        compileOnly("com.github.spotbugs:spotbugs-annotations:_")
         testImplementation("org.junit.jupiter:junit-jupiter-api:_")
         testImplementation("org.mockito:mockito-core:_")
         testImplementation("org.mockito:mockito-junit-jupiter:_")
@@ -69,11 +71,18 @@ kotlinprojects {
         implementation(kotlin("stdlib-jdk8"))
         testImplementation("io.kotlintest:kotlintest-runner-junit5:_")
         testImplementation("io.mockk:mockk:_")
-        // The following dependency forces mockk to use Kotlin 1.4.0 before official support
-        // and can be removed once https://github.com/mockk/mockk/issues/483 and
-        // https://github.com/mockk/mockk/issues/475 are fixed.
-        testImplementation(kotlin("reflect"))
     }
+
+    // Enforce Kotlin version coherence
+    configurations.all {
+        resolutionStrategy.eachDependency {
+            if (requested.group == "org.jetbrains.kotlin" && requested.name.startsWith("kotlin")) {
+                useVersion(KOTLIN_VERSION)
+                because("All Kotlin modules should use the same version, and compiler uses $KOTLIN_VERSION")
+            }
+        }
+    }
+
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             allWarningsAsErrors = true
