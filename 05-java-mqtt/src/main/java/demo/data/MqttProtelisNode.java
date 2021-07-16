@@ -1,5 +1,8 @@
 package demo.data;
 
+import com.google.common.collect.ImmutableList;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.beans.ConstructorProperties;
 import java.util.List;
 
@@ -9,7 +12,7 @@ import java.util.List;
 public final class MqttProtelisNode {
     private final int id;
     private final String listen;
-    private final List<String> neighbors;
+    private final ImmutableList<String> neighbors;
     private final boolean leader;
 
     /**
@@ -24,7 +27,7 @@ public final class MqttProtelisNode {
     public MqttProtelisNode(final int id, final String listen, final List<String> neighbors, final boolean leader) {
         this.id = id;
         this.listen = listen;
-        this.neighbors = neighbors;
+        this.neighbors = ImmutableList.copyOf(neighbors);
         this.leader = leader;
     }
 
@@ -62,6 +65,7 @@ public final class MqttProtelisNode {
      *
      * @return the neighbors of the node.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "The field is immutable")
     public List<String> getNeighbors() {
         return neighbors;
     }
