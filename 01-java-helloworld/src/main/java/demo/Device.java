@@ -1,6 +1,7 @@
 package demo;
 
 import com.google.common.hash.Hashing;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.protelis.vm.NetworkManager;
 import org.protelis.vm.ProtelisProgram;
 import org.protelis.vm.ProtelisVM;
@@ -40,6 +41,7 @@ public class Device {
      * Getter for the device capabilities.
      * @return the device capabilities.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Done by purpose")
     public DeviceCapabilities getDeviceCapabilities() {
         return deviceCapabilities;
     }
