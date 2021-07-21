@@ -27,7 +27,6 @@ allprojects {
         implementation("org.protelis:protelis:_")
     }
 
-    gitSemVer { version = computeGitSemVer() }
     tasks.test { useJUnitPlatform() }
     spotbugs {
         setEffort("max")
