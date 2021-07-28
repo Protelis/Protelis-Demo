@@ -1,16 +1,22 @@
-import de.fayard.refreshVersions.bootstrapRefreshVersions
 import org.danilopianini.VersionAliases.justAdditionalAliases
+
+plugins {
+    id("de.fayard.refreshVersions") version "0.10.1"
+}
+
+refreshVersions {
+    extraArtifactVersionKeyRules = justAdditionalAliases
+}
+
 buildscript {
     repositories {
         gradlePluginPortal()
         mavenCentral()
     }
     dependencies {
-        classpath("de.fayard.refreshVersions:refreshVersions:0.9.7")
         classpath("org.danilopianini:refreshversions-aliases:+")
     }
 }
-bootstrapRefreshVersions(justAdditionalAliases)
 
 rootProject.name = "protelis-demo"
 include("01-java-helloworld")
