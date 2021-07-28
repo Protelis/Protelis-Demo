@@ -5,6 +5,9 @@ using both Java and Kotlin.
 
 Protelis requires Java 8+.
 
+**NOTE**: this project uses submodules, and must be cloned with the `--recurse-submodules` flag:
+``git clone --recurse-submodules https://github.com/Protelis/Protelis-Demo.git``
+
 ## Build status
 [![Build Status](https://travis-ci.org/Protelis/Protelis-Demo.svg?branch=master)](https://travis-ci.org/Protelis/Protelis-Demo)
 
