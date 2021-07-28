@@ -10,7 +10,9 @@ import org.protelis.vm.NetworkManager;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.Channels;
@@ -30,10 +32,10 @@ import java.util.stream.Stream;
  */
 public class SocketNetworkManager implements NetworkManager {
 
-    private static final String DEFAULT_ADDRESS = "127.0.0.1";
+    private static final InetAddress DEFAULT_ADDRESS = InetAddress.getLoopbackAddress();
     private transient Map<DeviceUID, Map<CodePath, Object>> messages = new HashMap<>();
     private final DeviceUID deviceUID;
-    private final String address;
+    private final InetAddress address;
     private final int port;
     private final ImmutableSet<IPv4Host> neighbors;
     private transient Thread t;
@@ -43,8 +45,14 @@ public class SocketNetworkManager implements NetworkManager {
      * @param deviceUID the device id
      * @param port port of the server for incoming message
      * @param neighbors the neighbors the device has to send his messages to
+     *
+     * @throws UnknownHostException if the host is unresolvable.
      */
-    public SocketNetworkManager(final DeviceUID deviceUID, final int port, final Set<IPv4Host> neighbors) {
+    public SocketNetworkManager(
+        final DeviceUID deviceUID,
+        final int port,
+        final Set<IPv4Host> neighbors
+    ) throws UnknownHostException {
         this(deviceUID, DEFAULT_ADDRESS, port, neighbors);
     }
 
@@ -55,9 +63,35 @@ public class SocketNetworkManager implements NetworkManager {
      * @param port port of the server for incoming message
      * @param neighbors the neighbors the device has to send his messages to
      */
-    public SocketNetworkManager(final DeviceUID deviceUID, final String address, final int port, final Set<IPv4Host> neighbors) {
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "The address is not mutable")
+    public SocketNetworkManager(
+            final DeviceUID deviceUID,
+            final InetAddress address,
+            final int port,
+            final Set<IPv4Host> neighbors
+    ) {
         this.deviceUID = deviceUID;
         this.address = address;
+        this.port = port;
+        this.neighbors = ImmutableSet.copyOf(neighbors);
+    }
+
+    /**
+     * constructor method for device with default address.
+     * @param deviceUID the device id
+     * @param address address of the server for incoming message
+     * @param port port of the server for incoming message
+     * @param neighbors the neighbors the device has to send his messages to
+     * @throws UnknownHostException if the host is unresolvable.
+     */
+    public SocketNetworkManager(
+            final DeviceUID deviceUID,
+            final String address,
+            final int port,
+            final Set<IPv4Host> neighbors
+    ) throws UnknownHostException {
+        this.deviceUID = deviceUID;
+        this.address = InetAddress.getByName(address);
         this.port = port;
         this.neighbors = ImmutableSet.copyOf(neighbors);
     }
@@ -96,7 +130,7 @@ public class SocketNetworkManager implements NetworkManager {
                 try {
                     server.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    throw new IllegalStateException(e);
                 }
             });
             t.start();
@@ -155,10 +189,10 @@ public class SocketNetworkManager implements NetworkManager {
                 try (ObjectOutputStream oos = new ObjectOutputStream(Channels.newOutputStream(client))) {
                     oos.writeObject(msg);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    throw new IllegalStateException(e);
                 }
             } catch (IOException | InterruptedException | ExecutionException | TimeoutException e) {
-                e.printStackTrace();
+                throw new IllegalStateException(e);
             }
         });
     }
@@ -169,14 +203,6 @@ public class SocketNetworkManager implements NetworkManager {
      */
     public DeviceUID getDeviceUID() {
         return deviceUID;
-    }
-
-    /**
-     * Getter for the server address.
-     * @return the server address
-     */
-    public String getAddress() {
-        return address;
     }
 
     /**

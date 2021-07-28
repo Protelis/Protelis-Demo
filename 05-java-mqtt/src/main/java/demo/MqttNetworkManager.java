@@ -1,5 +1,6 @@
 package demo;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.eclipse.paho.client.mqttv3.IMqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,11 +33,11 @@ import java.util.stream.Stream;
  */
 public class MqttNetworkManager implements NetworkManager {
 
-    private static final String DEFAULT_ADDRESS = "127.0.0.1";
+    private static final InetAddress DEFAULT_ADDRESS = InetAddress.getLoopbackAddress();
     private static final int DEFAULT_PORT = 1883;
     private static final int DEFAULT_QOS = 2;
     private final DeviceUID deviceUID;
-    private final String address;
+    private final InetAddress address;
     private final int port;
     private final String clientId;
     private final List<String> neighbors;
@@ -59,8 +61,12 @@ public class MqttNetworkManager implements NetworkManager {
      * @param port the MQTT broker port.
      * @param neighbors the node neighbors.
      */
-    public MqttNetworkManager(final DeviceUID deviceUID, final String address, final int port,
-                              final List<String> neighbors) {
+    public MqttNetworkManager(
+        final DeviceUID deviceUID,
+        final InetAddress address,
+        final int port,
+        final List<String> neighbors
+    ) {
         this(deviceUID, address, port, DEFAULT_QOS, neighbors);
     }
 
@@ -72,8 +78,14 @@ public class MqttNetworkManager implements NetworkManager {
      * @param qos the MQTT qos parameter.
      * @param neighbors the node neighbors.
      */
-    public MqttNetworkManager(final DeviceUID deviceUID, final String address, final int port,
-                              final int qos, final List<String> neighbors) {
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "The address is not mutable")
+    public MqttNetworkManager(
+        final DeviceUID deviceUID,
+        final InetAddress address,
+        final int port,
+        final int qos,
+        final List<String> neighbors
+    ) {
         this.deviceUID = deviceUID;
         this.address = address;
         this.port = port;
@@ -89,7 +101,7 @@ public class MqttNetworkManager implements NetworkManager {
      * @return the token to track the listen asynchronous operation.
      */
     public IMqttToken listen(final String topic) throws MqttException {
-        final String broker = "tcp://" + this.address + ":" + this.port;
+        final String broker = "tcp://" + this.address.getHostAddress() + ":" + this.port;
         final MqttClientPersistence persistence = new MemoryPersistence(); // NOPMD
         this.mqttClient = new MqttAsyncClient(broker, this.clientId, persistence);
         mqttClient.connect().waitForCompletion();

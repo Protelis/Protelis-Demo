@@ -33,7 +33,7 @@ public final class HelloProtelis {
             try {
                 netmgr.listen(n.getListen()).waitForCompletion();
             } catch (MqttException e) {
-                e.printStackTrace();
+                throw new IllegalStateException(e);
             }
             final ProtelisProgram program = ProtelisLoader.parse(protelisModuleName);
             final Device node = new Device(program, n.getId(), netmgr, new ConsoleSpeaker());
@@ -51,7 +51,7 @@ public final class HelloProtelis {
             try {
                 ((MqttNetworkManager) d.getNetworkManager()).stop().waitForCompletion();
             } catch (MqttException e) {
-                e.printStackTrace();
+                throw new IllegalStateException(e);
             }
         });
     }

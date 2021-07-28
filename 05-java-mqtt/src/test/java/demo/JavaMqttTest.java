@@ -15,9 +15,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.protelis.lang.ProtelisLoader;
+import org.protelis.lang.datatype.DeviceUID;
 import org.protelis.vm.ProtelisProgram;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,11 +55,12 @@ class JavaMqttTest {
                 .map(MqttProtelisNode::getId)
                 .collect(Collectors.toList());
         nodes.forEach(n -> {
-            final MqttNetworkManager netmgr = new MqttNetworkManager(new IntDeviceUID(n.getId()), "127.0.0.1", PORT, n.getNeighbors());
+            final DeviceUID uid = new IntDeviceUID(n.getId());
+            final MqttNetworkManager netmgr = new MqttNetworkManager(uid, InetAddress.getLoopbackAddress(), PORT, n.getNeighbors());
             try {
                 netmgr.listen(n.getListen());
             } catch (MqttException e) {
-                e.printStackTrace();
+                throw new IllegalStateException(e);
             }
             final ProtelisProgram program = ProtelisLoader.parse(protelisModuleName);
             final Speaker speaker = Mockito.spy(new ConsoleSpeaker());
