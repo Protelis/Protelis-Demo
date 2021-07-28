@@ -9,7 +9,7 @@ Protelis requires Java 8+.
 ``git clone --recurse-submodules https://github.com/Protelis/Protelis-Demo.git``
 
 ## Build status
-[![Build Status](https://travis-ci.org/Protelis/Protelis-Demo.svg?branch=master)](https://travis-ci.org/Protelis/Protelis-Demo)
+[![CI](https://github.com/Protelis/Protelis-Demo/actions/workflows/build-and-deploy.yml/badge.svg)](https://github.com/Protelis/Protelis-Demo/actions/workflows/build-and-deploy.yml)
 
 ## How to implement Protelis
 
