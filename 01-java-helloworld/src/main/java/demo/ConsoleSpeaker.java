@@ -10,6 +10,6 @@ public class ConsoleSpeaker implements Speaker {
      */
     @Override
     public void announce(final String message) {
-        System.out.println(message);
+        System.out.println(message); // NOPMD: println used by purpose
     }
 }
