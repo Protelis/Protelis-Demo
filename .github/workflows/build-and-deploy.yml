@@ -6,8 +6,6 @@ on:
       - 'autodelivery**'
       - 'bump-**'
   pull_request:
-  schedule:
-    - cron: '0 3 * * SUN'
 
 jobs:
   Build:
