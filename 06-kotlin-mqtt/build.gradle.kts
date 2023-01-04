@@ -5,7 +5,3 @@ dependencies {
     implementation(libs.paho)
     implementation(libs.moquette.broker)
 }
-
-application {
-    mainClassName = "demo.HelloProtelisKt"
-}

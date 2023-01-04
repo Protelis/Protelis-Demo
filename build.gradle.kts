@@ -1,3 +1,4 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION as KOTLIN_VERSION
 
@@ -31,7 +32,21 @@ allprojects {
     }
 
     tasks.withType<Test>().configureEach { useJUnitPlatform() }
+
+    application {
+        mainClass.set("org.protelis.demo.HelloProtelis")
+    }
+
+    tasks.withType<ShadowJar>().configureEach {
+        val rootProjectShadow = rootProject.tasks.shadowJar.get()
+        if (this != rootProjectShadow) {
+            destinationDirectory.set(rootProjectShadow.destinationDirectory)
+        } else {
+            enabled = false
+        }
+    }
 }
+
 javaprojects {
     dependencies {
         with(rootProject.libs) {
@@ -42,6 +57,7 @@ javaprojects {
         }
     }
 }
+
 kotlinprojects {
     apply(plugin = "kotlin")
     dependencies {

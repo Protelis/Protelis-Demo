@@ -3,7 +3,3 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(libs.konf)
 }
-
-application {
-    mainClassName = "demo.HelloProtelisKt"
-}

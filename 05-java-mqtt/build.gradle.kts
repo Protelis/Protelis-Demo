@@ -4,7 +4,3 @@ dependencies {
     implementation(libs.paho)
     implementation(libs.moquette.broker)
 }
-
-application {
-    mainClass.set("demo.HelloProtelis")
-}
