@@ -1,14 +1,11 @@
+package org.protelis.demo
+
 import com.uchuhimo.konf.Config
 import com.uchuhimo.konf.source.toml
-import demo.ConsoleSpeaker
-import demo.Device
-import demo.IntDeviceUID
-import demo.ProtelisConfigSpec
-import demo.SocketNetworkManager
-import demo.Speaker
-import io.kotlintest.Spec
-import io.kotlintest.matchers.numerics.shouldBeGreaterThan
-import io.kotlintest.specs.StringSpec
+import demo.org.protelis.demo.ProtelisConfigSpec
+import io.kotest.core.spec.Spec
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.mockk.spyk
 import io.mockk.verify
 import org.protelis.lang.ProtelisLoader
@@ -26,7 +23,7 @@ class KotlinSocketTest : StringSpec() {
         .filter { it.leader }
         .map { it.id }
 
-    override fun beforeSpec(spec: Spec) {
+    override suspend fun beforeSpec(spec: Spec) {
         nodes.forEach {
             val socketNetworkManager = SocketNetworkManager(IntDeviceUID(it.id), it.hostandport.port, it.neighbors).apply { listen() }
             val program = ProtelisLoader.parse(protelisModuleName)

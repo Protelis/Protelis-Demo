@@ -1,4 +1,4 @@
-package demo
+package org.protelis.demo
 
 import org.eclipse.paho.client.mqttv3.IMqttToken
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient
