@@ -1,6 +1,5 @@
 package org.protelis.demo
 
-import demo.org.protelis.demo.IPv4Host
 import org.protelis.lang.datatype.DeviceUID
 import org.protelis.vm.CodePath
 import org.protelis.vm.NetworkManager
@@ -15,10 +14,21 @@ import java.nio.channels.CompletionHandler
 import java.util.concurrent.ExecutionException
 import kotlin.concurrent.thread
 
-class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, private val neighbors: Set<IPv4Host>, private val address: String = "127.0.0.1") : NetworkManager {
+/**
+ * A [NetworkManager] implementation using sockets.
+ */
+class SocketNetworkManager(
+    private val uid: DeviceUID,
+    private val port: Int,
+    private val neighbors: Set<IPv4Host>,
+    private val address: String = "127.0.0.1"
+) : NetworkManager {
     private var messages: Map<DeviceUID, Map<CodePath, Any>> = emptyMap()
     private var running = false
 
+    /**
+     * Opens a socket server and listens on a separate thread.
+     */
     fun listen() {
         if (!running) {
             val server = AsynchronousServerSocketChannel.open()
@@ -62,13 +72,16 @@ class SocketNetworkManager(private val uid: DeviceUID, private val port: Int, pr
     @Throws(IOException::class, ClassNotFoundException::class)
     private fun handleConnection(client: AsynchronousSocketChannel) {
         ObjectInputStream(Channels.newInputStream(client)).use {
-            val received = it.readObject()
-            when (received) {
-                is Map<*, *> -> received.forEach { src, msg -> receiveMessage(src as DeviceUID, msg as Map<CodePath, Any>) }
+            when (val received = it.readObject()) {
+                is Map<*, *> ->
+                    received.forEach { src, msg -> receiveMessage(src as DeviceUID, msg as Map<CodePath, Any>) }
             }
         }
     }
 
+    /**
+     * Called to gracefully stop the service.
+     */
     fun stop() {
         running = false
     }

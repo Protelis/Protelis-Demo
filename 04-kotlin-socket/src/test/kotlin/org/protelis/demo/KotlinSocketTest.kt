@@ -2,7 +2,6 @@ package org.protelis.demo
 
 import com.uchuhimo.konf.Config
 import com.uchuhimo.konf.source.toml
-import demo.org.protelis.demo.ProtelisConfigSpec
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.ints.shouldBeGreaterThan
@@ -25,7 +24,11 @@ class KotlinSocketTest : StringSpec() {
 
     override suspend fun beforeSpec(spec: Spec) {
         nodes.forEach {
-            val socketNetworkManager = SocketNetworkManager(IntDeviceUID(it.id), it.hostandport.port, it.neighbors).apply { listen() }
+            val socketNetworkManager = SocketNetworkManager(
+                IntDeviceUID(it.id),
+                it.hostandport.port,
+                it.neighbors,
+            ).apply { listen() }
             val program = ProtelisLoader.parse(protelisModuleName)
             val s = spyk(ConsoleSpeaker())
             val d = Device(program, it.id, socketNetworkManager, s)
@@ -38,7 +41,7 @@ class KotlinSocketTest : StringSpec() {
         repeat(iterations) {
             devices.forEach { it.runCycle() }
         }
-        devices.forEach { (it.netmgr as SocketNetworkManager).stop() }
+        devices.forEach { (it.networkManager as SocketNetworkManager).stop() }
     }
 
     init {
@@ -53,7 +56,7 @@ class KotlinSocketTest : StringSpec() {
                 .map { "The leader's count is: $it" }
                 .toList()
             leaders.stream()
-                .flatMap { x -> messages.stream().map({ msg -> Pair<Int, String>(x, msg) }) }
+                .flatMap { x -> messages.stream().map { msg -> Pair<Int, String>(x, msg) } }
                 .forEach { id ->
                     verify(exactly = 1) { speakers[id.first].announce((id.second)) }
                 }
@@ -79,7 +82,11 @@ class KotlinSocketTest : StringSpec() {
                     listOf((it + nodes.size - 1) % nodes.size, (it + 1) % nodes.size)
                 }
                 .distinct()
-                .forEach { id -> verify(atLeast = 1) { speakers[id].announce("Hello from the leader to its neighbor at $id") } }
+                .forEach { id ->
+                    verify(atLeast = 1) {
+                        speakers[id].announce("Hello from the leader to its neighbor at $id")
+                    }
+                }
         }
     }
 }

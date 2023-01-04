@@ -4,6 +4,9 @@ import org.protelis.lang.datatype.DeviceUID
 import org.protelis.vm.CodePath
 import org.protelis.vm.NetworkManager
 
+/**
+ * A [NetworkManager] emulating a network locally, requires a unique identifier ([uid]) and the set of [neighbors].
+ */
 class EmulatedNetworkManager(private val uid: DeviceUID, var neighbors: Set<Device> = emptySet()) : NetworkManager {
 
     private var messages: Map<DeviceUID, Map<CodePath, Any>> = emptyMap()
@@ -17,7 +20,7 @@ class EmulatedNetworkManager(private val uid: DeviceUID, var neighbors: Set<Devi
 
     override fun shareState(toSend: Map<CodePath, Any>) {
         if (toSend.isNotEmpty()) {
-            neighbors.forEach { (it.netmgr as EmulatedNetworkManager).receiveMessage(uid, toSend) }
+            neighbors.forEach { (it.networkManager as EmulatedNetworkManager).receiveMessage(uid, toSend) }
         }
     }
 }

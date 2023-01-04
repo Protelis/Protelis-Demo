@@ -16,7 +16,8 @@ fun main() {
     val nodes = config[ProtelisConfigSpec.nodes]
     // Initialize some nodes.
     nodes.forEach {
-        val mqttNetworkManager = MqttNetworkManager(IntDeviceUID(it.id), it.neighbors).apply { listen(it.listen) }
+        val mqttNetworkManager = MqttNetworkManager(IntDeviceUID(it.id), neighbors = it.neighbors)
+            .apply { listen(it.listen) }
         val program = ProtelisLoader.parse(protelisModuleName)
         val node = Device(program, it.id, mqttNetworkManager, ConsoleSpeaker())
         if (it.leader) {
@@ -29,5 +30,5 @@ fun main() {
         devices.forEach { it.runCycle() }
     }
     // Close the thread listening.
-    devices.forEach { (it.netmgr as MqttNetworkManager).stop() }
+    devices.forEach { (it.networkManager as MqttNetworkManager).stop() }
 }
