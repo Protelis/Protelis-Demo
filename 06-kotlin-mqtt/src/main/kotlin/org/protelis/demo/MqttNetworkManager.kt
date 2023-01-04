@@ -17,19 +17,14 @@ import java.io.ObjectOutputStream
  */
 class MqttNetworkManager(
     private val uid: DeviceUID,
-    address: String,
-    port: Int,
-    private val qos: Int,
+    address: String = defaultAddress,
+    port: Int = defaultPort,
+    private val qos: Int = defaultQoS,
     private val neighbors: Set<String>
 ) : NetworkManager {
     private var messages: Map<DeviceUID, Map<CodePath, Any>> = emptyMap()
     private val broker = "tcp://$address:$port"
     private var mqttClient = MqttAsyncClient(broker, uid.hashCode().toString(), MemoryPersistence())
-
-    /**
-     * Constructor which uses some defaults.
-     */
-    constructor(uid: DeviceUID, neighbors: Set<String>) : this(uid, "127.0.0.1", 1883, 2, neighbors)
 
     /**
      * Starts the MQTT client and subscribes to the target topic.
@@ -62,7 +57,7 @@ class MqttNetworkManager(
     fun stop() = mqttClient.disconnect()
 
     /**
-     * Called by [ProtelisVM] during execution to send its current shared
+     * Called by `ProtelisVM` during execution to send its current shared
      * state to neighbors. The call is serial within the execution, so this
      * should probably queue up a message to be sent, rather than actually
      * carrying out a lengthy operations during this call.
@@ -97,4 +92,21 @@ class MqttNetworkManager(
      */
     override fun getNeighborState(): Map<DeviceUID, Map<CodePath, Any>> = messages
         .apply { messages = emptyMap() }
+
+    companion object {
+        /**
+         * Default listening address (loopback).
+         */
+        const val defaultAddress = "127.0.0.1"
+
+        /**
+         * Default MQTT port.
+         */
+        const val defaultPort = 1883
+
+        /**
+         * Default quality of service.
+         */
+        const val defaultQoS = 2
+    }
 }

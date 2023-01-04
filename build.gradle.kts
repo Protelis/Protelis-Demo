@@ -1,4 +1,3 @@
-import com.github.spotbugs.snom.SpotBugsTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION as KOTLIN_VERSION
 

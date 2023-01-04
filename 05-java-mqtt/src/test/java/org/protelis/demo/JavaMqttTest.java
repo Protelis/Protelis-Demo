@@ -4,7 +4,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.uchuhimo.konf.BaseConfig;
 import com.uchuhimo.konf.Config;
 import com.uchuhimo.konf.source.DefaultTomlLoaderKt;
-import org.protelis.demo.data.MqttProtelisNode;
 import io.moquette.broker.Server;
 import org.apache.commons.math3.util.Pair;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -14,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.protelis.demo.data.MqttProtelisNode;
 import org.protelis.lang.ProtelisLoader;
 import org.protelis.lang.datatype.DeviceUID;
 import org.protelis.vm.ProtelisProgram;
@@ -21,10 +21,10 @@ import org.protelis.vm.ProtelisProgram;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
 
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
@@ -56,7 +56,8 @@ class JavaMqttTest {
                 .collect(Collectors.toList());
         nodes.forEach(n -> {
             final DeviceUID uid = new IntDeviceUID(n.getId());
-            final MqttNetworkManager netmgr = new MqttNetworkManager(uid, InetAddress.getLoopbackAddress(), PORT, n.getNeighbors());
+            final MqttNetworkManager netmgr =
+                new MqttNetworkManager(uid, InetAddress.getLoopbackAddress(), PORT, n.getNeighbors());
             try {
                 netmgr.listen(n.getListen());
             } catch (MqttException e) {
@@ -127,7 +128,9 @@ class JavaMqttTest {
     @DisplayName("The leader neighbors should say something")
     void testSocketNeighborsMessage() {
         leaders.stream()
-                .flatMap(x -> Arrays.asList((x + nodes.size() - 1) % nodes.size(), (x + 1) % nodes.size()).stream())
-                .forEach(x -> Mockito.verify(SPEAKERS.get(x), atLeastOnce()).announce("Hello from the leader to its neighbor at " + x));
+            .flatMap(x -> Stream.of((x + nodes.size() - 1) % nodes.size(), (x + 1) % nodes.size()))
+            .forEach(x ->
+                Mockito.verify(SPEAKERS.get(x), atLeastOnce()).announce("Hello from the leader to its neighbor at " + x)
+            );
     }
 }

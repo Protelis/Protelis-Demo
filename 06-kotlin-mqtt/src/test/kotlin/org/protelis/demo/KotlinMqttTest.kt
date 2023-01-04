@@ -1,14 +1,10 @@
+package org.protelis.demo
+
 import com.uchuhimo.konf.Config
 import com.uchuhimo.konf.source.toml
-import demo.ConsoleSpeaker
-import demo.Device
-import demo.IntDeviceUID
-import demo.MqttNetworkManager
-import demo.ProtelisConfigSpec
-import demo.Speaker
-import io.kotlintest.Spec
-import io.kotlintest.matchers.numerics.shouldBeGreaterThan
-import io.kotlintest.specs.StringSpec
+import io.kotest.core.spec.Spec
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.mockk.spyk
 import io.mockk.verify
 import io.moquette.broker.Server
@@ -17,7 +13,7 @@ import org.protelis.lang.ProtelisLoader
 /**
  * Initialize the network as configured in config.toml and run the Protelis program.
  */
-class KotlinSocketTest : StringSpec() {
+class KotlinMqttTest : StringSpec() {
 
     private lateinit var server: Server
     private var devices: List<Device> = emptyList()
@@ -31,10 +27,11 @@ class KotlinSocketTest : StringSpec() {
         .filter { it.leader }
         .map { it.id }
 
-    override fun beforeSpec(spec: Spec) {
+    override suspend fun beforeSpec(spec: Spec) {
         initServer()
         nodes.forEach {
-            val mqttNetworkManager = MqttNetworkManager(IntDeviceUID(it.id), it.neighbors).apply { listen(it.listen) }
+            val mqttNetworkManager = MqttNetworkManager(IntDeviceUID(it.id), neighbors = it.neighbors)
+                .apply { listen(it.listen) }
             val program = ProtelisLoader.parse(protelisModuleName)
             val s = spyk(ConsoleSpeaker())
             val d = Device(program, it.id, mqttNetworkManager, s)
@@ -47,10 +44,10 @@ class KotlinSocketTest : StringSpec() {
         repeat(iterations) {
             devices.forEach { it.runCycle() }
         }
-        devices.forEach { (it.netmgr as MqttNetworkManager).stop() }
+        devices.forEach { (it.networkManager as MqttNetworkManager).stop() }
     }
 
-    override fun afterSpec(spec: Spec) {
+    override suspend fun afterSpec(spec: Spec) {
         super.afterSpec(spec)
         closeServer()
     }
@@ -101,7 +98,11 @@ class KotlinSocketTest : StringSpec() {
                     listOf((it + nodes.size - 1) % nodes.size, (it + 1) % nodes.size)
                 }
                 .distinct()
-                .forEach { id -> verify(atLeast = 1) { speakers[id].announce("Hello from the leader to its neighbor at $id") } }
+                .forEach { id ->
+                    verify(atLeast = 1) {
+                        speakers[id].announce("Hello from the leader to its neighbor at $id")
+                    }
+                }
         }
     }
 }

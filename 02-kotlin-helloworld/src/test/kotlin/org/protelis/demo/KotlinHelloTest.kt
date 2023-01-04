@@ -1,7 +1,7 @@
-package demo
+package org.protelis.demo
 
-import io.kotlintest.Spec
-import io.kotlintest.specs.StringSpec
+import io.kotest.core.spec.Spec
+import io.kotest.core.spec.style.StringSpec
 import io.mockk.spyk
 import io.mockk.verify
 import org.jgrapht.Graphs
@@ -21,7 +21,7 @@ class KotlinHelloTest : StringSpec() {
     private var devices: List<Device> = emptyList()
     private var speakers: List<Speaker> = emptyList()
 
-    override fun beforeSpec(spec: Spec) {
+    override suspend fun beforeSpec(spec: Spec) {
         val g = DefaultUndirectedGraph<Device, DefaultEdge>(DefaultEdge::class.java)
         repeat(n) {
             val program = ProtelisLoader.parse(protelisModuleName)
@@ -38,7 +38,7 @@ class KotlinHelloTest : StringSpec() {
             )
         }
         // Let every device know its neighbors and set the leader
-        devices.forEach { (it.netmgr as EmulatedNetworkManager).neighbors = Graphs.neighborSetOf(g, it) }
+        devices.forEach { (it.networkManager as EmulatedNetworkManager).neighbors = Graphs.neighborSetOf(g, it) }
         devices[leader].deviceCapabilities.executionEnvironment.put("leader", true)
         // Run some cycles
         repeat(iterations) {

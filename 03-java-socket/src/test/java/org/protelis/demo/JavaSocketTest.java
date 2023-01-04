@@ -4,7 +4,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.uchuhimo.konf.BaseConfig;
 import com.uchuhimo.konf.Config;
 import com.uchuhimo.konf.source.DefaultTomlLoaderKt;
-import org.protelis.demo.data.ProtelisNode;
 import org.apache.commons.math3.util.Pair;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -12,15 +11,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.protelis.demo.data.ProtelisNode;
 import org.protelis.lang.ProtelisLoader;
 import org.protelis.vm.ProtelisProgram;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
 
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
@@ -96,8 +96,8 @@ class JavaSocketTest {
     @VisibleForTesting
     @DisplayName("The leaders should print their id")
     void testSocketLeaderMessage() {
-        leaders.stream()
-                .forEach(x -> Mockito.verify(SPEAKERS.get(x), times(iterations)).announce("The leader is at " + x));
+        leaders
+            .forEach(x -> Mockito.verify(SPEAKERS.get(x), times(iterations)).announce("The leader is at " + x));
     }
 
     @Test
@@ -105,7 +105,10 @@ class JavaSocketTest {
     @DisplayName("The leader neighbors should say something")
     void testSocketNeighborsMessage() {
         leaders.stream()
-                .flatMap(x -> Arrays.asList((x + nodes.size() - 1) % nodes.size(), (x + 1) % nodes.size()).stream())
-                .forEach(x -> Mockito.verify(SPEAKERS.get(x), atLeastOnce()).announce("Hello from the leader to its neighbor at " + x));
+            .flatMap(x -> Stream.of((x + nodes.size() - 1) % nodes.size(), (x + 1) % nodes.size()))
+            .forEach(x ->
+                Mockito.verify(SPEAKERS.get(x), atLeastOnce())
+                    .announce("Hello from the leader to its neighbor at " + x)
+            );
     }
 }
