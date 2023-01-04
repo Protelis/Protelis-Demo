@@ -28,7 +28,7 @@ allprojects {
     }
 
     dependencies {
-        implementation("org.protelis:protelis:15.4.2")
+        implementation("org.protelis:protelis:16.4.0")
     }
 
     tasks.withType<Test>().configureEach { useJUnitPlatform() }
