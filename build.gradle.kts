@@ -56,7 +56,7 @@ javaprojects {
     }
 
     checkstyle {
-        toolVersion = "8.20"
+        toolVersion = "10.6.0"
     }
 
     pmd {
