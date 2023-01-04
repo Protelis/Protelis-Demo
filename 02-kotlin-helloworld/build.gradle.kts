@@ -1,5 +1,6 @@
 dependencies {
-    implementation(Libs.jgrapht_core)
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(libs.jgrapht.core)
 }
 
 application {

@@ -1,7 +1,7 @@
 dependencies {
-    implementation(Libs.jgrapht_core)
+    implementation(libs.jgrapht.core)
 }
 
 application {
-    mainClassName = "demo.HelloProtelis"
+    mainClass.set("org.protelis.demo.HelloProtelis")
 }

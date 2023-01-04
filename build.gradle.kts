@@ -5,71 +5,53 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION as KOTLIN_VERSI
 plugins {
     java
     application
-    kotlin("jvm")
-    id("org.danilopianini.git-sensitive-semantic-versioning")
-    id("com.github.spotbugs")
-    checkstyle
-    pmd
-    id("org.jlleitschuh.gradle.ktlint")
+    alias(libs.plugins.gitSemVer)
+    alias(libs.plugins.java.qa)
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.qa)
+    alias(libs.plugins.multiJvmTesting)
+    alias(libs.plugins.shadowJar)
 }
 
 allprojects {
     apply(plugin = "application")
-    apply(plugin = "org.danilopianini.git-sensitive-semantic-versioning")
-    apply(plugin = "com.github.spotbugs")
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    with(rootProject.libs.plugins) {
+        apply(plugin = gitSemVer.get().pluginId)
+        apply(plugin = java.qa.get().pluginId)
+        apply(plugin = multiJvmTesting.get().pluginId)
+        apply(plugin = kotlin.qa.get().pluginId)
+        apply(plugin = shadowJar.get().pluginId)
+    }
 
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        implementation("org.protelis:protelis:_")
+        implementation("org.protelis:protelis:15.1.0")
     }
 
-    tasks.test { useJUnitPlatform() }
-    spotbugs {
-        setEffort("max")
-        setReportLevel("low")
-        showProgress.set(true)
-        val excludeFile = File("${project.rootProject.projectDir}/config/spotbugs/excludes.xml")
-        if (excludeFile.exists()) {
-            excludeFilter.set(excludeFile)
-        }
-    }
-    tasks.withType<SpotBugsTask> {
-        reports {
-            create("html") { enabled = true }
-        }
-    }
+    tasks.withType<Test>().configureEach { useJUnitPlatform() }
 }
 javaprojects {
-    apply(plugin = "java")
-    apply(plugin = "checkstyle")
-    apply(plugin = "pmd")
     dependencies {
-        compileOnly("com.github.spotbugs:spotbugs-annotations:_")
-        testImplementation("org.junit.jupiter:junit-jupiter-api:_")
-        testImplementation("org.mockito:mockito-core:_")
-        testImplementation("org.mockito:mockito-junit-jupiter:_")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:_")
-    }
-
-    checkstyle {
-        toolVersion = "8.20"
-    }
-
-    pmd {
-        ruleSets = listOf()
-        ruleSetConfig = resources.text.fromFile("${rootProject.projectDir}/config/pmd/pmd.xml")
+        with(rootProject.libs) {
+            compileOnly(spotbugs.annotations)
+            testImplementation(junit.api)
+            testImplementation(bundles.mockito)
+            testRuntimeOnly(junit.engine)
+        }
     }
 }
 kotlinprojects {
     apply(plugin = "kotlin")
     dependencies {
         implementation(kotlin("stdlib-jdk8"))
-        testImplementation("io.kotlintest:kotlintest-runner-junit5:_")
-        testImplementation("io.mockk:mockk:_")
+        with(rootProject.libs) {
+            testImplementation(kotest.assertions.core)
+            testImplementation(mockk)
+            testImplementation(kotest.runner)
+        }
     }
 
     // Enforce Kotlin version coherence

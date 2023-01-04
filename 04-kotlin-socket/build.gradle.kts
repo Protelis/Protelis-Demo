@@ -1,6 +1,7 @@
 dependencies {
     implementation(project(":02-kotlin-helloworld"))
-    implementation(Libs.konf)
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(libs.konf)
 }
 
 application {

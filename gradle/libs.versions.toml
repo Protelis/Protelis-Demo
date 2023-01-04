@@ -1,0 +1,31 @@
+[versions]
+junit = "5.7.2"
+kotest = "5.5.4"
+kotlin = "1.5.21"
+mockito = "3.11.2"
+protelis = "15.1.0"
+
+[libraries]
+jgrapht-core = "org.jgrapht:jgrapht-core:1.4.0"
+junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+konf = "com.uchuhimo:konf:1.1.2"
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-runner = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "kotest" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }
+mockk = "io.mockk:mockk:1.12.0"
+moquette-broker = "de.fraunhofer.iosb.io.moquette:moquette-broker:0.14.3"
+paho = "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5"
+spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.3.0"
+
+[bundles]
+mockito = [ "mockito-core", "mockito-junit-jupiter" ]
+
+[plugins]
+gitSemVer = "org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin:0.3.1"
+java-qa = "org.danilopianini.gradle-java-qa:0.5.0"
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-qa = "org.danilopianini.gradle-kotlin-qa:0.29.2"
+multiJvmTesting = "org.danilopianini.multi-jvm-test-plugin:0.4.15"
+shadowJar = "com.github.johnrengelman.shadow:7.1.2"
