@@ -6,7 +6,7 @@ mockito = "4.11.0"
 protelis = "15.1.0"
 
 [libraries]
-jgrapht-core = "org.jgrapht:jgrapht-core:1.4.0"
+jgrapht-core = "org.jgrapht:jgrapht-core:1.5.1"
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 konf = "com.uchuhimo:konf:1.1.2"
