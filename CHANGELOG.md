@@ -1,3 +1,11 @@
+## [11.0.1](https://github.com/Protelis/Protelis-Demo/compare/11.0.0...11.0.1) (2023-01-05)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency org.jetbrains.kotlin.jvm to v1.8.0 ([8c94b37](https://github.com/Protelis/Protelis-Demo/commit/8c94b37afef5547ef849a9989a5408c7f14f448c))
+* **deps:** update plugin gitsemver to v0.3.25 ([c130ade](https://github.com/Protelis/Protelis-Demo/commit/c130ade87c8646e7530c79875ccd7a28903fc51b))
+
 ## [11.0.0](https://github.com/Protelis/Protelis-Demo/compare/10.1.1...11.0.0) (2023-01-04)
 
 
