@@ -1,3 +1,32 @@
+## [11.0.2](https://github.com/Protelis/Protelis-Demo/compare/11.0.1...11.0.2) (2023-02-18)
+
+
+### Build and continuous integration
+
+* **deps:** update actions/checkout action to v3.3.0 ([212c047](https://github.com/Protelis/Protelis-Demo/commit/212c047d191bb7e4dedddfe77efbb498561c3236))
+* **deps:** update danysk/action-checkout action to v0.2.5 ([8bef86a](https://github.com/Protelis/Protelis-Demo/commit/8bef86a67e4f5c872a79ddd515a746284ec04192))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v2.1.21 ([136c6da](https://github.com/Protelis/Protelis-Demo/commit/136c6da48c0b9b041f5f76b7913d9bce63574774))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v2.1.22 ([1e304c7](https://github.com/Protelis/Protelis-Demo/commit/1e304c7e9197081266e29855a48ac6040e4009d9))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v2.1.23 ([a528181](https://github.com/Protelis/Protelis-Demo/commit/a528181a00f098108d24475cfe3b0d7eb83fb16d))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v2.1.24 ([f625395](https://github.com/Protelis/Protelis-Demo/commit/f6253956a23392a9cd1336c548ee185e11741ccf))
+* remove the dispatcher concurrency limits ([424a45b](https://github.com/Protelis/Protelis-Demo/commit/424a45bc68afd9cda835f5d92dece422ad722d00))
+
+
+### Dependency updates
+
+* **core-deps:** update dependency org.jetbrains.kotlin.jvm to v1.8.10 ([077312d](https://github.com/Protelis/Protelis-Demo/commit/077312d41365e032f10bb6ba784737caf25cd310))
+* **deps:** update dependency io.mockk:mockk to v1.13.4 ([99089ac](https://github.com/Protelis/Protelis-Demo/commit/99089ac312144504039507e92046d7bc5069cb6f))
+* **deps:** update dependency org.protelis:protelis to v16.4.1 ([fb05a17](https://github.com/Protelis/Protelis-Demo/commit/fb05a1735048a9b0a955a752d33ec583340e23a4))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.16 ([9f41fbf](https://github.com/Protelis/Protelis-Demo/commit/9f41fbf3442df0b4060ad47cd518e04b7b68a33d))
+* **deps:** update junit5 monorepo to v5.9.2 ([19e769d](https://github.com/Protelis/Protelis-Demo/commit/19e769d40a253cc027e7b57e809e10cd3d91fa1b))
+* **deps:** update kotest to v5.5.5 ([b5ca094](https://github.com/Protelis/Protelis-Demo/commit/b5ca09446527788c81acd384e7e1f4cd83eeb667))
+* **deps:** update node.js to 18.13 ([9ed4520](https://github.com/Protelis/Protelis-Demo/commit/9ed4520dcfdc749f1986a1e680067b79894e1f12))
+* **deps:** update node.js to 18.14 ([48988be](https://github.com/Protelis/Protelis-Demo/commit/48988beadb47b07a84f1dc10441898537521ce01))
+* **deps:** update plugin com.gradle.enterprise to v3.12.2 ([e60e10b](https://github.com/Protelis/Protelis-Demo/commit/e60e10b81a3ada61405cec7af09b84ef5c21872b))
+* **deps:** update plugin com.gradle.enterprise to v3.12.3 ([88620ce](https://github.com/Protelis/Protelis-Demo/commit/88620ceb70869927faf989cc8b6abffa62583ece))
+* **deps:** update plugin gitsemver to v0.4.0 ([ac4bc05](https://github.com/Protelis/Protelis-Demo/commit/ac4bc0580092f945155a2326b8267829c3de3a55))
+* **deps:** update plugin java-qa to v0.42.0 ([3f2e197](https://github.com/Protelis/Protelis-Demo/commit/3f2e197010683797caf025903997b0ab67cd24f4))
+
 ## [11.0.1](https://github.com/Protelis/Protelis-Demo/compare/11.0.0...11.0.1) (2023-01-05)
 
 
