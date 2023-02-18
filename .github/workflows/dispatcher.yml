@@ -16,15 +16,6 @@ on:
   pull_request:
   workflow_dispatch:
 
-concurrency:
-  group: >-
-    ${{ github.workflow }}-
-    ${{ github.event_name }}-
-    ${{ github.event.number || github.ref }}-
-    ${{ github.event.pull_request.head.repo.full_name }}-
-    ${{ github.repository }}-
-    ${{ github.head_ref }}
-
 jobs:
   inspect:
     runs-on: ubuntu-latest
