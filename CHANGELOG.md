@@ -1,3 +1,34 @@
+## [12.0.0](https://github.com/Protelis/Protelis-Demo/compare/11.0.2...12.0.0) (2023-02-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* require Java 11
+
+### Bug Fixes
+
+* require Java 11 ([d52389f](https://github.com/Protelis/Protelis-Demo/commit/d52389f400b423678de1fcc26ff6acf78d45a080))
+
+
+### Build and continuous integration
+
+* **deps:** update danysk/build-check-deploy-gradle-action action to v2.1.25 ([715be2a](https://github.com/Protelis/Protelis-Demo/commit/715be2a0d76a6004ac76e8bddf92ac589d1e71ab))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v2.1.26 ([f0dbc8d](https://github.com/Protelis/Protelis-Demo/commit/f0dbc8da8662e3b85225a54234c62a1d64ca0ae7))
+
+
+### Dependency updates
+
+* **deps:** update dependency gradle to v8 ([4fbe88d](https://github.com/Protelis/Protelis-Demo/commit/4fbe88d47f9c8996e08eb3e63b4f57a62bf1a510))
+* **deps:** update dependency org.protelis:protelis to v17 ([0538df6](https://github.com/Protelis/Protelis-Demo/commit/0538df61d764f943f22339a61a4a3d7a6f79f02a))
+* **deps:** update plugin gitsemver to v1 ([37c7f29](https://github.com/Protelis/Protelis-Demo/commit/37c7f292c0c3d1bb06ec92f1e1c979b8bfe755ca))
+* **deps:** update plugin gitsemver to v1.0.2 ([d6603ac](https://github.com/Protelis/Protelis-Demo/commit/d6603ac8f6ba9c8aa39cc8aa89bc1904f2b6be89))
+* **deps:** update plugin java-qa to v0.43.0 ([380bc58](https://github.com/Protelis/Protelis-Demo/commit/380bc58aef0e0e6e3f8940619460fec259f0d88c))
+* **deps:** update plugin java-qa to v0.43.1 ([1f4d8c6](https://github.com/Protelis/Protelis-Demo/commit/1f4d8c6f51249bb2f56140909bc2738b73863b74))
+* **deps:** update plugin multijvmtesting to v0.4.16 ([6ceb089](https://github.com/Protelis/Protelis-Demo/commit/6ceb0894a706b15fd7ee7e7725d2daa5e9b6e86e))
+* **deps:** update plugin multijvmtesting to v0.4.17 ([e6db7dc](https://github.com/Protelis/Protelis-Demo/commit/e6db7dc5940f3828cbcccf4b6685895df79c10d6))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v1.1.2 ([837757e](https://github.com/Protelis/Protelis-Demo/commit/837757eaaf48a9a7e6ed9b049383bb5c23444822))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v1.1.3 ([67166af](https://github.com/Protelis/Protelis-Demo/commit/67166af9a2ffe747b57f5dbc19c8afd8131e19e2))
+
 ## [11.0.2](https://github.com/Protelis/Protelis-Demo/compare/11.0.1...11.0.2) (2023-02-18)
 
 
