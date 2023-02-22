@@ -31,6 +31,10 @@ allprojects {
         implementation(rootProject.libs.protelis)
     }
 
+    multiJvm {
+        jvmVersionForCompilation.set(11)
+    }
+
     tasks.withType<Test>().configureEach { useJUnitPlatform() }
 
     application {
@@ -82,7 +86,6 @@ kotlinprojects {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             allWarningsAsErrors = true
-            jvmTarget = "1.8"
         }
     }
 }
