@@ -29,4 +29,4 @@ java-qa = "org.danilopianini.gradle-java-qa:0.43.1"
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-qa = "org.danilopianini.gradle-kotlin-qa:0.29.2"
 multiJvmTesting = "org.danilopianini.multi-jvm-test-plugin:0.4.17"
-shadowJar = "com.github.johnrengelman.shadow:7.1.2"
+shadowJar = "com.github.johnrengelman.shadow:8.0.0"
