@@ -2,7 +2,7 @@
 junit = "5.9.2"
 kotest = "5.6.1"
 kotlin = "1.8.20"
-mockito = "5.3.0"
+mockito = "5.3.1"
 protelis = "15.1.0"
 
 [libraries]
