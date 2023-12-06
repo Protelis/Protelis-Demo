@@ -16,7 +16,7 @@ class DeviceCapabilities(
     private val uid: Int,
     private val networkManager: NetworkManager,
     private val codePathFactory: CodePathFactory,
-    private val speaker: Speaker
+    private val speaker: Speaker,
 ) : AbstractExecutionContext<DeviceCapabilities>(SimpleExecutionEnvironment(), networkManager, codePathFactory),
     Speaker {
 

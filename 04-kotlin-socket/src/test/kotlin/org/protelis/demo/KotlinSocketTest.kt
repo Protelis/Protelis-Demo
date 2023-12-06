@@ -38,7 +38,7 @@ class KotlinSocketTest : StringSpec() {
             devices += d
             speakers += s
         }
-        repeat(iterations) {
+        repeat(iterations) { _ ->
             devices.forEach { it.runCycle() }
         }
         devices.forEach { (it.networkManager as SocketNetworkManager).stop() }

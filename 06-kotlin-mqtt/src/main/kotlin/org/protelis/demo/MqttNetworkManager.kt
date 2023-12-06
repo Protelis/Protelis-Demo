@@ -20,11 +20,11 @@ class MqttNetworkManager(
     address: String = defaultAddress,
     port: Int = defaultPort,
     private val qos: Int = defaultQoS,
-    private val neighbors: Set<String>
+    private val neighbors: Set<String>,
 ) : NetworkManager {
     private var messages: Map<DeviceUID, Map<CodePath, Any>> = emptyMap()
     private val broker = "tcp://$address:$port"
-    private var mqttClient = MqttAsyncClient(broker, uid.hashCode().toString(), MemoryPersistence())
+    private val mqttClient = MqttAsyncClient(broker, uid.hashCode().toString(), MemoryPersistence())
 
     /**
      * Starts the MQTT client and subscribes to the target topic.
@@ -54,7 +54,7 @@ class MqttNetworkManager(
      * Shutdowns the MQTT client.
      * @return the token to track the asynchronous task
      */
-    fun stop() = mqttClient.disconnect()
+    fun stop(): IMqttToken = mqttClient.disconnect()
 
     /**
      * Called by `ProtelisVM` during execution to send its current shared
