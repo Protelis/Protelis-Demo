@@ -21,7 +21,7 @@ class SocketNetworkManager(
     private val uid: DeviceUID,
     private val port: Int,
     private val neighbors: Set<IPv4Host>,
-    private val address: String = "127.0.0.1"
+    private val address: String = "127.0.0.1",
 ) : NetworkManager {
     private var messages: Map<DeviceUID, Map<CodePath, Any>> = emptyMap()
     private var running = false
@@ -56,7 +56,7 @@ class SocketNetworkManager(
                             override fun failed(exc: Throwable, attachment: Any?) {
                                 exc.printStackTrace()
                             }
-                        }
+                        },
                     )
                 }
                 try {
@@ -96,8 +96,10 @@ class SocketNetworkManager(
             var client: AsynchronousSocketChannel? = null
             var oos: ObjectOutputStream? = null
             try {
-                client = AsynchronousSocketChannel.open()
-                val future = client!!.connect(InetSocketAddress(n.host, n.port))
+                client = checkNotNull(AsynchronousSocketChannel.open()) {
+                    "Cannot open an asynchronous socket channel"
+                }
+                val future = client.connect(InetSocketAddress(n.host, n.port))
                 future.get()
                 oos = ObjectOutputStream(Channels.newOutputStream(client))
                 oos.writeObject(message)

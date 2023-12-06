@@ -32,7 +32,7 @@ object HelloProtelis {
             devices += node
         }
         // Let the nodes make some iterations.
-        repeat(iterations) {
+        repeat(iterations) { _ ->
             devices.forEach { it.runCycle() }
         }
         // Close the thread listening.

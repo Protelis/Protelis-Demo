@@ -34,14 +34,14 @@ class KotlinHelloTest : StringSpec() {
         repeat(n) {
             g.addEdge(
                 devices[it],
-                devices[(it + 1) % n]
+                devices[(it + 1) % n],
             )
         }
         // Let every device know its neighbors and set the leader
         devices.forEach { (it.networkManager as EmulatedNetworkManager).neighbors = Graphs.neighborSetOf(g, it) }
         devices[leader].deviceCapabilities.executionEnvironment.put("leader", true)
         // Run some cycles
-        repeat(iterations) {
+        repeat(iterations) { _ ->
             devices.forEach { it.runCycle() }
         }
     }

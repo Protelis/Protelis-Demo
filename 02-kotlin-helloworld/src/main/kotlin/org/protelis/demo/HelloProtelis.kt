@@ -37,7 +37,7 @@ object HelloProtelis {
         repeat(deviceCount) {
             g.addEdge(
                 devices[it],
-                devices[(it + 1) % deviceCount]
+                devices[(it + 1) % deviceCount],
             )
         }
         devices.forEach { (it.networkManager as EmulatedNetworkManager).neighbors = Graphs.neighborSetOf(g, it) }
@@ -46,7 +46,7 @@ object HelloProtelis {
     private fun setLeader(id: Int) =
         devices[id].deviceCapabilities.executionEnvironment.put("leader", true)
 
-    private fun syncRunNTimes(n: Int) = repeat(n) {
+    private fun syncRunNTimes(n: Int) = repeat(n) { _ ->
         devices.forEach { it.runCycle() }
     }
 }
