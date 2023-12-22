@@ -1,6 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION as KOTLIN_VERSION
 
 plugins {
     java
@@ -70,16 +69,6 @@ kotlinprojects {
             testImplementation(kotest.assertions.core)
             testImplementation(mockk)
             testImplementation(kotest.runner)
-        }
-    }
-
-    // Enforce Kotlin version coherence
-    configurations.all {
-        resolutionStrategy.eachDependency {
-            if (requested.group == "org.jetbrains.kotlin" && requested.name.startsWith("kotlin")) {
-                useVersion(KOTLIN_VERSION)
-                because("All Kotlin modules should use the same version, and compiler uses $KOTLIN_VERSION")
-            }
         }
     }
 
