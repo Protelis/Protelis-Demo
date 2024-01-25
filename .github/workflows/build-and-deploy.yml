@@ -9,6 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [ windows, macos, ubuntu ]
+      fail-fast: false
     runs-on: ${{ matrix.os }}-latest
     timeout-minutes: 120
     concurrency:
