@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Checkout
         uses: danysk/action-checkout@0.2.14
-      - uses: DanySK/build-check-deploy-gradle-action@2.4.14
+      - uses: DanySK/build-check-deploy-gradle-action@2.4.15
         with:
           # check that all tasks used in subsequent phases are there
           should-validate-wrapper: ${{ contains('Linux', runner.os) }}
@@ -45,7 +45,7 @@ jobs:
         with:
           submodules: recursive
           token: ${{ secrets.DEPLOYMENT_TOKEN }}
-      - uses: DanySK/build-check-deploy-gradle-action@2.4.14
+      - uses: DanySK/build-check-deploy-gradle-action@2.4.15
         with:
           java-version: 8
           build-command: true
