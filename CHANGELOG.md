@@ -1,3 +1,29 @@
+## [12.0.8](https://github.com/Protelis/Protelis-Demo/compare/12.0.7...12.0.8) (2024-05-21)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency org.jetbrains.kotlin.jvm to v2 ([0867b9d](https://github.com/Protelis/Protelis-Demo/commit/0867b9dc19a2a557d8941a7c06ed9dcec139d4db))
+* **deps:** update dependency io.kotest:kotest-assertions-core to v5.9.0 ([fb49a1c](https://github.com/Protelis/Protelis-Demo/commit/fb49a1c2a484f3662a599e9965c24d6de222d005))
+* **deps:** update dependency io.mockk:mockk to v1.13.11 ([5b9f9f0](https://github.com/Protelis/Protelis-Demo/commit/5b9f9f0846508e711d45c33be972ad457773ffdf))
+* **deps:** update dependency org.protelis:protelis to v17.3.29 ([d1e7713](https://github.com/Protelis/Protelis-Demo/commit/d1e771336a4d2c1aae377240c91551ae4b56646b))
+* **deps:** update dependency org.protelis:protelis to v17.3.30 ([a96a6ca](https://github.com/Protelis/Protelis-Demo/commit/a96a6ca6b60cd0f37b94dea4dee49526a629a450))
+* **deps:** update mockito monorepo to v5.12.0 ([e59e58c](https://github.com/Protelis/Protelis-Demo/commit/e59e58cc9a5f622d228528b12129ee3e5624881a))
+* **deps:** update node.js to 20.13 ([e8392af](https://github.com/Protelis/Protelis-Demo/commit/e8392af77da8c61fd5a9ae9891d0f9ee932c9a64))
+* **deps:** update plugin com.gradle.enterprise to v3.17.3 ([4b94efd](https://github.com/Protelis/Protelis-Demo/commit/4b94efdf5c9ae5dfbe85e335c73c7183ce8c3b65))
+* **deps:** update plugin com.gradle.enterprise to v3.17.4 ([ae11959](https://github.com/Protelis/Protelis-Demo/commit/ae11959a8e358de9940a611dd483b4dbe163121e))
+* **deps:** update plugin kotlin-qa to v0.62.0 ([55064f7](https://github.com/Protelis/Protelis-Demo/commit/55064f70647739542a7466d02e688788905e5d71))
+
+
+### Build and continuous integration
+
+* **deps:** update actions/checkout action to v4.1.5 ([ec3db6c](https://github.com/Protelis/Protelis-Demo/commit/ec3db6c6d4da74c378af070a77037d61e2f4a2c2))
+* **deps:** update actions/checkout action to v4.1.6 ([cddb88c](https://github.com/Protelis/Protelis-Demo/commit/cddb88cabf73d2facf1c604ec0949fcda352a054))
+* **deps:** update danysk/action-checkout action to v0.2.17 ([a94a634](https://github.com/Protelis/Protelis-Demo/commit/a94a6344cb0be064e4a30e380a97df82e54c6090))
+* **deps:** update danysk/action-checkout action to v0.2.18 ([ea7c03d](https://github.com/Protelis/Protelis-Demo/commit/ea7c03d21133e63a65a1bbd8dd70ad455b5cacf5))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v2.4.19 ([4a02814](https://github.com/Protelis/Protelis-Demo/commit/4a02814983649b9a50a6b7036cc52d8b313ec929))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v2.4.20 ([4a0a189](https://github.com/Protelis/Protelis-Demo/commit/4a0a189bbc1df315ccb814738a3c99b0128fad94))
+
 ## [12.0.7](https://github.com/Protelis/Protelis-Demo/compare/12.0.6...12.0.7) (2024-05-07)
 
 
