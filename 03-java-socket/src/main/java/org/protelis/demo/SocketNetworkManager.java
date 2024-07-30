@@ -106,7 +106,7 @@ public class SocketNetworkManager implements NetworkManager {
         if (t == null) {
             t = new Thread(() -> {
                 while (!Thread.currentThread().isInterrupted()) {
-                    server.accept(null, new CompletionHandler<AsynchronousSocketChannel, Object>() {
+                    server.accept(null, new CompletionHandler<>() {
                         @Override
                         public void completed(final AsynchronousSocketChannel clientChannel, final Object attachment) {
                             if (server.isOpen()) {
