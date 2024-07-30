@@ -100,7 +100,7 @@ public class SocketNetworkManager implements NetworkManager {
      * @throws IOException If some I/O error occurs
      */
     public void listen() throws IOException {
-        final AsynchronousServerSocketChannel server = AsynchronousServerSocketChannel.open(); // NOPMD
+        final AsynchronousServerSocketChannel server = AsynchronousServerSocketChannel.open();
         server.bind(new InetSocketAddress(address, port));
         if (t == null) {
             t = new Thread(() -> {
