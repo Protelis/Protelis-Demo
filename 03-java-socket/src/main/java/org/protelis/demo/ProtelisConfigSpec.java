@@ -20,22 +20,19 @@ public final class ProtelisConfigSpec {
      */
     @SuppressWarnings("PMD.FieldNamingConventions")
     // CHECKSTYLE: ConstantName OFF
-    public static final RequiredItem<Integer> iterations =
-            new RequiredItem<Integer>(SPEC, "iterations") { };
+    public static final RequiredItem<Integer> iterations = new RequiredItem<>(SPEC, "iterations") { };
     /**
      * Required field protelisModuleName. It is the name of the .pt source file.
      */
     @SuppressWarnings("PMD.FieldNamingConventions")
     // CHECKSTYLE: ConstantName OFF
-    public static final RequiredItem<String> protelisModuleName =
-            new RequiredItem<String>(SPEC, "protelisModuleName") { };
+    public static final RequiredItem<String> protelisModuleName = new RequiredItem<>(SPEC, "protelisModuleName") { };
     /**
      * Required field nodes. It contains a list of protelis nodes.
      */
     @SuppressWarnings("PMD.FieldNamingConventions")
     // CHECKSTYLE: ConstantName OFF
-    public static final RequiredItem<List<ProtelisNode>> nodes =
-            new RequiredItem<List<ProtelisNode>>(SPEC, "nodes") { };
+    public static final RequiredItem<List<ProtelisNode>> nodes = new RequiredItem<>(SPEC, "nodes") { };
 
     private ProtelisConfigSpec() { }
 }
