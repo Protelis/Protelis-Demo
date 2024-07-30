@@ -1,5 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
     java
@@ -72,8 +72,8 @@ kotlinprojects {
         }
     }
 
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
+    tasks.withType<KotlinCompilationTask<*>>().configureEach {
+        compilerOptions {
             allWarningsAsErrors = true
         }
     }
