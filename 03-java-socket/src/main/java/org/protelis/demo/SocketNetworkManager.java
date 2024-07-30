@@ -46,13 +46,12 @@ public class SocketNetworkManager implements NetworkManager {
      * @param port port of the server for incoming message
      * @param neighbors the neighbors the device has to send his messages to
      *
-     * @throws UnknownHostException if the host is unresolvable.
      */
     public SocketNetworkManager(
         final DeviceUID deviceUID,
         final int port,
         final Set<IPv4Host> neighbors
-    ) throws UnknownHostException {
+    ) {
         this(deviceUID, DEFAULT_ADDRESS, port, neighbors);
     }
 
