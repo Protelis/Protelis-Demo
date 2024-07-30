@@ -1,5 +1,5 @@
 plugins {
-    id("com.gradle.enterprise") version "3.17.6"
+    id("com.gradle.develocity") version "3.17.6"
     id("org.danilopianini.gradle-pre-commit-git-hooks") version "2.0.8"
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
@@ -12,11 +12,11 @@ include("04-kotlin-socket")
 include("05-java-mqtt")
 include("06-kotlin-mqtt")
 
-gradleEnterprise {
+develocity {
     buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        termsOfServiceAgree = "yes"
-        publishOnFailure()
+        termsOfUseUrl = "https://gradle.com/terms-of-service"
+        termsOfUseAgree = "yes"
+        uploadInBackground = !System.getenv("CI").toBoolean()
     }
 }
 
