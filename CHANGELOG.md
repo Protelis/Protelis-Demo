@@ -1,3 +1,35 @@
+## [12.0.11](https://github.com/Protelis/Protelis-Demo/compare/12.0.10...12.0.11) (2024-09-12)
+
+### Dependency updates
+
+* **deps:** update dependency gradle to v8.10.1 ([40c7001](https://github.com/Protelis/Protelis-Demo/commit/40c7001175aa23e7d205025735b1966b8e2e93b0))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.100 ([eff61c9](https://github.com/Protelis/Protelis-Demo/commit/eff61c9ddf7f3cdcc15efd813dd7bb8e3952682d))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.101 ([44278e8](https://github.com/Protelis/Protelis-Demo/commit/44278e8cbb0e28b585b0185360de5bdcca50625f))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.102 ([30cbc3d](https://github.com/Protelis/Protelis-Demo/commit/30cbc3d66de9dcbf3555eb5b3b11d1ca92a2eb99))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.103 ([f91c7f6](https://github.com/Protelis/Protelis-Demo/commit/f91c7f6aaf30c29c196c1f9c7b292091cc0f346e))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.104 ([7c7da25](https://github.com/Protelis/Protelis-Demo/commit/7c7da25992696fe67386efda62676b032c30eb5a))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.105 ([d675b13](https://github.com/Protelis/Protelis-Demo/commit/d675b13fe4a4a87da50dfb154dd401e937a22a59))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.99 ([c278b7b](https://github.com/Protelis/Protelis-Demo/commit/c278b7b03ea97a9a34132d06a0baecf79b08da48))
+* **deps:** update mockito monorepo to v5.13.0 ([cebda3c](https://github.com/Protelis/Protelis-Demo/commit/cebda3c70790c8eec79e68447bfc151aa1be7754))
+* **deps:** update node.js to 20.17 ([e10eb48](https://github.com/Protelis/Protelis-Demo/commit/e10eb487639be074f6a133b86fa643979b5a16f3))
+* **deps:** update plugin com.gradle.develocity to v3.18.1 ([134f021](https://github.com/Protelis/Protelis-Demo/commit/134f02131d04318129ee6591738db6332a853e0b))
+* **deps:** update plugin java-qa to v1.62.0 ([5e8bca3](https://github.com/Protelis/Protelis-Demo/commit/5e8bca3c956fc3f9dd753e96cb1182e9f7e7c52a))
+* **deps:** update plugin java-qa to v1.64.0 ([52f2b60](https://github.com/Protelis/Protelis-Demo/commit/52f2b6041da0ee48945f34565c3452c389ad7c15))
+* **deps:** update plugin java-qa to v1.65.0 ([55047bc](https://github.com/Protelis/Protelis-Demo/commit/55047bc336c28f5ebe60ad29438e60505c6270c8))
+* **deps:** update plugin kotlin-qa to v0.66.0 ([5fa4ad7](https://github.com/Protelis/Protelis-Demo/commit/5fa4ad74ace96f8a8caa77b17709f808df991884))
+* **deps:** update plugin kotlin-qa to v0.66.1 ([16e9450](https://github.com/Protelis/Protelis-Demo/commit/16e9450073820172525c4a3b9a3b2aa318dd2b66))
+* **deps:** update plugin multijvmtesting to v1.2.6 ([e616976](https://github.com/Protelis/Protelis-Demo/commit/e616976b81c8f09828545ad2faa3a499933402d8))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.10 ([03cd67f](https://github.com/Protelis/Protelis-Demo/commit/03cd67f5377dd63274e7ca985ef51b6ade09e161))
+
+### Documentation
+
+* document `MqttNetworkManager.Companion` and fix dangling Dokka reference ([7e2421f](https://github.com/Protelis/Protelis-Demo/commit/7e2421f6359f765a95af86cc4695bfcb648b5de0))
+
+### Build and continuous integration
+
+* **deps:** update danysk/build-check-deploy-gradle-action action to v3.5.4 ([e51ae28](https://github.com/Protelis/Protelis-Demo/commit/e51ae28e327e513e8b49c56e3a44c4e097dcf833))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v3.5.5 ([b601204](https://github.com/Protelis/Protelis-Demo/commit/b6012049dd895bbb61a20d9188c787c81b8f6438))
+
 ## [12.0.10](https://github.com/Protelis/Protelis-Demo/compare/12.0.9...12.0.10) (2024-08-22)
 
 ### Dependency updates
