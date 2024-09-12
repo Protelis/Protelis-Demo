@@ -81,18 +81,21 @@ class MqttNetworkManager(
     }
 
     /**
-     * Called by [ProtelisVM] during execution to collect the most recent
+     * Called by [org.protelis.vm.ProtelisVM] during execution to collect the most recent
      * information available from neighbors. The call is serial within the
      * execution, so this should probably poll state maintained by a separate
      * thread, rather than gathering state during this call.
      *
      * @return A map associating each neighbor with its shared state. The object
-     * returned should not be modified, and [ProtelisVM] will not
+     * returned should not be modified, and [org.protelis.vm.ProtelisVM] will not
      * change it either.
      */
     override fun getNeighborState(): Map<DeviceUID, Map<CodePath, Any>> = messages
         .apply { messages = emptyMap() }
 
+    /**
+     * Containers for the default values.
+     */
     companion object {
         /**
          * Default listening address (loopback).
