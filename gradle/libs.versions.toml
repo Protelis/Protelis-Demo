@@ -1,7 +1,7 @@
 [versions]
 junit = "5.11.2"
 kotest = "5.9.1"
-kotlin = "2.0.20"
+kotlin = "2.0.21"
 mockito = "5.14.1"
 protelis = "15.1.0"
 
