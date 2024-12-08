@@ -3,7 +3,6 @@ junit = "5.11.3"
 kotest = "5.9.1"
 kotlin = "2.1.0"
 mockito = "5.14.2"
-protelis = "15.1.0"
 
 [libraries]
 jgrapht-core = "org.jgrapht:jgrapht-core:1.5.2"
@@ -27,6 +26,6 @@ mockito = [ "mockito-core", "mockito-junit-jupiter" ]
 gitSemVer = "org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin:3.1.7"
 java-qa = "org.danilopianini.gradle-java-qa:1.77.0"
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin-qa = "org.danilopianini.gradle-kotlin-qa:0.70.2"
+kotlin-qa = "org.danilopianini.gradle-kotlin-qa:0.77.1"
 multiJvmTesting = "org.danilopianini.multi-jvm-test-plugin:3.0.0"
 shadowJar = "com.github.johnrengelman.shadow:8.1.1"

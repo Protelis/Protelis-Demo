@@ -8,10 +8,11 @@ import org.protelis.lang.ProtelisLoader
  * Application entry point.
  */
 object HelloProtelis {
-
     private var devices: List<Device> = emptyList()
-    private val config = Config { addSpec(ProtelisConfigSpec) }
-        .from.toml.resource("config.toml")
+    private val config =
+        Config { addSpec(ProtelisConfigSpec) }
+            .from.toml
+            .resource("config.toml")
     private val protelisModuleName = config[ProtelisConfigSpec.protelisModuleName]
     private val iterations = config[ProtelisConfigSpec.iterations]
     private val nodes = config[ProtelisConfigSpec.nodes]
@@ -22,8 +23,9 @@ object HelloProtelis {
     fun main() {
         // Initialize some nodes.
         nodes.forEach {
-            val socketNetworkManager = SocketNetworkManager(IntDeviceUID(it.id), it.hostandport.port, it.neighbors)
-                .apply { listen() }
+            val socketNetworkManager =
+                SocketNetworkManager(IntDeviceUID(it.id), it.hostandport.port, it.neighbors)
+                    .apply { listen() }
             val program = ProtelisLoader.parse(protelisModuleName)
             val node = Device(program, it.id, socketNetworkManager, ConsoleSpeaker())
             if (it.leader) {

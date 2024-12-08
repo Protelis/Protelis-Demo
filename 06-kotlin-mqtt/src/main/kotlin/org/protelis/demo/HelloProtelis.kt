@@ -9,15 +9,18 @@ import org.protelis.lang.ProtelisLoader
  */
 fun main() {
     var devices: List<Device> = emptyList()
-    val config = Config { addSpec(ProtelisConfigSpec) }
-        .from.toml.resource("config.toml")
+    val config =
+        Config { addSpec(ProtelisConfigSpec) }
+            .from.toml
+            .resource("config.toml")
     val protelisModuleName = config[ProtelisConfigSpec.protelisModuleName]
     val iterations = config[ProtelisConfigSpec.iterations]
     val nodes = config[ProtelisConfigSpec.nodes]
     // Initialize some nodes.
     nodes.forEach {
-        val mqttNetworkManager = MqttNetworkManager(IntDeviceUID(it.id), neighbors = it.neighbors)
-            .apply { listen(it.listen) }
+        val mqttNetworkManager =
+            MqttNetworkManager(IntDeviceUID(it.id), neighbors = it.neighbors)
+                .apply { listen(it.listen) }
         val program = ProtelisLoader.parse(protelisModuleName)
         val node = Device(program, it.id, mqttNetworkManager, ConsoleSpeaker())
         if (it.leader) {

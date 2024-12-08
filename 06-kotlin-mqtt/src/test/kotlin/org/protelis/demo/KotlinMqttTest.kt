@@ -14,24 +14,27 @@ import org.protelis.lang.ProtelisLoader
  * Initialize the network as configured in config.toml and run the Protelis program.
  */
 class KotlinMqttTest : StringSpec() {
-
     private lateinit var server: Server
     private var devices: List<Device> = emptyList()
     private var speakers: List<Speaker> = emptyList()
-    private val config = Config { addSpec(ProtelisConfigSpec) }
-        .from.toml.resource("config.toml")
+    private val config =
+        Config { addSpec(ProtelisConfigSpec) }
+            .from.toml
+            .resource("config.toml")
     private val protelisModuleName = config[ProtelisConfigSpec.protelisModuleName]
     private val iterations = config[ProtelisConfigSpec.iterations]
     private val nodes = config[ProtelisConfigSpec.nodes]
-    private val leaders = config[ProtelisConfigSpec.nodes]
-        .filter { it.leader }
-        .map { it.id }
+    private val leaders =
+        config[ProtelisConfigSpec.nodes]
+            .filter { it.leader }
+            .map { it.id }
 
     override suspend fun beforeSpec(spec: Spec) {
         initServer()
         nodes.forEach {
-            val mqttNetworkManager = MqttNetworkManager(IntDeviceUID(it.id), neighbors = it.neighbors)
-                .apply { listen(it.listen) }
+            val mqttNetworkManager =
+                MqttNetworkManager(IntDeviceUID(it.id), neighbors = it.neighbors)
+                    .apply { listen(it.listen) }
             val program = ProtelisLoader.parse(protelisModuleName)
             val s = spyk(ConsoleSpeaker())
             val d = Device(program, it.id, mqttNetworkManager, s)
@@ -67,11 +70,13 @@ class KotlinMqttTest : StringSpec() {
         }
 
         "The leader count should be correct" {
-            val messages = generateSequence(3f) { it - 1 }
-                .take(3)
-                .map { "The leader's count is: $it" }
-                .toList()
-            leaders.stream()
+            val messages =
+                generateSequence(3f) { it - 1 }
+                    .take(3)
+                    .map { "The leader's count is: $it" }
+                    .toList()
+            leaders
+                .stream()
                 .flatMap { x -> messages.stream().map({ msg -> Pair<Int, String>(x, msg) }) }
                 .forEach { id ->
                     verify(exactly = 1) { speakers[id.first].announce((id.second)) }
@@ -96,8 +101,7 @@ class KotlinMqttTest : StringSpec() {
             leaders
                 .flatMap {
                     listOf((it + nodes.size - 1) % nodes.size, (it + 1) % nodes.size)
-                }
-                .distinct()
+                }.distinct()
                 .forEach { id ->
                     verify(atLeast = 1) {
                         speakers[id].announce("Hello from the leader to its neighbor at $id")

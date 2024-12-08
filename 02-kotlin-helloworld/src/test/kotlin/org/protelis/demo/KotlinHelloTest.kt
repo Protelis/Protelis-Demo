@@ -10,12 +10,11 @@ import org.jgrapht.graph.DefaultUndirectedGraph
 import org.protelis.lang.ProtelisLoader
 
 class KotlinHelloTest : StringSpec() {
-
     companion object {
-        const val protelisModuleName = "hello"
-        const val n = 3
-        const val iterations = 4
-        const val leader = 0
+        const val PROTELIS_MODULE_NAME = "hello"
+        const val N = 3
+        const val ITERATIONS = 4
+        const val LEADER = 0
     }
 
     private var devices: List<Device> = emptyList()
@@ -23,25 +22,25 @@ class KotlinHelloTest : StringSpec() {
 
     override suspend fun beforeSpec(spec: Spec) {
         val g = DefaultUndirectedGraph<Device, DefaultEdge>(DefaultEdge::class.java)
-        repeat(n) {
-            val program = ProtelisLoader.parse(protelisModuleName)
+        repeat(N) {
+            val program = ProtelisLoader.parse(PROTELIS_MODULE_NAME)
             val s = spyk(ConsoleSpeaker())
             val d = Device(program, it, EmulatedNetworkManager(IntDeviceUID(it)), s)
             devices = devices + d
             speakers = speakers + s
             g.addVertex(d)
         }
-        repeat(n) {
+        repeat(N) {
             g.addEdge(
                 devices[it],
-                devices[(it + 1) % n],
+                devices[(it + 1) % N],
             )
         }
         // Let every device know its neighbors and set the leader
         devices.forEach { (it.networkManager as EmulatedNetworkManager).neighbors = Graphs.neighborSetOf(g, it) }
-        devices[leader].deviceCapabilities.executionEnvironment.put("leader", true)
+        devices[LEADER].deviceCapabilities.executionEnvironment.put("leader", true)
         // Run some cycles
-        repeat(iterations) { _ ->
+        repeat(ITERATIONS) { _ ->
             devices.forEach { it.runCycle() }
         }
     }
@@ -49,20 +48,20 @@ class KotlinHelloTest : StringSpec() {
     init {
         "The leader count should be correct" {
             generateSequence(3f) { it - 1 }
-                .take(iterations)
+                .take(ITERATIONS)
                 .map { "The leader's count is: $it" }
                 .forEach {
-                    verify(exactly = 1) { speakers[leader].announce(it) }
+                    verify(exactly = 1) { speakers[LEADER].announce(it) }
                 }
         }
-        "The leader should be at $leader" {
-            verify(exactly = iterations) { speakers[leader].announce("The leader is at $leader") }
+        "The leader should be at $LEADER" {
+            verify(exactly = ITERATIONS) { speakers[LEADER].announce("The leader is at $LEADER") }
         }
         "The leader neighbors should say something" {
-            sequenceOf(leader)
-                .flatMap { sequenceOf((leader + n - 1) % n, (leader + 1) % n) }
+            sequenceOf(LEADER)
+                .flatMap { sequenceOf((LEADER + N - 1) % N, (LEADER + 1) % N) }
                 .forEach {
-                    verify(exactly = iterations) {
+                    verify(exactly = ITERATIONS) {
                         speakers[it].announce("Hello from the leader to its neighbor at $it")
                     }
                 }

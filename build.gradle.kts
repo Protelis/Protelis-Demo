@@ -80,7 +80,12 @@ kotlinprojects {
 }
 
 inline fun kotlinprojects(todo: Project.() -> Any) = onProjectsWithLanguage("kotlin", todo)
+
 inline fun javaprojects(todo: Project.() -> Any) = onProjectsWithLanguage("java", todo)
-inline fun Project.onProjectsWithLanguage(language: String, todo: Project.() -> Any) = subprojects
+
+inline fun Project.onProjectsWithLanguage(
+    language: String,
+    todo: Project.() -> Any,
+) = subprojects
     .filter { it.name.contains(language) }
     .forEach { with(it, todo) }

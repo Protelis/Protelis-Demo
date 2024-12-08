@@ -10,25 +10,28 @@ import io.mockk.verify
 import org.protelis.lang.ProtelisLoader
 
 class KotlinSocketTest : StringSpec() {
-
     private var devices: List<Device> = emptyList()
     private var speakers: List<Speaker> = emptyList()
-    private val config = Config { addSpec(ProtelisConfigSpec) }
-        .from.toml.resource("config.toml")
+    private val config =
+        Config { addSpec(ProtelisConfigSpec) }
+            .from.toml
+            .resource("config.toml")
     private val protelisModuleName = config[ProtelisConfigSpec.protelisModuleName]
     private val iterations = config[ProtelisConfigSpec.iterations]
     private val nodes = config[ProtelisConfigSpec.nodes]
-    private val leaders = config[ProtelisConfigSpec.nodes]
-        .filter { it.leader }
-        .map { it.id }
+    private val leaders =
+        config[ProtelisConfigSpec.nodes]
+            .filter { it.leader }
+            .map { it.id }
 
     override suspend fun beforeSpec(spec: Spec) {
         nodes.forEach {
-            val socketNetworkManager = SocketNetworkManager(
-                IntDeviceUID(it.id),
-                it.hostandport.port,
-                it.neighbors,
-            ).apply { listen() }
+            val socketNetworkManager =
+                SocketNetworkManager(
+                    IntDeviceUID(it.id),
+                    it.hostandport.port,
+                    it.neighbors,
+                ).apply { listen() }
             val program = ProtelisLoader.parse(protelisModuleName)
             val s = spyk(ConsoleSpeaker())
             val d = Device(program, it.id, socketNetworkManager, s)
@@ -51,11 +54,13 @@ class KotlinSocketTest : StringSpec() {
         }
 
         "The leader count should be correct" {
-            val messages = generateSequence(3f) { it - 1 }
-                .take(3)
-                .map { "The leader's count is: $it" }
-                .toList()
-            leaders.stream()
+            val messages =
+                generateSequence(3f) { it - 1 }
+                    .take(3)
+                    .map { "The leader's count is: $it" }
+                    .toList()
+            leaders
+                .stream()
                 .flatMap { x -> messages.stream().map { msg -> Pair<Int, String>(x, msg) } }
                 .forEach { id ->
                     verify(exactly = 1) { speakers[id.first].announce((id.second)) }
@@ -80,8 +85,7 @@ class KotlinSocketTest : StringSpec() {
             leaders
                 .flatMap {
                     listOf((it + nodes.size - 1) % nodes.size, (it + 1) % nodes.size)
-                }
-                .distinct()
+                }.distinct()
                 .forEach { id ->
                     verify(atLeast = 1) {
                         speakers[id].announce("Hello from the leader to its neighbor at $id")

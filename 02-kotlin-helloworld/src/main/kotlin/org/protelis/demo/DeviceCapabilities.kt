@@ -7,7 +7,7 @@ import org.protelis.vm.impl.SimpleExecutionEnvironment
 
 /**
  * Represents the capabilities of a device with:
- * - unique [id]entifier;
+ * - unique identifier ([uid];
  * - network communication via [networkManager];
  * - internal alignment control via [codePathFactory];
  * - possibility to do actuation via a [speaker].
@@ -19,7 +19,6 @@ class DeviceCapabilities(
     private val speaker: Speaker,
 ) : AbstractExecutionContext<DeviceCapabilities>(SimpleExecutionEnvironment(), networkManager, codePathFactory),
     Speaker {
-
     override fun announce(something: String) = speaker.announce(something)
 
     private val myUID = IntDeviceUID(uid)

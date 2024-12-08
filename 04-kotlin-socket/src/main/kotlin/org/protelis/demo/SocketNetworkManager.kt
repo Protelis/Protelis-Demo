@@ -39,7 +39,10 @@ class SocketNetworkManager(
                     server.accept<Any>(
                         null,
                         object : CompletionHandler<AsynchronousSocketChannel, Any> {
-                            override fun completed(clientChannel: AsynchronousSocketChannel?, attachment: Any?) {
+                            override fun completed(
+                                clientChannel: AsynchronousSocketChannel?,
+                                attachment: Any?,
+                            ) {
                                 if (server.isOpen) {
                                     server.accept<Any>(null, this)
                                 }
@@ -53,7 +56,11 @@ class SocketNetworkManager(
                                     }
                                 }
                             }
-                            override fun failed(exc: Throwable, attachment: Any?) {
+
+                            override fun failed(
+                                exc: Throwable,
+                                attachment: Any?,
+                            ) {
                                 exc.printStackTrace()
                             }
                         },
@@ -86,7 +93,10 @@ class SocketNetworkManager(
         running = false
     }
 
-    private fun receiveMessage(src: DeviceUID, msg: Map<CodePath, Any>) {
+    private fun receiveMessage(
+        src: DeviceUID,
+        msg: Map<CodePath, Any>,
+    ) {
         messages += Pair(src, msg)
     }
 
@@ -96,9 +106,10 @@ class SocketNetworkManager(
             var client: AsynchronousSocketChannel? = null
             var oos: ObjectOutputStream? = null
             try {
-                client = checkNotNull(AsynchronousSocketChannel.open()) {
-                    "Cannot open an asynchronous socket channel"
-                }
+                client =
+                    checkNotNull(AsynchronousSocketChannel.open()) {
+                        "Cannot open an asynchronous socket channel"
+                    }
                 val future = client.connect(InetSocketAddress(n.host, n.port))
                 future.get()
                 oos = ObjectOutputStream(Channels.newOutputStream(client))
@@ -124,6 +135,5 @@ class SocketNetworkManager(
         }
     }
 
-    override fun getNeighborState(): Map<DeviceUID, Map<CodePath, Any>> =
-        messages.apply { messages = emptyMap() }
+    override fun getNeighborState(): Map<DeviceUID, Map<CodePath, Any>> = messages.apply { messages = emptyMap() }
 }

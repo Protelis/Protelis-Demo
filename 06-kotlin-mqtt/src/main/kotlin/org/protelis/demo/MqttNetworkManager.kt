@@ -17,9 +17,9 @@ import java.io.ObjectOutputStream
  */
 class MqttNetworkManager(
     private val uid: DeviceUID,
-    address: String = defaultAddress,
-    port: Int = defaultPort,
-    private val qos: Int = defaultQoS,
+    address: String = DEFAULT_ADDRESS,
+    port: Int = DEFAULT_PORT,
+    private val qos: Int = DEFAULT_QOS,
     private val neighbors: Set<String>,
 ) : NetworkManager {
     private var messages: Map<DeviceUID, Map<CodePath, Any>> = emptyMap()
@@ -37,7 +37,10 @@ class MqttNetworkManager(
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun handleMessage(@Suppress("UNUSED_PARAMETER") topic: String, message: MqttMessage) {
+    private fun handleMessage(
+        @Suppress("UNUSED_PARAMETER") topic: String,
+        message: MqttMessage,
+    ) {
         ObjectInputStream(ByteArrayInputStream(message.payload)).use {
             val received = it.readObject()
             if (received is Map<*, *>) {
@@ -46,7 +49,10 @@ class MqttNetworkManager(
         }
     }
 
-    private fun receiveMessage(src: DeviceUID, msg: Map<CodePath, Any>) {
+    private fun receiveMessage(
+        src: DeviceUID,
+        msg: Map<CodePath, Any>,
+    ) {
         messages += Pair(src, msg)
     }
 
@@ -76,9 +82,10 @@ class MqttNetworkManager(
         }
     }
 
-    private fun publish(message: MqttMessage) = fun(topic: String) {
-        mqttClient.publish(topic, message).waitForCompletion()
-    }
+    private fun publish(message: MqttMessage) =
+        fun(topic: String) {
+            mqttClient.publish(topic, message).waitForCompletion()
+        }
 
     /**
      * Called by [org.protelis.vm.ProtelisVM] during execution to collect the most recent
@@ -90,8 +97,9 @@ class MqttNetworkManager(
      * returned should not be modified, and [org.protelis.vm.ProtelisVM] will not
      * change it either.
      */
-    override fun getNeighborState(): Map<DeviceUID, Map<CodePath, Any>> = messages
-        .apply { messages = emptyMap() }
+    override fun getNeighborState(): Map<DeviceUID, Map<CodePath, Any>> =
+        messages
+            .apply { messages = emptyMap() }
 
     /**
      * Containers for the default values.
@@ -100,16 +108,16 @@ class MqttNetworkManager(
         /**
          * Default listening address (loopback).
          */
-        const val defaultAddress = "127.0.0.1"
+        const val DEFAULT_ADDRESS = "127.0.0.1"
 
         /**
          * Default MQTT port.
          */
-        const val defaultPort = 1883
+        const val DEFAULT_PORT = 1883
 
         /**
          * Default quality of service.
          */
-        const val defaultQoS = 2
+        const val DEFAULT_QOS = 2
     }
 }
