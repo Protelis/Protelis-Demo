@@ -1,8 +1,8 @@
 .gradle
-/build/
-/out
-
+build/
+out
 .idea/
+.kotlin/
 
 # Ignore Eclipse project and settings
 .project
