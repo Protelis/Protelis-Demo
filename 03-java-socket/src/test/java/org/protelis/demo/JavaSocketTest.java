@@ -35,7 +35,6 @@ class JavaSocketTest {
     private static List<ProtelisNode> nodes;
     private static List<Integer> leaders;
 
-
     @BeforeAll
     @VisibleForTesting
     static void init() throws IOException {
@@ -50,7 +49,7 @@ class JavaSocketTest {
                 .collect(Collectors.toList());
         for (final ProtelisNode n: nodes) {
             final IntDeviceUID id = new IntDeviceUID(n.getId());
-            final int port = n.getHostandport().getPort();
+            final int port = n.getHostAndPort().getPort();
             final SocketNetworkManager netmgr = new SocketNetworkManager(id, port, n.getNeighbors());
             netmgr.listen();
             final ProtelisProgram program = ProtelisLoader.parse(protelisModuleName);

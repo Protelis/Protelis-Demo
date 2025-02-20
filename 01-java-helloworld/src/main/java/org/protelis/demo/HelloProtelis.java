@@ -23,7 +23,8 @@ public final class HelloProtelis {
 
     /**
      * Main method.
-     * @param args unutilized
+     *
+     * @param args unused
      */
     public static void main(final String[] args) {
         final int n = 5;

@@ -20,7 +20,6 @@ import java.util.stream.IntStream;
 
 import static org.mockito.Mockito.times;
 
-
 @ExtendWith(MockitoExtension.class)
 class JavaHelloTest {
 

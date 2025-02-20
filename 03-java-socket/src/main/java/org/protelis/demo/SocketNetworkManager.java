@@ -38,12 +38,13 @@ public class SocketNetworkManager implements NetworkManager {
     private final InetAddress address;
     private final int port;
     private final ImmutableSet<IPv4Host> neighbors;
-    private transient Thread t;
+    private transient Thread thread;
 
     /**
-     * constructor method for device with default address.
+     * constructor method for a device with a default address.
+     *
      * @param deviceUID the device id
-     * @param port port of the server for incoming message
+     * @param port port of the server for incoming messages
      * @param neighbors the neighbors the device has to send his messages to
      *
      */
@@ -56,10 +57,11 @@ public class SocketNetworkManager implements NetworkManager {
     }
 
     /**
-     * constructor method for device with default address.
+     * constructor method for a device with a default address.
+     *
      * @param deviceUID the device id
-     * @param address address of the server for incoming message
-     * @param port port of the server for incoming message
+     * @param address address of the server for incoming messages
+     * @param port port of the server for incoming messages
      * @param neighbors the neighbors the device has to send his messages to
      */
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "The address is not mutable")
@@ -76,10 +78,11 @@ public class SocketNetworkManager implements NetworkManager {
     }
 
     /**
-     * constructor method for device with default address.
+     * constructor method for a device with a default address.
+     *
      * @param deviceUID the device id
-     * @param address address of the server for incoming message
-     * @param port port of the server for incoming message
+     * @param address address of the server for incoming messages
+     * @param port port of the server for incoming messages
      * @param neighbors the neighbors the device has to send his messages to
      * @throws UnknownHostException if the host is unresolvable.
      */
@@ -97,13 +100,14 @@ public class SocketNetworkManager implements NetworkManager {
 
     /**
      * start the server TCP to listen for incoming messages from neighbors.
+     *
      * @throws IOException If some I/O error occurs
      */
     public void listen() throws IOException {
         final AsynchronousServerSocketChannel server = AsynchronousServerSocketChannel.open();
         server.bind(new InetSocketAddress(address, port));
-        if (t == null) {
-            t = new Thread(() -> {
+        if (thread == null) {
+            thread = new Thread(() -> {
                 while (!Thread.currentThread().isInterrupted()) {
                     server.accept(null, new CompletionHandler<>() {
                         @Override
@@ -128,11 +132,11 @@ public class SocketNetworkManager implements NetworkManager {
                 }
                 try {
                     server.close();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     throw new IllegalStateException(e);
                 }
             });
-            t.start();
+            thread.start();
         }
     }
 
@@ -140,8 +144,8 @@ public class SocketNetworkManager implements NetworkManager {
      * close the server.
      */
     public void stop() {
-        if (t != null) {
-            t.interrupt();
+        if (thread != null) {
+            thread.interrupt();
         }
     }
 
@@ -163,6 +167,7 @@ public class SocketNetworkManager implements NetworkManager {
 
     /**
      * Called by ProtelisVM read the stored messages.
+     *
      * @return the currently stored messages
      */
     @Override
@@ -174,6 +179,7 @@ public class SocketNetworkManager implements NetworkManager {
 
     /**
      * Called by ProtelisVM to send a message to the neighbors.
+     *
      * @param toSend the message to be sent.
      */
     @Override
@@ -187,17 +193,16 @@ public class SocketNetworkManager implements NetworkManager {
                 client.connect(hostAddress).get(10, TimeUnit.SECONDS);
                 try (ObjectOutputStream oos = new ObjectOutputStream(Channels.newOutputStream(client))) {
                     oos.writeObject(msg);
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     throw new IllegalStateException(e);
                 }
-            } catch (IOException | InterruptedException | ExecutionException | TimeoutException e) {
+            } catch (final IOException | InterruptedException | ExecutionException | TimeoutException e) {
                 throw new IllegalStateException(e);
             }
         });
     }
 
     /**
-     * Getter for the device id.
      * @return the device id
      */
     public DeviceUID getDeviceUID() {
@@ -205,7 +210,6 @@ public class SocketNetworkManager implements NetworkManager {
     }
 
     /**
-     * Getter for the server port.
      * @return the server port
      */
     public int getPort() {
@@ -213,7 +217,6 @@ public class SocketNetworkManager implements NetworkManager {
     }
 
     /**
-     * Getter for the neighbors.
      * @return the neighbors
      */
     @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "The field is immutable")

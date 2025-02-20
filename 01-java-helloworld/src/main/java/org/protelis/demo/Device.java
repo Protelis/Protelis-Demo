@@ -18,6 +18,7 @@ public class Device {
 
     /**
      * Constructor method.
+     *
      * @param program the Program to be loaded
      * @param uid the unique identifier of this node
      * @param networkManager the network manager to use
@@ -32,6 +33,7 @@ public class Device {
 
     /**
      * Getter for the network manager.
+     *
      * @return the network manager
      */
     public NetworkManager getNetworkManager() {
@@ -40,6 +42,7 @@ public class Device {
 
     /**
      * Getter for the device capabilities.
+     *
      * @return the device capabilities.
      */
     @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Done by purpose")

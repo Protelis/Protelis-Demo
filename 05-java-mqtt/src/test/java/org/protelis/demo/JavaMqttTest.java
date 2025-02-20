@@ -56,17 +56,17 @@ class JavaMqttTest {
                 .collect(Collectors.toList());
         nodes.forEach(n -> {
             final DeviceUID uid = new IntDeviceUID(n.getId());
-            final MqttNetworkManager netmgr =
+            final MqttNetworkManager networkManager =
                 new MqttNetworkManager(uid, InetAddress.getLoopbackAddress(), PORT, n.getNeighbors());
             try {
-                netmgr.listen(n.getListen());
-            } catch (MqttException e) {
+                networkManager.listen(n.getListen());
+            } catch (final MqttException e) {
                 throw new IllegalStateException(e);
             }
             final ProtelisProgram program = ProtelisLoader.parse(protelisModuleName);
             final Speaker speaker = Mockito.spy(new ConsoleSpeaker());
             SPEAKERS.add(speaker);
-            final Device node = new Device(program, n.getId(), netmgr, speaker);
+            final Device node = new Device(program, n.getId(), networkManager, speaker);
             if (n.isLeader()) {
                 node.getDeviceCapabilities().getExecutionEnvironment().put("leader", true);
             }
@@ -119,8 +119,7 @@ class JavaMqttTest {
     @VisibleForTesting
     @DisplayName("The leaders should print their id")
     void testSocketLeaderMessage() {
-        leaders.stream()
-                .forEach(x -> Mockito.verify(SPEAKERS.get(x), times(iterations)).announce("The leader is at " + x));
+        leaders.forEach(x -> Mockito.verify(SPEAKERS.get(x), times(iterations)).announce("The leader is at " + x));
     }
 
     @Test

@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Network Manager which uses the MQTT protocol.
+ * Network Manager, which uses the MQTT protocol.
  */
 public class MqttNetworkManager implements NetworkManager {
 
@@ -47,6 +47,7 @@ public class MqttNetworkManager implements NetworkManager {
 
     /**
      * Constructor method for which uses the default config.
+     *
      * @param deviceUID the device id.
      * @param neighbors the node neighbors.
      */
@@ -55,7 +56,8 @@ public class MqttNetworkManager implements NetworkManager {
     }
 
     /**
-     * Constructor method to explicitly specify the broker addess and port.
+     * Constructor method to explicitly specify the broker address and port.
+     *
      * @param deviceUID the device id.
      * @param address the MQTT broker address.
      * @param port the MQTT broker port.
@@ -72,6 +74,7 @@ public class MqttNetworkManager implements NetworkManager {
 
     /**
      * Constructor method to explicitly set the MQTT qos.
+     *
      * @param deviceUID the device id.
      * @param address the MQTT broker address.
      * @param port the MQTT broker port.
@@ -96,9 +99,10 @@ public class MqttNetworkManager implements NetworkManager {
 
     /**
      * Starts the MQTT client and subscribes to the target topic.
-     * @param topic the topic the node is listening.
-     * @throws MqttException if some MQTT related error occur.
+     *
+     * @param topic the topic the node is listening to.
      * @return the token to track the listen asynchronous operation.
+     * @throws MqttException if some MQTT-related error occurs.
      */
     public IMqttToken listen(final String topic) throws MqttException {
         final String broker = "tcp://" + this.address.getHostAddress() + ":" + this.port;
@@ -110,8 +114,9 @@ public class MqttNetworkManager implements NetworkManager {
 
     /**
      * Shutdowns the MQTT client.
+     *
      * @return the token to track the asynchronous task
-     * @throws MqttException if some MQTT related error occur
+     * @throws MqttException if some MQTT-related error occurs
      */
     public IMqttToken stop() throws MqttException {
         return this.mqttClient.disconnect();
@@ -137,6 +142,7 @@ public class MqttNetworkManager implements NetworkManager {
 
     /**
      * Called by ProtelisVM read the stored messages.
+     *
      * @return the currently stored messages
      */
     @Override
@@ -148,6 +154,7 @@ public class MqttNetworkManager implements NetworkManager {
 
     /**
      * Called by ProtelisVM to send a message to the neighbors.
+     *
      * @param toSend the message to be sent.
      */
     @Override
@@ -162,7 +169,7 @@ public class MqttNetworkManager implements NetworkManager {
                 final MqttMessage message = new MqttMessage(bos.toByteArray());
                 neighbors.forEach(publish(message));
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new IllegalStateException(e);
         }
     }
@@ -171,7 +178,7 @@ public class MqttNetworkManager implements NetworkManager {
         return topic -> {
             try {
                 mqttClient.publish(topic, message).waitForCompletion();
-            } catch (MqttException e) {
+            } catch (final MqttException e) {
                 throw new IllegalStateException(e);
             }
         };

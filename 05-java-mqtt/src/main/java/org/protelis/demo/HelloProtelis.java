@@ -20,6 +20,7 @@ public final class HelloProtelis {
 
     /**
      * Main method.
+     *
      * @param args unused.
      */
     public static void main(final String[] args) {
@@ -35,7 +36,7 @@ public final class HelloProtelis {
             final MqttNetworkManager netmgr = new MqttNetworkManager(new IntDeviceUID(n.getId()), n.getNeighbors());
             try {
                 netmgr.listen(n.getListen()).waitForCompletion();
-            } catch (MqttException e) {
+            } catch (final MqttException e) {
                 throw new IllegalStateException(e);
             }
             final ProtelisProgram program = ProtelisLoader.parse(protelisModuleName);
@@ -53,7 +54,7 @@ public final class HelloProtelis {
         devices.forEach(d -> {
             try {
                 ((MqttNetworkManager) d.getNetworkManager()).stop().waitForCompletion();
-            } catch (MqttException e) {
+            } catch (final MqttException e) {
                 throw new IllegalStateException(e);
             }
         });

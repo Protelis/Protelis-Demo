@@ -6,7 +6,8 @@ package org.protelis.demo;
 public class ConsoleSpeaker implements Speaker {
     /**
      * Prints the message to the standard output.
-     * @param message
+     *
+     * @param message the message to announce.
      */
     @Override
     public void announce(final String message) {

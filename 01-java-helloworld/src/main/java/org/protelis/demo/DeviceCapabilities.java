@@ -7,8 +7,10 @@ import org.protelis.vm.impl.AbstractExecutionContext;
 import org.protelis.vm.impl.SimpleExecutionEnvironment;
 
 /**
- * Implementation of an Execution Context. It extends the existing AbstractExecutionContext. It is needed to execute
- * a Protelis program. Each device should have its DeviceCapabilities instance.
+ * Implementation of an Execution Context.
+ * It extends the existing AbstractExecutionContext.
+ * It is necessary to execute a Protelis program.
+ * Each device should have its DeviceCapabilities instance.
  */
 public class DeviceCapabilities extends AbstractExecutionContext<DeviceCapabilities> implements Speaker {
 
@@ -17,26 +19,32 @@ public class DeviceCapabilities extends AbstractExecutionContext<DeviceCapabilit
 
     /**
      * Constructor method.
+     *
      * @param deviceUID the device id
-     * @param netmgr the device network manager
+     * @param networkManager the device network manager
      * @param speaker the speaker strategy
      */
-    public DeviceCapabilities(final int deviceUID, final NetworkManager netmgr, final Speaker speaker) {
-        super(new SimpleExecutionEnvironment(), netmgr);
+    public DeviceCapabilities(final int deviceUID, final NetworkManager networkManager, final Speaker speaker) {
+        super(new SimpleExecutionEnvironment(), networkManager);
         this.deviceUID = new IntDeviceUID(deviceUID);
         this.speaker = speaker;
     }
 
     /**
      * Constructor method with CodePathFactory.
+     *
      * @param deviceUID the device id
-     * @param netmgr the device network manager
+     * @param networkManager the device network manager
      * @param codePathFactory the code path factory
      * @param speaker the speaker strategy
      */
-    public DeviceCapabilities(final int deviceUID, final NetworkManager netmgr, final CodePathFactory codePathFactory,
-                              final Speaker speaker) {
-        super(new SimpleExecutionEnvironment(), netmgr, codePathFactory);
+    public DeviceCapabilities(
+        final int deviceUID,
+        final NetworkManager networkManager,
+        final CodePathFactory codePathFactory,
+        final Speaker speaker
+    ) {
+        super(new SimpleExecutionEnvironment(), networkManager, codePathFactory);
         this.deviceUID = new IntDeviceUID(deviceUID);
         this.speaker = speaker;
     }
@@ -50,7 +58,6 @@ public class DeviceCapabilities extends AbstractExecutionContext<DeviceCapabilit
     }
 
     /**
-     * Returns a instance.
      * @return new instance of device capabilities.
      */
     @Override
@@ -60,6 +67,7 @@ public class DeviceCapabilities extends AbstractExecutionContext<DeviceCapabilit
 
     /**
      * Getter for the device id.
+     *
      * @return the device id
      */
     @Override
@@ -69,6 +77,7 @@ public class DeviceCapabilities extends AbstractExecutionContext<DeviceCapabilit
 
     /**
      * Getter for the speaker.
+     *
      * @return the speaker
      */
     public Speaker getSpeaker() {
@@ -77,6 +86,7 @@ public class DeviceCapabilities extends AbstractExecutionContext<DeviceCapabilit
 
     /**
      * Returns the current device time.
+     *
      * @return the current device time
      */
     @Override
@@ -86,6 +96,7 @@ public class DeviceCapabilities extends AbstractExecutionContext<DeviceCapabilit
 
     /**
      * Returns a pseudo-random number.
+     *
      * @return a pseudo-random number.
      */
     @Override

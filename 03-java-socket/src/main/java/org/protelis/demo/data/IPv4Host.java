@@ -11,7 +11,6 @@ public final class IPv4Host {
     private final int port;
 
     /**
-     * Constructor method.
      * @param host the hostname
      * @param port the port
      */
@@ -22,7 +21,6 @@ public final class IPv4Host {
     }
 
     /**
-     * Getter for the port.
      * @return the port
      */
     public int getPort() {
@@ -30,7 +28,6 @@ public final class IPv4Host {
     }
 
     /**
-     * Getter for the hostname.
      * @return the hostname
      */
     public String getHost() {

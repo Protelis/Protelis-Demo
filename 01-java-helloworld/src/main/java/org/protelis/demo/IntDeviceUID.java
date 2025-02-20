@@ -1,5 +1,6 @@
 package org.protelis.demo;
 
+import org.jetbrains.annotations.NotNull;
 import org.protelis.lang.datatype.DeviceUID;
 
 import java.util.Objects;
@@ -14,6 +15,7 @@ public class IntDeviceUID implements DeviceUID, Comparable<IntDeviceUID> {
 
     /**
      * Constructor method.
+     *
      * @param uid the id of the device
      */
     public IntDeviceUID(final int uid) {
@@ -22,6 +24,7 @@ public class IntDeviceUID implements DeviceUID, Comparable<IntDeviceUID> {
 
     /**
      * Getter for the id.
+     *
      * @return an integer which represents the unique id.
      */
     public int getUid() {
@@ -30,17 +33,19 @@ public class IntDeviceUID implements DeviceUID, Comparable<IntDeviceUID> {
 
     /**
      * Implementation of the Comparable interfaces.
+     *
      * @param o the object to be compared
      * @return a negative integer, zero, or a positive integer as this object is less than, equal to,
      *      or greater than the specified object.
      */
     @Override
-    public int compareTo(final IntDeviceUID o) {
+    public int compareTo(@NotNull final IntDeviceUID o) {
         return equals(o) ? 0 : uid < o.getUid() ? -1 : 1;
     }
 
     /**
      * Compare this object with the specified object. Return true if and only if the uid value is the same.
+     *
      * @param o the object to compare with.
      * @return true if the objects are the same; false otherwise.
      */
@@ -58,6 +63,7 @@ public class IntDeviceUID implements DeviceUID, Comparable<IntDeviceUID> {
 
     /**
      * Returns a hash code for the object.
+     *
      * @return the hash code
      */
     @Override

@@ -22,6 +22,7 @@ public final class HelloProtelis {
 
     /**
      * Main method.
+     *
      * @param args unused
      * @throws IOException in case of issues with local networking
      */
@@ -38,7 +39,7 @@ public final class HelloProtelis {
         for (final ProtelisNode n: nodes) {
             final SocketNetworkManager netmgr = new SocketNetworkManager(
                 new IntDeviceUID(n.getId()),
-                n.getHostandport().getPort(),
+                n.getHostAndPort().getPort(),
                 n.getNeighbors()
             );
             netmgr.listen();

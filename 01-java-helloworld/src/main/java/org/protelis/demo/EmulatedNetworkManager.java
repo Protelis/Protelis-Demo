@@ -22,6 +22,7 @@ public class EmulatedNetworkManager implements NetworkManager {
 
     /**
      * Constructor method.
+     *
      * @param deviceUID the device id
      * @param neighbors the neighbors the device has to send his messages to
      */
@@ -33,6 +34,7 @@ public class EmulatedNetworkManager implements NetworkManager {
 
     /**
      * Constructor method for devices with no neighbors.
+     *
      * @param deviceUID the device id
      */
     public EmulatedNetworkManager(final DeviceUID deviceUID) {
@@ -41,6 +43,7 @@ public class EmulatedNetworkManager implements NetworkManager {
 
     /**
      * Getter for the device id.
+     *
      * @return the device id
      */
     public DeviceUID getDeviceUID() {
@@ -49,6 +52,7 @@ public class EmulatedNetworkManager implements NetworkManager {
 
     /**
      * Getter for the neighbors.
+     *
      * @return the neighbors
      */
     @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "The field is immutable")
@@ -58,6 +62,7 @@ public class EmulatedNetworkManager implements NetworkManager {
 
     /**
      * Update the network manager with a new set of neighbors.
+     *
      * @param neighbors the new neighbors the device has to send his messages to
      */
     public void setNeighbors(final Set<Device> neighbors) {
@@ -66,6 +71,7 @@ public class EmulatedNetworkManager implements NetworkManager {
 
     /**
      * Receives a message and stores it.
+     *
      * @param src the message source
      * @param msg the message content
      */
@@ -75,6 +81,7 @@ public class EmulatedNetworkManager implements NetworkManager {
 
     /**
      * Called by ProtelisVM read the stored messages.
+     *
      * @return the currently stored messages
      */
     @Override
@@ -86,6 +93,7 @@ public class EmulatedNetworkManager implements NetworkManager {
 
     /**
      * Called by ProtelisVM to send a message to the neighbors.
+     *
      * @param toSend the message to be sent.
      */
     @Override
