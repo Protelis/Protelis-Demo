@@ -54,9 +54,10 @@ javaprojects {
     dependencies {
         with(rootProject.libs) {
             compileOnly(spotbugs.annotations)
-            testImplementation(junit.api)
+            testImplementation(platform(junit.bom))
+            testImplementation(junit.jupiter)
             testImplementation(bundles.mockito)
-            testRuntimeOnly(junit.engine)
+            testRuntimeOnly(bundles.junit.runtime)
         }
     }
 }
