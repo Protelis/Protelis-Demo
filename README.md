@@ -3,7 +3,7 @@
 The goal of this project is project is to show some basic implementations of [Protelis](https://github.com/Protelis/Protelis)
 using both Java and Kotlin.
 
-Protelis requires Java 8+.
+Protelis requires Java 11+.
 
 **NOTE**: this project uses submodules, and must be cloned with the `--recurse-submodules` flag:
 ``git clone --recurse-submodules https://github.com/Protelis/Protelis-Demo.git``
