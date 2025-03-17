@@ -219,7 +219,6 @@ public class SocketNetworkManager implements NetworkManager {
     /**
      * @return the neighbors
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "The field is immutable")
     public Set<IPv4Host> getNeighbors() {
         return neighbors;
     }

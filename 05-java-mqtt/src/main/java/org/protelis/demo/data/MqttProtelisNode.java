@@ -1,7 +1,6 @@
 package org.protelis.demo.data;
 
 import com.google.common.collect.ImmutableList;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.beans.ConstructorProperties;
 import java.util.List;
@@ -65,7 +64,6 @@ public final class MqttProtelisNode {
      *
      * @return the neighbors of the node.
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "The field is immutable")
     public List<String> getNeighbors() {
         return neighbors;
     }

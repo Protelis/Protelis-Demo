@@ -1,7 +1,6 @@
 package org.protelis.demo;
 
 import com.google.common.collect.ImmutableSet;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.protelis.lang.datatype.DeviceUID;
 import org.protelis.vm.CodePath;
 import org.protelis.vm.NetworkManager;
@@ -55,7 +54,6 @@ public class EmulatedNetworkManager implements NetworkManager {
      *
      * @return the neighbors
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "The field is immutable")
     public ImmutableSet<Device> getNeighbors() {
         return neighbors;
     }
