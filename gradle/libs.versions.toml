@@ -5,7 +5,7 @@ mockito = "5.17.0"
 
 [libraries]
 jgrapht-core = "org.jgrapht:jgrapht-core:1.5.2"
-junit-bom = "org.junit:junit-bom:5.12.1"
+junit-bom = "org.junit:junit-bom:5.12.2"
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
