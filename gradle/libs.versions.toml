@@ -15,7 +15,7 @@ kotest-runner = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }
 mockk = "io.mockk:mockk:1.14.2"
-moquette-broker = "de.fraunhofer.iosb.io.moquette:moquette-broker:0.18.1"
+moquette-broker = "de.fraunhofer.iosb.io.moquette:moquette-broker:0.18.2"
 paho = "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5"
 protelis = "org.protelis:protelis:18.1.0"
 spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.9.3"
