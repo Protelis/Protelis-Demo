@@ -106,7 +106,7 @@ public class MqttNetworkManager implements NetworkManager {
      */
     public IMqttToken listen(final String topic) throws MqttException {
         final String broker = "tcp://" + this.address.getHostAddress() + ":" + this.port;
-        final MqttClientPersistence persistence = new MemoryPersistence(); // NOPMD
+        final MqttClientPersistence persistence = new MemoryPersistence();
         this.mqttClient = new MqttAsyncClient(broker, this.clientId, persistence);
         mqttClient.connect().waitForCompletion();
         return mqttClient.subscribe(topic, this.qos, null, null, (unused, message) -> handleMessage(message));
