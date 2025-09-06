@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Checkout
         uses: danysk/action-checkout@0.2.24
-      - uses: DanySK/build-check-deploy-gradle-action@4.0.5
+      - uses: DanySK/build-check-deploy-gradle-action@4.0.6
         with:
           # check that all tasks used in subsequent phases are there
           should-validate-wrapper: ${{ contains('Linux', runner.os) }}
@@ -42,7 +42,7 @@ jobs:
         uses: actions/setup-node@v4.4.0
         with:
           node-version-file: package.json
-      - uses: DanySK/build-check-deploy-gradle-action@4.0.5
+      - uses: DanySK/build-check-deploy-gradle-action@4.0.6
         with:
           java-version: 8
           build-command: true
