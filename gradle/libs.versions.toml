@@ -18,7 +18,7 @@ mockk = "io.mockk:mockk:1.14.5"
 moquette-broker = "de.fraunhofer.iosb.io.moquette:moquette-broker:0.18.3"
 paho = "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5"
 protelis = "org.protelis:protelis:18.4.1"
-spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.9.5"
+spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.9.6"
 
 [bundles]
 junit-runtime = [ "junit-platform-launcher", "junit-jupiter-engine" ]
