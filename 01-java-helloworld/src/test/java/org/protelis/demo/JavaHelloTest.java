@@ -57,7 +57,8 @@ class JavaHelloTest {
     void testLeaderCount() {
         float c = 3f;
         for (int i = 0; i < ITERATIONS; i++) {
-            Mockito.verify(SPEAKERS.get(LEADER)).announce("The leader's count is: " + c--);
+            Mockito.verify(SPEAKERS.get(LEADER)).announce("The leader's count is: " + c);
+            c--;
         }
     }
 
