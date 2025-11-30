@@ -1,8 +1,5 @@
 package org.protelis.demo
 
-import org.protelis.lang.datatype.DeviceUID
-import org.protelis.vm.CodePath
-import org.protelis.vm.NetworkManager
 import java.io.IOException
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
@@ -13,6 +10,9 @@ import java.nio.channels.Channels
 import java.nio.channels.CompletionHandler
 import java.util.concurrent.ExecutionException
 import kotlin.concurrent.thread
+import org.protelis.lang.datatype.DeviceUID
+import org.protelis.vm.CodePath
+import org.protelis.vm.NetworkManager
 
 /**
  * A [NetworkManager] implementation using sockets.
@@ -39,10 +39,7 @@ class SocketNetworkManager(
                     server.accept<Any>(
                         null,
                         object : CompletionHandler<AsynchronousSocketChannel, Any> {
-                            override fun completed(
-                                clientChannel: AsynchronousSocketChannel?,
-                                attachment: Any?,
-                            ) {
+                            override fun completed(clientChannel: AsynchronousSocketChannel?, attachment: Any?) {
                                 if (server.isOpen) {
                                     server.accept<Any>(null, this)
                                 }
@@ -57,10 +54,7 @@ class SocketNetworkManager(
                                 }
                             }
 
-                            override fun failed(
-                                exc: Throwable,
-                                attachment: Any?,
-                            ) {
+                            override fun failed(exc: Throwable, attachment: Any?) {
                                 exc.printStackTrace()
                             }
                         },
@@ -93,10 +87,7 @@ class SocketNetworkManager(
         running = false
     }
 
-    private fun receiveMessage(
-        src: DeviceUID,
-        msg: Map<CodePath, Any>,
-    ) {
+    private fun receiveMessage(src: DeviceUID, msg: Map<CodePath, Any>) {
         messages += Pair(src, msg)
     }
 
