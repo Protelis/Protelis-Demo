@@ -3,6 +3,7 @@ build/
 out
 .idea/
 .kotlin/
+data/
 
 # Ignore Eclipse project and settings
 .project
