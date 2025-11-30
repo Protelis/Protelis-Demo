@@ -80,8 +80,9 @@ class SocketNetworkManager(
     private fun handleConnection(client: AsynchronousSocketChannel) {
         ObjectInputStream(Channels.newInputStream(client)).use {
             when (val received = it.readObject()) {
-                is Map<*, *> ->
+                is Map<*, *> -> {
                     received.forEach { src, msg -> receiveMessage(src as DeviceUID, msg as Map<CodePath, Any>) }
+                }
             }
         }
     }
