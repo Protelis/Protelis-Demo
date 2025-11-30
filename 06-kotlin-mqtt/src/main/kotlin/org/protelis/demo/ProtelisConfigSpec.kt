@@ -6,12 +6,7 @@ import com.uchuhimo.konf.ConfigSpec
  * A Protelis node with [id] listening to a certain [listen] address and with a pre-defined set of [neighbors].
  * May or may not be [leader] (defaults to `false`)
  */
-data class ProtelisNode(
-    val id: Int,
-    val listen: String,
-    val neighbors: Set<String>,
-    val leader: Boolean = false,
-)
+data class ProtelisNode(val id: Int, val listen: String, val neighbors: Set<String>, val leader: Boolean = false)
 
 /**
  * This is used by Konf to map the TOML main configuration to a class. Includes:

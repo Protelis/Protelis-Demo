@@ -5,10 +5,7 @@ import com.uchuhimo.konf.ConfigSpec
 /**
  * An IPv4 [host] with its [port].
  */
-data class IPv4Host(
-    val host: String,
-    val port: Int,
-)
+data class IPv4Host(val host: String, val port: Int)
 
 /**
  * A networked Protelis node with IPv4 [hostandport], an [id], and a predefined set of [neighbors].

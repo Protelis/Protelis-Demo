@@ -1,5 +1,9 @@
 package org.protelis.demo
 
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 import org.eclipse.paho.client.mqttv3.IMqttToken
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient
 import org.eclipse.paho.client.mqttv3.MqttMessage
@@ -7,10 +11,6 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
 import org.protelis.lang.datatype.DeviceUID
 import org.protelis.vm.CodePath
 import org.protelis.vm.NetworkManager
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
 
 /**
  * Network Manager implementation which uses a MQTT broker to communicate.
@@ -37,10 +37,7 @@ class MqttNetworkManager(
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun handleMessage(
-        @Suppress("UNUSED_PARAMETER") topic: String,
-        message: MqttMessage,
-    ) {
+    private fun handleMessage(@Suppress("UNUSED_PARAMETER") topic: String, message: MqttMessage) {
         ObjectInputStream(ByteArrayInputStream(message.payload)).use {
             val received = it.readObject()
             if (received is Map<*, *>) {
@@ -49,10 +46,7 @@ class MqttNetworkManager(
         }
     }
 
-    private fun receiveMessage(
-        src: DeviceUID,
-        msg: Map<CodePath, Any>,
-    ) {
+    private fun receiveMessage(src: DeviceUID, msg: Map<CodePath, Any>) {
         messages += Pair(src, msg)
     }
 
@@ -82,10 +76,9 @@ class MqttNetworkManager(
         }
     }
 
-    private fun publish(message: MqttMessage) =
-        fun(topic: String) {
-            mqttClient.publish(topic, message).waitForCompletion()
-        }
+    private fun publish(message: MqttMessage) = fun(topic: String) {
+        mqttClient.publish(topic, message).waitForCompletion()
+    }
 
     /**
      * Called by [org.protelis.vm.ProtelisVM] during execution to collect the most recent
@@ -97,9 +90,8 @@ class MqttNetworkManager(
      * returned should not be modified, and [org.protelis.vm.ProtelisVM] will not
      * change it either.
      */
-    override fun getNeighborState(): Map<DeviceUID, Map<CodePath, Any>> =
-        messages
-            .apply { messages = emptyMap() }
+    override fun getNeighborState(): Map<DeviceUID, Map<CodePath, Any>> = messages
+        .apply { messages = emptyMap() }
 
     /**
      * Containers for the default values.
