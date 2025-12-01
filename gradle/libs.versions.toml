@@ -1,5 +1,5 @@
 [versions]
-kotest = "6.0.6"
+kotest = "6.0.7"
 kotlin = "2.2.21"
 mockito = "5.20.0"
 
