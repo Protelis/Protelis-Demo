@@ -17,7 +17,7 @@ mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.
 mockk = "io.mockk:mockk:1.14.7"
 moquette-broker = "de.fraunhofer.iosb.io.moquette:moquette-broker:0.18.3"
 paho = "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5"
-protelis = "org.protelis:protelis:18.5.0"
+protelis = "org.protelis:protelis:18.5.1"
 spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.9.8"
 
 [bundles]
