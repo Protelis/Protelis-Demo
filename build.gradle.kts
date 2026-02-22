@@ -60,6 +60,11 @@ javaprojects {
             testRuntimeOnly(bundles.junit.runtime)
         }
     }
+    tasks.withType<Checkstyle>().configureEach {
+        javaLauncher = javaToolchains.launcherFor {
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
+    }
 }
 
 kotlinprojects {
