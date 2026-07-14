@@ -1,6 +1,6 @@
 [versions]
 kotest = "6.2.2"
-kotlin = "2.4.0"
+kotlin = "2.4.10"
 mockito = "5.23.0"
 
 [libraries]
