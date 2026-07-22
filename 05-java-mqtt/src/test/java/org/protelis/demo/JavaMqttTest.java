@@ -7,6 +7,7 @@ import com.uchuhimo.konf.source.DefaultTomlLoaderKt;
 import io.moquette.broker.Server;
 import org.apache.commons.math3.util.Pair;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -94,7 +95,7 @@ class JavaMqttTest {
     @VisibleForTesting
     @DisplayName("There should be at least 1 leader")
     void testAreThereLeaders() {
-        assert !leaders.isEmpty();
+        Assertions.assertFalse(leaders.isEmpty());
     }
 
     @Test
