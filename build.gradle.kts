@@ -1,4 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.gradle.api.file.DuplicatesStrategy
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
@@ -41,6 +42,7 @@ allprojects {
     }
 
     tasks.withType<ShadowJar>().configureEach {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
         val rootProjectShadow = rootProject.tasks.shadowJar.get()
         if (this != rootProjectShadow) {
             destinationDirectory.set(rootProjectShadow.destinationDirectory)

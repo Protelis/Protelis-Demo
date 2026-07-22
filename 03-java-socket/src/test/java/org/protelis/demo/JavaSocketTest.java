@@ -5,6 +5,7 @@ import com.uchuhimo.konf.BaseConfig;
 import com.uchuhimo.konf.Config;
 import com.uchuhimo.konf.source.DefaultTomlLoaderKt;
 import org.apache.commons.math3.util.Pair;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -70,7 +71,7 @@ class JavaSocketTest {
     @VisibleForTesting
     @DisplayName("There should be at least 1 leader")
     void testAreThereLeaders() {
-        assert !leaders.isEmpty();
+        Assertions.assertFalse(leaders.isEmpty());
     }
 
     @Test
