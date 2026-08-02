@@ -7,43 +7,14 @@ jobs:
   find-runner:
     runs-on: ubuntu-latest
     outputs:
-      runner_label: ${{ steps.runner-label.outputs.runner_label }}
+      runner_label: ${{ steps.find-runner.outputs.runner_label }}
     steps:
-      - name: Check if self-hosted config is present
-        id: check-config
-        run: |
-          if [ -n "${{ vars.API_AUTHENTICATION_APP_CLIENT_ID }}" ]; then
-            echo "configured=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "configured=false" >> "$GITHUB_OUTPUT"
-          fi
-      - name: Generate an access installation token
-        id: generate-token
-        if: steps.check-config.outputs.configured == 'true'
-        uses: actions/create-github-app-token@v3
+      - uses: Thesis-repositories/find-runner-action@v1
+        id: find-runner
         with:
-          client-id: ${{ vars.API_AUTHENTICATION_APP_CLIENT_ID }}
-          private-key: ${{ secrets.API_AUTHENTICATION_APP_PRIVATE_KEY }}
-      - name: Call to GitHub API
-        id: api-call
-        if: steps.check-config.outputs.configured == 'true'
-        env:
-          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
-        run: |
-          ACTIVE_RUNNERS=$( gh api \
-          -H "Accept: application/vnd.github+json" \
-          -H "X-GitHub-Api-Version: 2026-03-10" \
-          /orgs/Protelis/actions/runners --jq '[.runners[] | select(.status == "online" and .busy == false)] | length')
-          echo "active_runners=$ACTIVE_RUNNERS" >> "$GITHUB_OUTPUT"
-      - name: Write runner-label
-        id: runner-label
-        run: |
-          if [ "${{ steps.check-config.outputs.configured }}" == "true" ] && (( ${{ steps.api-call.outputs.active_runners || 0 }} > 0 ))
-          then
-            echo "runner_label=self-hosted-runners" >> "$GITHUB_OUTPUT"
-          else
-            echo "runner_label=ubuntu-latest" >> "$GITHUB_OUTPUT"
-          fi
+          org: Protelis
+          app-client-id: ${{ vars.API_AUTHENTICATION_APP_CLIENT_ID }}
+          app-private-key: ${{ secrets.API_AUTHENTICATION_APP_PRIVATE_KEY }}
   # Runs all tests
   build:
     needs:
