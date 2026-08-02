@@ -13,6 +13,8 @@ import kotlin.concurrent.thread
 import org.protelis.lang.datatype.DeviceUID
 import org.protelis.vm.CodePath
 import org.protelis.vm.NetworkManager
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * A [NetworkManager] implementation using sockets.
@@ -47,15 +49,15 @@ class SocketNetworkManager(
                                     try {
                                         handleConnection(clientChannel)
                                     } catch (e: IOException) {
-                                        e.printStackTrace()
+                                        logger.error("Failed to connect to server", e)
                                     } catch (e: ClassNotFoundException) {
-                                        e.printStackTrace()
+                                        logger.error("Class not found", e)
                                     }
                                 }
                             }
 
                             override fun failed(exc: Throwable, attachment: Any?) {
-                                exc.printStackTrace()
+                                logger.error("Failed to accept connection", exc)
                             }
                         },
                     )
@@ -63,7 +65,7 @@ class SocketNetworkManager(
                 try {
                     server.close()
                 } catch (e: IOException) {
-                    e.printStackTrace()
+                    logger.error("Error occurred while closing server", e)
                 }
             }
         }
@@ -75,7 +77,7 @@ class SocketNetworkManager(
         ObjectInputStream(Channels.newInputStream(client)).use {
             when (val received = it.readObject()) {
                 is Map<*, *> ->
-                    received.forEach { src, msg -> receiveMessage(src as DeviceUID, msg as Map<CodePath, Any>) }
+                    received.forEach { (src, msg) -> receiveMessage(src as DeviceUID, msg as Map<CodePath, Any>) }
             }
         }
     }
@@ -106,25 +108,29 @@ class SocketNetworkManager(
                 oos = ObjectOutputStream(Channels.newOutputStream(client))
                 oos.writeObject(message)
             } catch (e: IOException) {
-                e.printStackTrace()
+                logger.error("Error occurred while sharing state", e)
             } catch (e: InterruptedException) {
-                e.printStackTrace()
+                logger.error("Interrupted while sharing state", e)
             } catch (e: ExecutionException) {
-                e.printStackTrace()
+                logger.error("Error occurred while sharing state", e)
             } finally {
                 try {
                     oos?.close()
                 } catch (e: IOException) {
-                    e.printStackTrace()
+                    logger.error("Error occurred while closing ObjectOutputStream", e)
                 }
                 try {
                     client?.close()
                 } catch (e: IOException) {
-                    e.printStackTrace()
+                    logger.error("Error occurred while closing AsynchronousSocketChannel", e)
                 }
             }
         }
     }
 
     override fun getNeighborState(): Map<DeviceUID, Map<CodePath, Any>> = messages.apply { messages = emptyMap() }
+
+    private companion object {
+        val logger: Logger = LoggerFactory.getLogger(SocketNetworkManager::class.java)
+    }
 }
