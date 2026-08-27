@@ -13,8 +13,8 @@ jobs:
         id: find-runner
         with:
           org: Protelis
-          app-client-id: ${{ vars.API_AUTHENTICATION_APP_CLIENT_ID }}
-          app-private-key: ${{ secrets.API_AUTHENTICATION_APP_PRIVATE_KEY }}
+          app-client-id: ${{ vars.PROTELIS_SELF_HOSTED_RUNNERS_APP_ID }}
+          app-private-key: ${{ secrets.PROTELIS_SELF_HOSTED_RUNNERS_PRIVATE_KEY }}
   # Runs all tests
   build:
     needs:
