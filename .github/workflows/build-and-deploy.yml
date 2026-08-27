@@ -4,13 +4,26 @@ on:
   workflow_dispatch:
 
 jobs:
+  find-runner:
+    runs-on: ubuntu-latest
+    outputs:
+      runner_label: ${{ steps.find-runner.outputs.runner_label }}
+    steps:
+      - uses: Thesis-repositories/find-runner-action@v1
+        id: find-runner
+        with:
+          org: Protelis
+          app-client-id: ${{ vars.API_AUTHENTICATION_APP_CLIENT_ID }}
+          app-private-key: ${{ secrets.API_AUTHENTICATION_APP_PRIVATE_KEY }}
   # Runs all tests
   build:
+    needs:
+      - find-runner
     strategy:
       matrix:
         os: [ windows, macos, ubuntu ]
       fail-fast: false
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os == 'ubuntu' && needs.find-runner.outputs.runner_label || format('{0}-latest', matrix.os) }}
     timeout-minutes: 120
     steps:
       - name: Checkout
