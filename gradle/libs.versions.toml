@@ -1,7 +1,7 @@
 [versions]
 kotest = "6.2.5"
 kotlin = "2.4.20"
-mockito = "5.23.0"
+mockito = "5.24.0"
 
 [libraries]
 jgrapht-core = "org.jgrapht:jgrapht-core:1.5.3"
