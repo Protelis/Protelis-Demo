@@ -9,7 +9,7 @@ import org.protelis.vm.impl.HashingCodePathFactory
 /**
  * Models a single device, provided a program, a [networkManager], and a [speaker].
  */
-class Device(program: ProtelisProgram, uid: Int, val networkManager: NetworkManager, private val speaker: Speaker) {
+class Device(program: ProtelisProgram, uid: Int, val networkManager: NetworkManager, speaker: Speaker) {
     /**
      * Capabilities of this device.
      */
