@@ -32,7 +32,7 @@ allprojects {
     }
 
     multiJvm {
-        jvmVersionForCompilation.set(17)
+        jvmVersionForCompilation.set(21)
     }
 
     tasks.withType<Test>().configureEach { useJUnitPlatform() }
