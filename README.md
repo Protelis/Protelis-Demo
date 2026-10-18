@@ -1,12 +1,9 @@
 # Protelis demo application
 
-The goal of this project is project is to show some basic implementations of [Protelis](https://github.com/Protelis/Protelis)
+The goal of this project is to show some basic implementations of [Protelis](https://github.com/Protelis/Protelis)
 using both Java and Kotlin.
 
 Protelis requires Java 17+.
-
-**NOTE**: this project uses submodules, and must be cloned with the `--recurse-submodules` flag:
-``git clone --recurse-submodules https://github.com/Protelis/Protelis-Demo.git``
 
 ## Build status
 [![CI](https://github.com/Protelis/Protelis-Demo/actions/workflows/build-and-deploy.yml/badge.svg)](https://github.com/Protelis/Protelis-Demo/actions/workflows/build-and-deploy.yml)
@@ -81,7 +78,7 @@ This project includes the following implementations of Protelis:
 To execute a demo run:
 
 ```bash
-gradle <subproject>:run
+./gradlew <subproject>:run
 ```
 
 ## How to import
