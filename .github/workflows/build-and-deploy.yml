@@ -4,18 +4,31 @@ on:
   workflow_dispatch:
 
 jobs:
+  find-runner:
+    runs-on: ubuntu-latest
+    outputs:
+      runner_label: ${{ steps.find-runner.outputs.runner_label }}
+    steps:
+      - uses: Thesis-repositories/find-runner-action@v1
+        id: find-runner
+        with:
+          org: Protelis
+          app-client-id: ${{ vars.PROTELIS_SELF_HOSTED_RUNNERS_APP_ID }}
+          app-private-key: ${{ secrets.PROTELIS_SELF_HOSTED_RUNNERS_PRIVATE_KEY }}
   # Runs all tests
   build:
+    needs:
+      - find-runner
     strategy:
       matrix:
         os: [ windows, macos, ubuntu ]
       fail-fast: false
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os == 'ubuntu' && needs.find-runner.outputs.runner_label || format('{0}-latest', matrix.os) }}
     timeout-minutes: 120
     steps:
       - name: Checkout
         uses: danysk/action-checkout@0.2.31
-      - uses: DanySK/build-check-deploy-gradle-action@4.0.43
+      - uses: DanySK/build-check-deploy-gradle-action@4.0.49
         with:
           # check that all tasks used in subsequent phases are there
           should-validate-wrapper: ${{ contains('Linux', runner.os) }}
@@ -39,10 +52,10 @@ jobs:
           submodules: recursive
           token: ${{ secrets.DEPLOYMENT_TOKEN }}
       - name: Install Node
-        uses: actions/setup-node@v7.0.0
+        uses: actions/setup-node@v7.1.0
         with:
           node-version-file: package.json
-      - uses: DanySK/build-check-deploy-gradle-action@4.0.43
+      - uses: DanySK/build-check-deploy-gradle-action@4.0.49
         with:
           java-version: 8
           build-command: true

@@ -1,7 +1,7 @@
 [versions]
-kotest = "6.2.4"
-kotlin = "2.4.10"
-mockito = "5.23.0"
+kotest = "6.2.6"
+kotlin = "2.4.21"
+mockito = "5.24.0"
 
 [libraries]
 jgrapht-core = "org.jgrapht:jgrapht-core:1.5.3"
@@ -18,16 +18,16 @@ mockk = "io.mockk:mockk:1.14.11"
 moquette-broker = "de.fraunhofer.iosb.io.moquette:moquette-broker:0.18.6"
 paho = "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5"
 protelis = "org.protelis:protelis:20.0.0"
-spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.10.3"
+spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.10.5"
 
 [bundles]
 junit-runtime = [ "junit-platform-launcher", "junit-jupiter-engine" ]
 mockito = [ "mockito-core", "mockito-junit-jupiter" ]
 
 [plugins]
-gitSemVer = "org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin:7.0.23"
-java-qa = "org.danilopianini.gradle-java-qa:1.192.0"
+gitSemVer = "org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin:7.0.25"
+java-qa = "org.danilopianini.gradle-java-qa:1.199.0"
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-qa = "org.danilopianini.gradle-kotlin-qa:1.8.1"
-multiJvmTesting = "org.danilopianini.multi-jvm-test-plugin:4.5.6"
+multiJvmTesting = "org.danilopianini.multi-jvm-test-plugin:4.5.10"
 shadowJar = "com.gradleup.shadow:9.6.1"
